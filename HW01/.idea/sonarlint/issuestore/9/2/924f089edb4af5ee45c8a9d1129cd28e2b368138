@@ -1,0 +1,17 @@
+
+[	java:S112*"FDefine and throw a dedicated exception instead of using a generic one.(û™¸
+g	java:S1125"FDefine and throw a dedicated exception instead of using a generic one.(Ó˜âÒıÿÿÿÿ8‹œ™ğà1
+f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õÆ¶°
+f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õÆ¶°
+f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Š†È×
+f	java:S1170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´îº¯
+0
+java:S1220""Move this file to a named package.
+]
+java:S1659"GDeclare "second_num" and all following declarations on a separate line.(õÆ¶°
+A
+java:S1659"+Declare "decimal_point" on a separate line.(Š†È×
+?	java:S106
+"+Replace this use of System.out by a logger.(ïØv
+E	java:S1062"+Replace this use of System.out by a logger.(Í¢Îÿÿÿÿÿ
+E	java:S106:"+Replace this use of System.out by a logger.(şçûÿÿÿÿ
