@@ -1,0 +1,17 @@
+
+’
+java:S1104"OMake fps a static final constant or non-public and provide accessors if needed.(œ÷î 8’â°¿í1J$0fdcd632-fec7-4409-b837-a8f9e8ea07c7
+l
+java:S1444")Make this "public static fps" field final(œ÷î 8’â°¿í1J$761823be-fd26-4e3a-b079-5058e539dac6
+d
+java:S1170"!Make this final field static too.(ì–·¦8™â°¿í1J$07fdbdc6-278b-41ff-b25f-b88460c33836
+c
+java:S1170"!Make this final field static too.(›­ÑO8™â°¿í1J$251a3a2a-a096-4ce9-91ef-f90f1d9d9555
+i
+java:S1170"!Make this final field static too.(¾²”¤ûÿÿÿÿ8™â°¿í1J$47233ee3-500a-47ac-a215-0f4ba370eb3a
+d
+java:S1170"!Make this final field static too.(ûËğš8™â°¿í1J$25ceb2d4-9ecf-49dc-80f9-7913689f910c
+m	java:S106'"+Replace this use of System.out by a logger.(’Ñò8›â°¿í1J$7368fecd-a162-4fa8-8dd9-2310fa0023d7
+m	java:S106B"+Replace this use of System.out by a logger.(êüÏö8â°¿í1J$42e3e6e2-1adf-4575-a155-3f323760f4b0
+m	java:S106H"+Replace this use of System.out by a logger.(Áô“8â°¿í1J$983ac9e6-a14b-4500-81ce-b838087652cb
+r	java:S106K"+Replace this use of System.out by a logger.(šÇåÀùÿÿÿÿ8â°¿í1J$3ce80219-9281-46a9-99b0-ffffaf22248d

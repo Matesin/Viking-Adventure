@@ -1,0 +1,20 @@
+
+œ
+java:S1104"TMake mapWidth a static final constant or non-public and provide accessors if needed.(°÷ý‘ùÿÿÿÿ8ÛÅÇ½í1J$b82d046d-1e30-4489-b049-379371e52541
+œ
+java:S1104"TMake mapHeigh a static final constant or non-public and provide accessors if needed.(œÓÇ§üÿÿÿÿ8ÛÅÇ½í1J$191d4b91-01ef-4a56-885e-2045989254ba
+’
+java:S1104"OMake map a static final constant or non-public and provide accessors if needed.(†÷“Ÿ8ÛÅÇ½í1J$8edf6a71-c2db-4e97-aacf-eb57a8dc4c44
+‹
+java:S2184C"HCast one of the operands of this multiplication operation to a "double".(§’Ãç8ÜÅÇ½í1J$08cb024f-e7d9-4a81-86a2-f8c24e27dbb3
+‹
+java:S2184C"HCast one of the operands of this multiplication operation to a "double".(§’Ãç8ÜÅÇ½í1J$e6ed614b-795d-464f-b142-3e171536643e
+h
+java:S1948"&Make "game" transient or serializable.(÷Ž£u8íÅÇ½í1J$f4d4acf4-a7b6-402f-8f48-882ca1352da4
+O
+java:S1128"2Remove this unused import 'javax.imageio.ImageIO'.(‘çÔû8°ñ¹¿í1
+K
+java:S1128	".Remove this unused import 'java.util.Objects'.(¼¸õ›8°ñ¹¿í1
+B
+java:S1128
+"%Remove this unused import 'java.awt'.(ï´µ©8°ñ¹¿í1
