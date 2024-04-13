@@ -4,10 +4,7 @@ import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
 import java.io.*;
-import java.util.Objects;
-import java.awt.*;
 import java.util.Scanner;
 
 public class GameMap implements Serializable {
@@ -19,16 +16,14 @@ public class GameMap implements Serializable {
      */
     private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*
     Tile[] tiles;
-    GamePanel game;
-    public int mapWidth;
-    public int mapHeigh;
-    public int[][] map;
+    private int mapWidth;
+    private int mapHeight;
+    private int[][] map;
 
 
-    public GameMap(GamePanel game){
-        this.game = game;
+    public GameMap(){
         tiles = new Tile[NUM_TILE_TYPES];
-        map = new int[game.maxWorldCols][game.maxWorldRows];
+        map = new int[GamePanel.MAX_WORLD_COLS][GamePanel.MAX_WORLD_ROWS];
         getTileImages();
     }
     public void getTileImages(){
@@ -48,9 +43,9 @@ public class GameMap implements Serializable {
         // Load the map from a file
         try (Scanner input = new Scanner(new File(filepath))) {
             this.mapWidth = input.nextInt();
-            this.mapHeigh = input.nextInt();
-            this.map = new int[this.mapHeigh][this.mapWidth];
-            for (int i = 0; i < this.mapHeigh; i++) {
+            this.mapHeight = input.nextInt();
+            this.map = new int[this.mapHeight][this.mapWidth];
+            for (int i = 0; i < this.mapHeight; i++) {
                 for (int j = 0; j < this.mapWidth; j++) {
                     int tileType = input.nextInt();
                     this.map[i][j] = tileType;
@@ -61,7 +56,7 @@ public class GameMap implements Serializable {
 
     public void draw(GraphicsContext g2) {
         // Draw the map to the screen
-        for (int i = 0; i < mapHeigh; i++) {
+        for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 int tileType = map[i][j];
                 g2.drawImage(tiles[tileType].image, j * 32, i * 32);
