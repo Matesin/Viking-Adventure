@@ -128,3 +128,13 @@ Q.idea/sonarlint/securityhotspotstore/e/5/e5ff034a3cf4381ed85861a6498356e66f72db
 Q.idea/sonarlint/securityhotspotstore/3/4/34e115906071fa12e2c527d33e351efc47e350a1,2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd
 Å
 Q.idea/sonarlint/securityhotspotstore/e/f/ef72b57fb0a831314f635a51299783f1cc3a64a0,a/d/adede9b34d57ad05236076a77b305d5f29823084
+=
+src/Main.java,9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138
+F
+src/menu/MainMenu.java,6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa
+B
+src/menu/Menu.java,b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c
+E
+src/menu/MenuGUI.java,a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25
+F
+src/menu/Settings.java,c/8/c8483b9afe3b0d193a484010480647825a41a0d8

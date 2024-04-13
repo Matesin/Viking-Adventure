@@ -15,6 +15,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -29,3 +30,5 @@ bin/
 .DS_Store
 ### Python ###
 *.py
+### School ###
+pjv-2024

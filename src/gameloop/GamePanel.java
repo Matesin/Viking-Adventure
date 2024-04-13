@@ -8,7 +8,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GamePanel extends Pane {
 
@@ -22,12 +25,15 @@ public class GamePanel extends Pane {
     public static final int SCREEN_MIDDLE_X = SCREEN_WIDTH / 2;
     public static final int SCREEN_MIDDLE_Y = SCREEN_HEIGHT / 2;
     Player player;
-    public static int fps = 60;
+
+    @Getter
+    @Setter
+    private int fps = 60;
     // WORLD SETTINGS
-    public final int maxWorldRows = 100;
-    public final int maxWorldCols = 100;
-    public final int worldWidth = TILE_SIZE * maxWorldCols;
-    public final int worldHeight = TILE_SIZE * maxWorldRows;
+    public static final int MAX_WORLD_ROWS = 100;
+    public static final int MAX_WORLD_COLS = 100;
+    public static final int worldWidth = TILE_SIZE * MAX_WORLD_COLS;
+    public static final int worldHeight = TILE_SIZE * MAX_WORLD_ROWS;
     // PANE INIT
     Canvas canvas;
     GraphicsContext gc;
@@ -47,34 +53,36 @@ public class GamePanel extends Pane {
     private void initCanvas() {
         this.canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.canvas.setFocusTraversable(true);
-        this.root.getChildren().add(canvas);
         this.canvas.setOnKeyPressed(inputHandler);
         this.canvas.setOnKeyReleased(inputHandler);
         this.gc = canvas.getGraphicsContext2D();
+        this.root.getChildren().add(canvas);
     }
     // PLAYER INIT
     private void initPlayer(){
         this.inputHandler = new InputHandler();
         this.player = new Player(this, this.inputHandler);
         player.getPlayerImage();
+        player.setDefaultValues(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
     }
     // GAME LOOP INIT
     public void startGameLoop(){
-        update();
-        draw(this.gc);
         this.gameLoop = new GameLoop(this);
-        System.out.println("GamePanel startGameLoop");
         gameLoop.start();
     }
     // GAME LOOP
     public void update() {
         player.update();
-        System.out.println("GamePanel update");
     }
     public void draw(GraphicsContext gc) {
-        System.out.println("GamePanel draw");
-        player.render(this.gc);
-        gc.setFill(Color.BLACK);
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        gc.setFill(Color.CADETBLUE);
+        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        player.render(gc);
+        gc.setFill(Color.WHITE);
+        Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
+        gc.setFont(statsFont);
+        gc.fillText("Player X: " + player.worldCoordX, 15, 30);
+        gc.fillText("Player Y: " + player.worldCoordY, 15, 60);
     }
 }

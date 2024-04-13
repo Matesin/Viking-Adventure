@@ -1,20 +1,19 @@
 
 š
-java:S1104"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8İæ ¼í1J$545d4358-0d5b-4f20-9707-550959123f06
+java:S1104"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8«õÿ¿í1J$4044656d-7857-4096-8abb-b68b8d57c10e
 š
-java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8İæ ¼í1J$dc8030ec-7076-466c-a838-ab929cd83eec
- 
-java:S1104"XMake screenCoordX a static final constant or non-public and provide accessors if needed.(¿ÏÊÖüÿÿÿÿ8İæ ¼í1J$c3efacb0-b056-4441-b1f7-28615dc8fec9
-›
-java:S1104"XMake screenCoordY a static final constant or non-public and provide accessors if needed.(¤ŒÌÈ8İæ ¼í1J$76202806-63f6-4d5b-87f3-215ba289dc4c
-˜
-java:S1104"UMake direction a static final constant or non-public and provide accessors if needed.(Çññ¢8İæ ¼í1J$95485d78-3d10-4141-843a-b2e238a821f1
+java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8àÁ€Àí1J$178a4e79-3b34-4aa7-b900-893a42c5b8f6
 w
-java:S2387"4"worldCoordX" is the name of a field in "Character".(¾Â«‡8ñšê½í1J$f77c2715-4e4f-43a1-b431-ef0376d92e02
+java:S2387"4"worldCoordX" is the name of a field in "Character".(¾Â«‡8Ú¤á¿í1J$b2dc16ce-03f1-419b-b328-8689d9db7ead
 w
-java:S2387"4"worldCoordY" is the name of a field in "Character".(³ôÔ¦8ñšê½í1J$eb3fbf95-8523-4028-b171-3337a9311add
-r	java:S106N"+Replace this use of System.out by a logger.(¹“ÖÀûÿÿÿÿ8èÿë½í1J$70158a1b-1c06-41e3-bed2-fd204d7c3ce1
+java:S2387"4"worldCoordY" is the name of a field in "Character".(³ôÔ¦8Ú¤á¿í1J$c81f0e6f-7366-4eec-a059-ca1ff5aa1e9e
+£
+java:S1450"[Remove the "screenCoordX" field and declare it as a local variable in the relevant methods.(¿‘ƒ…øÿÿÿÿ8Û¤á¿í1J$547bb202-e6a0-490c-ab7d-f40e692ecf0b
+£
+java:S1450"[Remove the "screenCoordY" field and declare it as a local variable in the relevant methods.(Ëô¬ƒüÿÿÿÿ8Û¤á¿í1J$dd040474-4982-427b-a58f-7352dac04570
 u
-java:S1135Y"2Complete the task associated to this TODO comment.(âÊ“8ó¡£¼í1J$2f898b25-ca6d-4024-9463-c9b1165b89e0
-u
-java:S1068"2Remove this unused "movementSprite" private field.(×­Õ8£‰ß¾í1J$451232a1-9627-43ca-a64f-572467c9844d
+java:S1135W"2Complete the task associated to this TODO comment.(âÊ“8à¤á¿í1J$0b0a19c6-1126-4cc9-9a50-92ff4535a808
+x
+java:S1068"0Remove this unused "screenCoordX" private field.(¿‘ƒ…øÿÿÿÿ8á¤á¿í1J$c10011cc-514c-40a2-9169-f8f4c7c01838
+x
+java:S1068"0Remove this unused "screenCoordY" private field.(Ëô¬ƒüÿÿÿÿ8á¤á¿í1J$84f9f45b-aecd-40b9-a935-2d49843491a5

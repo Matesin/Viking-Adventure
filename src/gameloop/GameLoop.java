@@ -19,13 +19,12 @@ public class GameLoop extends AnimationTimer {
         this.gc = canvas.getGraphicsContext2D();
     }
 
+    // GAME LOOP
     @Override
     public void handle(long now) {
-        // This is the game loop
-        Timeline loop = new Timeline(new KeyFrame(Duration.millis(durationMillis / GamePanel.fps), event -> {
-            this.gamePanel.update();
-            this.gamePanel.draw(gc);
-        }));
+        this.gamePanel.update();
+        this.gamePanel.draw(gc);
+        Timeline loop = new Timeline(new KeyFrame(Duration.millis(durationMillis / gamePanel.getFps())));
         loop.setCycleCount(Animation.INDEFINITE);
         loop.play();
     }

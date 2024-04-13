@@ -4,7 +4,6 @@ import controller.InputHandler;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,12 +13,11 @@ public class Player extends Character {
     GamePanel game;
     public int worldCoordX;
     public int worldCoordY;
-    public int screenCoordX;
-    public int screenCoordY;
+    private int screenCoordX;
+    private int screenCoordY;
     private int playerSpeed;
-    public String direction;
+    private String direction;
     boolean isMoving = false;
-    private ImageView movementSprite;
     private Image currentSprite;
 
     public Player(GamePanel game, InputHandler input) {
@@ -30,11 +28,11 @@ public class Player extends Character {
 
     public void setDefaultValues(int beginX, int beginY){
         this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
-        this.screenCoordY = GamePanel.SCREEN_COLS;
+        this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
         this.worldCoordX = beginX;
         this.worldCoordY = beginY;
         currentSprite = down1;
-        playerSpeed = 1; // Adjust this value as needed
+        playerSpeed = 5; // Adjust this value as needed
         direction = "down";
     }
 
@@ -75,7 +73,6 @@ public class Player extends Character {
     }
 
     public void render(GraphicsContext gc) {
-        System.out.println("Player render");
         //create movement effect by switching between two sprites
         currentSprite = switch (this.direction){
             case "up" -> (isMoving) ? up1 : up2;
@@ -84,11 +81,13 @@ public class Player extends Character {
             case "right" -> (isMoving) ? right1 : right2;
             default -> null;
         };
+        assert currentSprite != null;
 
     /*
     TODO: set current player position - if player's world position is less than half of the screen width
      away from the map border set the position to worldCoordX - screenCoordX
      */
-        gc.drawImage(currentSprite, worldCoordX, worldCoordY);
+        //preventing different sprite dimensions by scaling the sprite to the size of the tile
+        gc.drawImage(currentSprite, worldCoordX, worldCoordY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE);
     }
 }
