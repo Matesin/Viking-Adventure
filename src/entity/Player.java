@@ -1,5 +1,6 @@
 package entity;
 
+import com.sun.tools.javac.Main;
 import controller.InputHandler;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
@@ -88,6 +89,6 @@ public class Player extends Character {
      away from the map border set the position to worldCoordX - screenCoordX
      */
         //preventing different sprite dimensions by scaling the sprite to the size of the tile
-        gc.drawImage(currentSprite, worldCoordX, worldCoordY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE);
+        gc.drawImage(currentSprite, worldCoordX, worldCoordY, GamePanel.TILE_SIZE,  GamePanel.TILE_SIZE);
     }
 }

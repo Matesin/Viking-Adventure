@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class GamePanel extends Pane {
-
     static final int INITIAL_TILE_SIZE = 32;
     public static final int SCALE = 2;
     public static final int TILE_SIZE = INITIAL_TILE_SIZE * SCALE;

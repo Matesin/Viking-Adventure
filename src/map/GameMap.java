@@ -3,6 +3,8 @@ package map;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.*;
 import java.util.Scanner;
@@ -18,6 +20,8 @@ public class GameMap implements Serializable {
     Tile[] tiles;
     private int mapWidth;
     private int mapHeight;
+    @Setter
+    @Getter
     private int[][] map;
 
 

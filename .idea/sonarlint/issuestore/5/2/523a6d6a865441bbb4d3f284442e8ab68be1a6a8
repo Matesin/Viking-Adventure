@@ -1,19 +1,21 @@
 
 š
-java:S1104"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8«õÿ¿í1J$4044656d-7857-4096-8abb-b68b8d57c10e
+java:S1104"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8«õÿ¿í1J$3e368949-233a-4e44-8812-ddb24fc9681c
 š
-java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8àÁ€Àí1J$178a4e79-3b34-4aa7-b900-893a42c5b8f6
+java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8àÁ€Àí1J$63f9910e-efd3-4ce0-84a5-ece7e18ff569
 w
-java:S2387"4"worldCoordX" is the name of a field in "Character".(¾Â«‡8Ú¤á¿í1J$b2dc16ce-03f1-419b-b328-8689d9db7ead
+java:S2387"4"worldCoordX" is the name of a field in "Character".(¾Â«‡8Ú¤á¿í1J$c991f94a-ba53-4f45-a6ec-672d2ca1f9dd
 w
-java:S2387"4"worldCoordY" is the name of a field in "Character".(³ôÔ¦8Ú¤á¿í1J$c81f0e6f-7366-4eec-a059-ca1ff5aa1e9e
+java:S2387"4"worldCoordY" is the name of a field in "Character".(³ôÔ¦8Ú¤á¿í1J$b7f09759-fa96-47d0-8ccd-fce2cc161aab
 £
-java:S1450"[Remove the "screenCoordX" field and declare it as a local variable in the relevant methods.(¿‘ƒ…øÿÿÿÿ8Û¤á¿í1J$547bb202-e6a0-490c-ab7d-f40e692ecf0b
+java:S1450"[Remove the "screenCoordX" field and declare it as a local variable in the relevant methods.(¿‘ƒ…øÿÿÿÿ8Û¤á¿í1J$69ffc14e-5c37-4217-8767-ad17afe30ec9
 £
-java:S1450"[Remove the "screenCoordY" field and declare it as a local variable in the relevant methods.(Ëô¬ƒüÿÿÿÿ8Û¤á¿í1J$dd040474-4982-427b-a58f-7352dac04570
+java:S1450"[Remove the "screenCoordY" field and declare it as a local variable in the relevant methods.(Ëô¬ƒüÿÿÿÿ8Û¤á¿í1J$c7f59d26-626f-42b9-a96c-5e6b6b1d3432
 u
-java:S1135W"2Complete the task associated to this TODO comment.(âÊ“8à¤á¿í1J$0b0a19c6-1126-4cc9-9a50-92ff4535a808
+java:S1135X"2Complete the task associated to this TODO comment.(âÊ“8à¤á¿í1J$3ee5ef01-cf66-4160-b226-452205da271b
+}
+java:S1128"5Remove this unused import 'com.sun.tools.javac.Main'.( ƒ™şüÿÿÿÿ8ı•¼Æí1J$1b77c00f-3fd1-4a04-af5c-b116a4ac219a
 x
-java:S1068"0Remove this unused "screenCoordX" private field.(¿‘ƒ…øÿÿÿÿ8á¤á¿í1J$c10011cc-514c-40a2-9169-f8f4c7c01838
+java:S1068"0Remove this unused "screenCoordX" private field.(¿‘ƒ…øÿÿÿÿ8á¤á¿í1J$45010522-c175-4559-89c7-d0ef97d2d521
 x
-java:S1068"0Remove this unused "screenCoordY" private field.(Ëô¬ƒüÿÿÿÿ8á¤á¿í1J$84f9f45b-aecd-40b9-a935-2d49843491a5
+java:S1068"0Remove this unused "screenCoordY" private field.(Ëô¬ƒüÿÿÿÿ8á¤á¿í1J$d3b866f6-517a-4532-bd76-906518927579

@@ -1,4 +1,4 @@
 
-¡	java:S115#"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ƒ”ÅÆúÿÿÿÿ8Ğ¦ÜÀí1J$aefeaf15-0479-4a3e-9847-3d89fb74e742
-œ	java:S115$"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(„Ö€Ê8ßÛÀí1J$287f6e14-d1cf-40f7-bb93-1b4358be73fa
-m	java:S106-"+Replace this use of System.out by a logger.(’Ñò8‹éÀí1J$66eedd16-8cb9-46ef-9b78-1a71588d0ac9
+¡	java:S115""ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ƒ”ÅÆúÿÿÿÿ8Ğ¦ÜÀí1J$0cddef35-d897-438a-815d-09f8449f0bcd
+œ	java:S115#"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(„Ö€Ê8ßÛÀí1J$4ed2586c-7af0-4f79-8ab1-bc0730710b10
+m	java:S106,"+Replace this use of System.out by a logger.(’Ñò8‹éÀí1J$0c102288-54e1-4811-8fc9-2f8cec15e888

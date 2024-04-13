@@ -138,3 +138,13 @@ E
 src/menu/MenuGUI.java,a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25
 F
 src/menu/Settings.java,c/8/c8483b9afe3b0d193a484010480647825a41a0d8
+G
+src/menu/GameTitle.java,c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2
+F
+src/menu/MenuItem.java,4/0/40273c01162de331e831edfeaeed32ead986aad5
+H
+src/menu/InGameMenu.java,f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12
+I
+src/menu/SettingsGUI.java,a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5
+P
+ src/GUIUtils/FadeTransition.java,5/a/5a8968da9dd8e517578053bae50c3538932b7fbb
