@@ -1,6 +1,6 @@
 package entity;
 import javafx.scene.image.Image;
-import shapes.Rectangle;
+import javafx.scene.shape.Rectangle;
 
 
 import java.io.IOException;

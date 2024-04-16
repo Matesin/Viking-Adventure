@@ -84,9 +84,10 @@ public class Menu extends Application {
         root.setStyle("-fx-background-color: white;");
     }
     private void addTitle(){
-        GameTitle title = new GameTitle("Viking Adventure");
-        title.setTranslateX(GamePanel.SCREEN_MIDDLE_X - 400);
-        title.setTranslateY((double) GamePanel.SCREEN_HEIGHT / 4);
+        final int titleNameFontSize = 70;
+        GameTitle title = new GameTitle("Viking Adventure", titleNameFontSize);
+        title.setLayoutX((double) GamePanel.SCREEN_MIDDLE_X / 3); // test value, change to dynamic
+        title.setTranslateY((double) GamePanel.SCREEN_HEIGHT / 5);
 
         root.getChildren().add(title);
     }
@@ -109,7 +110,7 @@ public class Menu extends Application {
         menuBox.setTranslateX(xCoord);
         menuBox.setTranslateY(yCoord);
         menuButtons.forEach(data -> {
-            MenuItem item = new MenuItem(data.getKey());
+            MenuButton item = new MenuButton(data.getKey());
             item.setOnAction(data.getValue());
             item.setTranslateX(-300);
             Rectangle clip = new Rectangle(300, 60);

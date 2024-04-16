@@ -1,15 +1,15 @@
 
 –
-java:S1104	"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$a3034a15-d4be-44ab-894c-b553886021de
+java:S1104	"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$bd883676-0609-4366-8f00-ab73b2844b9f
 š
 java:S1104
-"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8ø‰«¼í1J$6e3bafb5-eb59-4263-8469-9d267d8a24f1
+"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8ø‰«¼í1J$caee5154-a3c4-4f4d-9152-c95832ca41bd
 š
-java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8ø‰«¼í1J$ae89dfcc-803a-4841-8ebe-db81d65b0d70
+java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8ø‰«¼í1J$9aec151a-4026-4860-9852-f52687aa3b65
 œ
-java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$647d49a2-392f-4436-b7ca-6c239c1eecaf
+java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$9b5ba32d-25ae-4b11-8815-12d994fd7fbf
 —
-java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$78f78744-3291-4e71-9549-c42293346141
+java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$b275019a-1256-4e32-a176-e3881821d46a
 š
-java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(¯¨ÿ¬üÿÿÿÿ8ø‰«¼í1J$88a5044f-5a8c-4704-8f0f-f3265683f530
-”	java:S116	"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$59b29d27-69ca-47fe-b794-38871b2554f7
+java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(¯¨ÿ¬üÿÿÿÿ8¸®Øí1J$ebb1733f-a68f-4133-afd2-c084946f41ad
+”	java:S116	"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$cbd5dae5-fa31-4fba-8821-2667aa5a584b

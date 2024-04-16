@@ -14,8 +14,8 @@ public class Player extends Character {
     GamePanel game;
     public int worldCoordX;
     public int worldCoordY;
-    private int screenCoordX;
-    private int screenCoordY;
+    public int screenCoordX;
+    public int screenCoordY;
     private int playerSpeed;
     private String direction;
     boolean isMoving = false;

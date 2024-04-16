@@ -148,3 +148,7 @@ I
 src/menu/SettingsGUI.java,a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5
 P
  src/GUIUtils/FadeTransition.java,5/a/5a8968da9dd8e517578053bae50c3538932b7fbb
+H
+src/menu/MenuButton.java,3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693
+I
+src/menu/MapSelector.java,0/1/0192667dcb93a195e83a9362116f1d2ea3804835

@@ -12,14 +12,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
-public class MenuItem extends Pane {
+public class MenuButton extends Pane {
     private Text text;
     private Effect shadow = new DropShadow(5, Color.BLACK);
     private Effect glow = new BoxBlur(1, 1, 3);
     private int textSize = 20;
     private int buttonWidth = 200;
     private int buttonHeight = 60;
-    public MenuItem(String name){
+    public MenuButton(String name){
         Polygon button = new Polygon(
                 0, 0,
                 buttonWidth, 0,

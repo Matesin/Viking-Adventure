@@ -1,6 +1,5 @@
 package map;
 
-import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -18,7 +17,9 @@ public class GameMap implements Serializable {
      */
     private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*
     Tile[] tiles;
+    @Getter
     private int mapWidth;
+    @Getter
     private int mapHeight;
     @Setter
     @Getter
@@ -27,7 +28,6 @@ public class GameMap implements Serializable {
 
     public GameMap(){
         tiles = new Tile[NUM_TILE_TYPES];
-        map = new int[GamePanel.MAX_WORLD_COLS][GamePanel.MAX_WORLD_ROWS];
         getTileImages();
     }
     public void getTileImages(){
@@ -43,17 +43,38 @@ public class GameMap implements Serializable {
             e.printStackTrace();
         }
     }
-    public void loadMap(String filepath) throws FileNotFoundException {
+    public void loadMapFromFile(String filepath) throws FileNotFoundException {
         // Load the map from a file
         try (Scanner input = new Scanner(new File(filepath))) {
+            // MAP FORMAT - 2 lines (width, height) followed by the map data
             this.mapWidth = input.nextInt();
             this.mapHeight = input.nextInt();
+            String line;
+            int row = 0;
+            int col = 0;
             this.map = new int[this.mapHeight][this.mapWidth];
-            for (int i = 0; i < this.mapHeight; i++) {
-                for (int j = 0; j < this.mapWidth; j++) {
-                    int tileType = input.nextInt();
-                    this.map[i][j] = tileType;
+            // Read the map data
+            while (row < this.mapHeight && input.hasNextLine()) {
+                line = input.nextLine();
+                while(col < this.mapWidth) {
+                    String[] numbers = line.split(" ");
+                    int num = Integer.parseInt(numbers[col]);
+                    this.map[row][col] = num;
+                    col++;
                 }
+                if (col != this.mapWidth){
+                    System.out.printf("Map %s missing data on row %d expected %d got %d%n",
+                            filepath,
+                            row,
+                            this.mapWidth,
+                            col);
+                    // Fill in the rest of the row with 0's
+                    for (int i = col; i < this.mapWidth; i++){
+                        this.map[row][i] = 0;
+                    }
+                }
+                col = 0;
+                row++;
             }
         }
     }
