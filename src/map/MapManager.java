@@ -50,7 +50,7 @@ public class MapManager {
         // Load the map
         this.map = new GameMap();
         try {
-            this.map.loadMapFromFile("maps/map" + mapIndex + ".txt");
+            this.map.loadMapFromFile("res/maps/map" + mapIndex + ".txt");
             this.mapWidth = this.map.getMapWidth();
             this.mapHeight = this.map.getMapHeight();
         } catch (FileNotFoundException e) {

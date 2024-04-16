@@ -45,17 +45,29 @@ public class GameMap implements Serializable {
     }
     public void loadMapFromFile(String filepath) throws FileNotFoundException {
         // Load the map from a file
-        try (Scanner input = new Scanner(new File(filepath))) {
-            // MAP FORMAT - 2 lines (width, height) followed by the map data
-            this.mapWidth = input.nextInt();
-            this.mapHeight = input.nextInt();
-            String line;
+        try (Scanner scanner = new Scanner(new File(filepath))) {
+            // MAP FORMAT - hashed lines contain comment, then map width and height
+            scanner.useDelimiter("#.*\n");
+            String line = null;
+            String[] values;
+            while (!(line = scanner.nextLine()).isEmpty()){
+                values = line.split(" ");
+                if (values[0].equals("width")) {
+                    this.mapWidth = Integer.parseInt(values[1]);
+                } else if (values[0].equals("height")) {
+                    this.mapHeight = Integer.parseInt(values[1]);
+                } else {
+                    System.out.printf("Map %s has invalid data: %s%n", filepath, line);
+                }
+            }
+            this.mapWidth = scanner.nextInt();
+            this.mapHeight = scanner.nextInt();
             int row = 0;
             int col = 0;
             this.map = new int[this.mapHeight][this.mapWidth];
             // Read the map data
-            while (row < this.mapHeight && input.hasNextLine()) {
-                line = input.nextLine();
+            while (row < this.mapHeight && scanner.hasNextLine()) {
+                line = scanner.nextLine();
                 while(col < this.mapWidth) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);

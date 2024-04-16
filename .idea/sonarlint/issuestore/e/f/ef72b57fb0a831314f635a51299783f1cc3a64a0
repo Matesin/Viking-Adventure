@@ -1,15 +1,11 @@
 
 ’
-java:S1104"OMake map a static final constant or non-public and provide accessors if needed.(”–á 8¬Æ˜Úí1J$55ca54ad-8152-41b0-9dd1-713e6196e068
-—
-java:S1104"TMake tileSize a static final constant or non-public and provide accessors if needed.(Á‡¦8¬Æ˜Úí1J$196c2665-e6be-47fa-9332-c9b6136d9152
-œ
-java:S1104"TMake mapIndex a static final constant or non-public and provide accessors if needed.(¼×îÅıÿÿÿÿ8¬Æ˜Úí1J$95541567-40e2-48a0-a5f7-56c534c11d2a
+java:S1104"OMake map a static final constant or non-public and provide accessors if needed.(”–á 8¸Ò¬î1J$4878a290-3dfc-4327-957b-a985c5d002a5
 Š
-java:S2184+"BCast one of the operands of this addition operation to a "double".(ÏÑ®ìûÿÿÿÿ8Æº¬î1J$3c6a4ab6-8fa2-4e89-8f6d-741ad8f91cd2
+java:S2184*"BCast one of the operands of this addition operation to a "double".(Ä×ñƒüÿÿÿÿ8¸Ò¬î1J$41982c90-c728-473c-8631-3d7188f943da
 Š
-java:S2184+"BCast one of the operands of this addition operation to a "double".(ÏÑ®ìûÿÿÿÿ8Æº¬î1J$6f0bccd8-6546-4fbf-9b07-f61f784aa7cc
-}
-java:S2209&"5Change this instance-reference to a static reference.(ÈØÇ¾üÿÿÿÿ8éº¬î1J$fe55503b-5b24-4b31-bc9a-516fe00cdd4a
-x
-java:S2209'"5Change this instance-reference to a static reference.(ÈÌ¨ƒ8éº¬î1J$662823a0-c5bb-4b12-978c-079f7ecc6233
+java:S2184*"BCast one of the operands of this addition operation to a "double".(Ä×ñƒüÿÿÿÿ8¸Ò¬î1J$1e0c1505-7db9-4121-af27-e0ae370baa0e
+c
+java:S1128"FRemove this unused import 'com.sun.media.jfxmedia.events.PlayerEvent'.(ˆ„§8ƒ’ğ¯î1
+L
+java:S1128"*Remove this unused import 'entity.Player'.(Ç÷äûÿÿÿÿ8ƒ’ğ¯î1

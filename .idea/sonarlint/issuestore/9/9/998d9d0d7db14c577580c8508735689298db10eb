@@ -1,14 +1,14 @@
 
 š
-java:S1104"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ýÿÿÿÿ8ûå¾¬î1J$2f63a416-7ece-46f7-bc1a-84971fc49f63
+java:S1104"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ýÿÿÿÿ8ûå¾¬î1J$3a218886-921a-4b0f-8c71-645c37a0bf1d
 ›
-java:S1104!"XMake maxWorldRows a static final constant or non-public and provide accessors if needed.(üæÕô8ûå¾¬î1J$9346553d-e297-4cc4-9f6c-ac208c9fa461
+java:S1104!"XMake maxWorldRows a static final constant or non-public and provide accessors if needed.(üæÕô8ûå¾¬î1J$af2e3187-f81b-4ade-9222-4e295402ea01
  
-java:S1104""XMake maxWorldCols a static final constant or non-public and provide accessors if needed.(õÌÛ«øÿÿÿÿ8ûå¾¬î1J$0f49985c-b43e-408d-a077-727dbfce3b00
+java:S1104""XMake maxWorldCols a static final constant or non-public and provide accessors if needed.(õÌÛ«øÿÿÿÿ8ûå¾¬î1J$18a45619-db92-4889-be24-8c5aaec7cb52
 ž
-java:S1104#"VMake worldWidth a static final constant or non-public and provide accessors if needed.(€ÓÃ‘ûÿÿÿÿ8ûå¾¬î1J$f409d6ff-18c7-468f-9df2-43d4807e49d0
+java:S1104#"VMake worldWidth a static final constant or non-public and provide accessors if needed.(€ÓÃ‘ûÿÿÿÿ8ûå¾¬î1J$b49156d2-fcde-4a7f-a00c-4d58e781920a
 š
-java:S1104$"WMake worldHeight a static final constant or non-public and provide accessors if needed.(‡¼·¦8ûå¾¬î1J$1bb29f5f-6f9a-4b41-979d-a043632cb2b9
-m	java:S1061"+Replace this use of System.out by a logger.(’žÑò8†æ¾¬î1J$4c57cc8c-9267-4f45-aa17-6ffd0a696310
+java:S1104$"WMake worldHeight a static final constant or non-public and provide accessors if needed.(‡¼·¦8ûå¾¬î1J$007a17b6-99b0-499d-99b9-72038eca8e17
+m	java:S1061"+Replace this use of System.out by a logger.(’žÑò8†æ¾¬î1J$0a0e00d2-4d3d-4271-b356-a027b0e67111
 t
-java:S11354"2Complete the task associated to this TODO comment.(¬–¿C8ëÐÁ¬î1J$bf3895b1-f70f-4999-9cb7-5779e086eb14
+java:S11354"2Complete the task associated to this TODO comment.(¬–¿C8ëÐÁ¬î1J$9ba8ec42-b4d3-454a-8423-5e67dcc8e0ec

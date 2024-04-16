@@ -70,18 +70,18 @@ public class Menu extends Application {
             })
     );
     private Pane root = new Pane();
-    private VBox menuBox = new VBox(2);
+    private final VBox menuBox = new VBox(2);
 
     private Parent createContent(){
         setBackGround();
         addTitle();
         addMenu( 100, 300);
         startAnimation();
-        return root;
+        return this.root;
     }
 //TODO: CREATE BACKGROUND IMAGE
     private void setBackGround(){
-        root.setStyle("-fx-background-color: white;");
+        this.root.setStyle("-fx-background-color: white;");
     }
     private void addTitle(){
         final int titleNameFontSize = 70;
@@ -89,7 +89,7 @@ public class Menu extends Application {
         title.setLayoutX((double) GamePanel.SCREEN_MIDDLE_X / 3); // test value, change to dynamic
         title.setTranslateY((double) GamePanel.SCREEN_HEIGHT / 5);
 
-        root.getChildren().add(title);
+        this.root.getChildren().add(title);
     }
     //TODO: CUSTOMIZE ANIMATION
     private void startAnimation(){
