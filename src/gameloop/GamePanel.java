@@ -13,7 +13,9 @@ import javafx.scene.text.FontWeight;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import map.GameMap;
 import map.MapManager;
+import utils.CollisionChecker;
 
 @Slf4j
 public class GamePanel extends Pane {
@@ -45,8 +47,11 @@ public class GamePanel extends Pane {
     StackPane root;
     MapManager mapManager;
     @Getter
+    GameMap chosenMap;
+    @Getter
     @Setter
     private int chosenMapIndex;
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
     public GamePanel(Scene scene, StackPane root){
         log.info("GamePanel created");
         this.scene = scene;
@@ -92,11 +97,13 @@ public class GamePanel extends Pane {
         int worldWidth = mapManager.getMapWidth();
         this.maxWorldRows = worldHeight * SCREEN_ROWS;
         this.maxWorldCols = worldWidth * SCREEN_COLS;
+        this.chosenMap = mapManager.map;
     }
     // GAME LOOP
     public void update() {
         player.update();
     }
+
     public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         gc.setFill(Color.CADETBLUE);

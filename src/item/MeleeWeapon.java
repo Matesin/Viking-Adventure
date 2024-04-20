@@ -6,8 +6,4 @@ public class MeleeWeapon extends Weapon{
         this.damage = damage;
         this.description = description;
     }
-    @Override
-    public void loadSprite() {
-
-    }
 }

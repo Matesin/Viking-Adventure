@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import utils.TileUtils;
 
 import java.io.*;
 import java.util.Scanner;
@@ -18,7 +19,8 @@ public class GameMap implements Serializable {
     * game - the game panel
      */
     private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*
-    Tile[] tiles;
+    @Getter
+    private Tile[] tiles;
     @Getter
     private int mapWidth;
     @Getter
@@ -30,9 +32,10 @@ public class GameMap implements Serializable {
     int startX;
     @Getter
     int startY;
-
+    TileUtils utils;
 
     public GameMap(){
+        this.utils = new TileUtils(this);
         tiles = new Tile[NUM_TILE_TYPES];
         startX = GamePanel.SCREEN_MIDDLE_X;
         startY = GamePanel.SCREEN_MIDDLE_Y;
@@ -40,44 +43,16 @@ public class GameMap implements Serializable {
     }
     public void getTileImages(){
         // Load the tile images
-       initTile("grass", 0);
-       initTile("water", 1);
-       initTile("path", 2);
+        utils.initTile("grass", 0);
+        utils.initTile("water", 1);
+        utils.initTile("path", 2);
     }
 
-    private void initTile(String tileType, int tileID){
-        // Load the tile image
-        try {
-            tiles[tileID] = new Tile();
-            String filepath = "res/map_tiles/" + tileType + ".png";
-            tiles[tileID].image = new Image(new FileInputStream(filepath), GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, false, false);
-        } catch (IOException e) {
-            log.error("Error loading tile image: {}", e.getMessage());
-        }
-    }
+
     public void loadMapFromFile(String filepath) throws FileNotFoundException {
         // Load the map from a file
         try (Scanner scanner = new Scanner(new File(filepath))) {
-            // MAP FORMAT - hashed lines contain comment, then map width and height
-            String line = "";
-            String[] values;
-            while (!(line = scanner.nextLine()).isEmpty()){
-                log.debug("Reading line: {}", line);
-                if (line.startsWith("#")) continue;
-                values = line.split(" ");
-                for (String value : values) {
-                    log.debug("Value: {}", value);
-                }
-                switch (values[0]) {
-                    case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
-                    case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
-                    case "start:" -> {
-                        startX = Integer.parseInt(values[1]);
-                        startY = Integer.parseInt(values[2]);
-                    }
-                    default -> log.info("Map {} has invalid data: {}", filepath, line);
-                }
-            }
+            readMetadata(scanner, filepath);
             log.info("Map {} loaded with dimensions {}x{}", filepath, this.mapWidth, this.mapHeight);
             // Initialize the map array
             this.map = new int[this.mapHeight][this.mapWidth];
@@ -86,6 +61,8 @@ public class GameMap implements Serializable {
         }
     }
     private void readMapData(Scanner scanner, String filepath) {
+        // MAP DATA FORMAT - space separated integers
+        // Read the map data
         int row = 0;
         int col = 0;
         while (row < this.mapHeight && scanner.hasNextLine()) {
@@ -109,6 +86,28 @@ public class GameMap implements Serializable {
             }
             col = 0;
             row++;
+        }
+    }
+    private void readMetadata(Scanner scanner, String filepath) {
+        // MAP METADATA FORMAT - hashed lines contain comment, then map width and height
+        String line = null;
+        String[] values;
+        // Read the map metadata
+        while (!(line = scanner.nextLine()).isEmpty()) {
+            if (line.startsWith("#")) continue;
+            values = line.split(" ");
+            for (String value : values) {
+                log.debug("Value: {}", value);
+            }
+            switch (values[0]) {
+                case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
+                case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
+                case "start:" -> {
+                    startX = Integer.parseInt(values[1]);
+                    startY = Integer.parseInt(values[2]);
+                }
+                default -> log.info("Map {} has invalid data: {}", filepath, line);
+            }
         }
     }
 }

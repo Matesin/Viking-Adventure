@@ -1,5 +1,7 @@
 
-Œ
-java:S1104"PMake name a static final constant or non-public and provide accessors if needed.( þÍ¾J$94e9090f-8c0d-4d49-9490-36d957c0cf35
-˜
-java:S1104"WMake description a static final constant or non-public and provide accessors if needed.(¹ÿ†ðÿÿÿÿÿJ$df07f8c6-6b51-44d1-82db-b7cadc87cfcc
+š
+java:S1104"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8ÀÚ…Ôï1J$da46cef3-1dfa-40fe-8e0a-3a90cf4db90c
+š
+java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8ÀÚ…Ôï1J$81a96144-4069-4190-a29c-56fe15ea709b
+u
+java:S1135"2Complete the task associated to this TODO comment.(Øû¥é8ÆÚ…Ôï1J$e9f9f41a-729f-4f96-bf26-f536b0c43f3b

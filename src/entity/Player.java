@@ -1,38 +1,39 @@
 package entity;
 
-import com.sun.tools.javac.Main;
 import controller.InputHandler;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import static javafx.scene.paint.Color.RED;
+
 @Slf4j
 public class Player extends Character {
     InputHandler input;
-    GamePanel game;
+    GamePanel gamePanel;
     @Getter
     @Setter
     private int screenCoordX;
     @Getter
     @Setter
     private int screenCoordY;
-    private int playerSpeed;
-    private String direction;
     private boolean isMoving = false;
     private boolean oddIteration = false;
     @Getter
     private Image currentSprite;
 
 
-    public Player(GamePanel game, InputHandler input) {
-        this.game = game;
+    public Player(GamePanel gamePanel, InputHandler input) {
+        this.gamePanel = gamePanel;
         this.input = input;
         getPlayerImage();
     }
@@ -42,31 +43,60 @@ public class Player extends Character {
         this.worldCoordY = beginY;
         this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
         this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
+        hitbox = new Rectangle();
+        hitbox.setX(screenCoordX);
+        hitbox.setY(screenCoordY);
+        hitbox.setHeight(GamePanel.TILE_SIZE / 1.5);
+        hitbox.setWidth(GamePanel.TILE_SIZE / 2.0);
         currentSprite = down1;
-        playerSpeed = 5; // Adjust this value as needed
+        this.speed = 5; // Adjust this value as needed
         direction = "down";
     }
 
     public void update(){
         if(input.isUpPressed()){
-            worldCoordY -= playerSpeed;
             direction = "up";
         }
         if(input.isDownPressed()){
-            worldCoordY += playerSpeed;
             direction = "down";
         }
         if(input.isLeftPressed()){
-            worldCoordX -= playerSpeed;
             direction = "left";
         }
         if(input.isRightPressed()){
-            worldCoordX += playerSpeed;
             direction = "right";
         }
-
-
         isMoving = input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed();
+
+        if (isMoving) {
+            log.debug("Player is moving");
+            //check for collision
+            collision = false; //reset collision
+            gamePanel.collisionChecker.checkTile(this);
+            log.debug("Collision: {}", collision);
+            //if there is no collision, move the player
+            if (!collision) {
+                switch (direction) {
+                    case "up":
+                        worldCoordY -= this.speed;
+                        break;
+                    case "down":
+                        worldCoordY += this.speed;
+                        break;
+                    case "left":
+                        worldCoordX -= this.speed;
+                        break;
+                    case "right":
+                        worldCoordX += this.speed;
+                        break;
+                    default:
+                        break;
+                }
+                hitbox.setX(screenCoordX);
+                hitbox.setY(screenCoordY);
+            }
+        }
+
     }
     public void getPlayerImage() {
         // Load the sprites
@@ -96,6 +126,7 @@ public class Player extends Character {
 
     public void render(GraphicsContext gc) {
         //create movement effect by switching between two sprites
+        gc.setFill(RED);
         currentSprite = !(isMoving) ? currentSprite : switch (this.direction){
             case "up" -> oddIteration ? up1 : up2;
             case "down" -> oddIteration ? down1 : down2;
@@ -108,5 +139,7 @@ public class Player extends Character {
 
         //preventing different sprite dimensions by scaling the sprite to the size of the tile
         gc.drawImage(currentSprite, GamePanel.SCREEN_MIDDLE_X, GamePanel.SCREEN_MIDDLE_Y);
+        gc.fillRect(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
+
     }
 }

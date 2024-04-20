@@ -7,8 +7,4 @@ public class WeaponUpgrade extends Item{
         this.description = description;
         this.upgradeType = upgradeType;
     }
-    @Override
-    public void loadSprite() {
-
-    }
 }

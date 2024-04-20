@@ -10,8 +10,4 @@ public class Potion extends Item{
         this.effectValue = effectValue;
         this.description = description;
     }
-    @Override
-    public void loadSprite() {
-
-    }
 }

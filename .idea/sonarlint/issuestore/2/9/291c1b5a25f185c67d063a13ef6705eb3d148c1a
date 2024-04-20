@@ -1,12 +1,16 @@
 
 –
-java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$9aa3df56-1f0b-4b0b-ae32-efac94a670ed
+java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$f8f5ed03-443d-4606-867d-1577afe07c09
 œ
-java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$49915369-1cd2-4176-b43e-f6bc0c94bd84
+java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$f28b6292-37b8-45e7-b4e8-aaa5c14af9e5
 —
-java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$622b5764-18c9-44e3-83c9-35f3b42e2024
+java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$d1034829-4dae-4ec7-b4c9-c0f408d42252
 š
-java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(¯¨ÿ¬üÿÿÿÿ8¸®Øí1J$8318c1ef-a6cb-447e-a431-383394f57103
-”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$af2ece28-7627-4aa5-aa80-eebd27d0866e
+java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(¯¨ÿ¬üÿÿÿÿ8ç¢¢Ğï1J$0aabd4bb-ca17-4045-9d1d-c93243601e1a
+˜
+java:S1104"UMake collision a static final constant or non-public and provide accessors if needed.(¾Ê¶8çÜŸĞï1J$8426a844-d6d3-4e3e-923f-7f4de2695931
+”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$d4b31c5d-bd1a-4734-a2ac-807d4b04c25b
 m
-java:S1128"*Remove this unused import 'lombok.Setter'.(ó¸çµ8•¦ªï1J$adb9040e-82cf-40d6-8f6c-f6f606b43026
+java:S1128"*Remove this unused import 'lombok.Setter'.(ó¸çµ8•¦ªï1J$0540379d-8a6d-4bd7-b169-dc5f0001f0ec
+x
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8ŒèĞï1J$4fe2cc19-b1f8-41fc-8f2d-088d541776ff

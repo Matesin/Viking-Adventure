@@ -46,7 +46,7 @@ public class MapManager {
                 screenX > - gamePanel.getMaxWorldCols() - gamePanel.player.getScreenCoordX() - GamePanel.TILE_SIZE &&
                 screenY > - gamePanel.getMaxWorldRows() - gamePanel.player.getScreenCoordY() - GamePanel.TILE_SIZE){
                 // Render all current tiles
-                gc.drawImage(map.tiles[tileID].image, screenX, screenY);
+                gc.drawImage(map.getTiles()[tileID].image, screenX, screenY);
             }
 
             worldCol++;

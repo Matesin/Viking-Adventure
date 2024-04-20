@@ -338,3 +338,7 @@ Q.idea/sonarlint/securityhotspotstore/c/8/c8483b9afe3b0d193a484010480647825a41a0
 Q.idea/sonarlint/securityhotspotstore/c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2,2/f/2f4fade0be9865b9218e4f68bffc86ef45d94d74
 Å
 Q.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
+H
+src/utils/TileUtils.java,c/4/c4b91a463ece9d528b91cf09b94c52238d13954d
+O
+src/utils/CollisionChecker.java,6/7/67d77b91f7c2b0d7158487f1fdc14f1906326663

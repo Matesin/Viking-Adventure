@@ -8,8 +8,4 @@ public class RangedWeapon extends Weapon{
         this.description = description;
     }
 
-    @Override
-    public void loadSprite() {
-
-    }
 }

@@ -13,9 +13,14 @@ public abstract class Character {
     int worldCoordX;
     @Getter
     int worldCoordY;
+    @Getter
+    String direction;
+    @Getter
+    int speed;
     public int movementSpeed;
     public int spriteID;
     public Rectangle hitbox;
+    public boolean collision;
     Image up1;
     Image up2;
     Image down1;
@@ -24,7 +29,5 @@ public abstract class Character {
     Image left2;
     Image right1;
     Image right2;
-    public void getImage() throws IOException {
-        // Load the image for the character
-    }
+
 }
