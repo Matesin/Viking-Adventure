@@ -35,6 +35,7 @@ public class Player extends Character {
     public Player(GamePanel gamePanel, InputHandler input) {
         this.gamePanel = gamePanel;
         this.input = input;
+        this.hitbox = new Rectangle();
         getPlayerImage();
     }
 
@@ -43,7 +44,6 @@ public class Player extends Character {
         this.worldCoordY = beginY;
         this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
         this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
-        hitbox = new Rectangle();
         hitbox.setX(screenCoordX);
         hitbox.setY(screenCoordY);
         hitbox.setHeight(GamePanel.TILE_SIZE / 1.5);
