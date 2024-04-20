@@ -3,12 +3,17 @@ package controller;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lombok.Getter;
 
 public class InputHandler implements EventHandler<KeyEvent> {
-    public boolean upPressed;
-    public boolean downPressed;
-    public boolean leftPressed;
-    public boolean rightPressed;
+    @Getter
+    boolean upPressed;
+    @Getter
+    boolean downPressed;
+    @Getter
+    boolean leftPressed;
+    @Getter
+    boolean rightPressed;
 
     public InputHandler() {
         upPressed = downPressed = leftPressed = rightPressed = false;
@@ -19,24 +24,16 @@ public class InputHandler implements EventHandler<KeyEvent> {
         KeyCode keyCode = keyEvent.getCode();
         if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
             switch (keyCode){
-                case W:
-                case UP:
-                    System.out.println("Up pressed");
+                case W, UP:
                     upPressed = true;
                     break;
-                case S:
-                case DOWN:
-                    System.out.println("Down pressed");
+                case S, DOWN:
                     downPressed = true;
                     break;
-                case A:
-                case LEFT:
-                    System.out.println("Left pressed");
+                case A, LEFT:
                     leftPressed = true;
                     break;
-                case D:
-                case RIGHT:
-                    System.out.println("Right pressed");
+                case D, RIGHT:
                     rightPressed = true;
                     break;
                 default:
@@ -45,24 +42,16 @@ public class InputHandler implements EventHandler<KeyEvent> {
             }
         } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
             switch (keyCode){
-                case W:
-                case UP:
-                    System.out.println("Up released");
+                case W, UP:
                     upPressed = false;
                     break;
-                case S:
-                case DOWN:
-                    System.out.println("Down released");
+                case S, DOWN:
                     downPressed = false;
                     break;
-                case A:
-                case LEFT:
-                    System.out.println("Left released");
+                case A, LEFT:
                     leftPressed = false;
                     break;
-                case D:
-                case RIGHT:
-                    System.out.println("Right released");
+                case D, RIGHT:
                     rightPressed = false;
                     break;
                 default:
@@ -70,6 +59,5 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     break;
             }
         }
-        System.out.println("input status: " + upPressed + downPressed + leftPressed + rightPressed);
     }
 }

@@ -1,13 +1,15 @@
 package map;
 
+import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.Scanner;
-
+@Slf4j
 public class GameMap implements Serializable {
     /*
     * The GameMap class is responsible for storing the map data and rendering the map to the screen.
@@ -24,80 +26,89 @@ public class GameMap implements Serializable {
     @Setter
     @Getter
     private int[][] map;
+    @Getter
+    int startX;
+    @Getter
+    int startY;
 
 
     public GameMap(){
         tiles = new Tile[NUM_TILE_TYPES];
+        startX = GamePanel.SCREEN_MIDDLE_X;
+        startY = GamePanel.SCREEN_MIDDLE_Y;
         getTileImages();
     }
     public void getTileImages(){
         // Load the tile images
+       initTile("grass", 0);
+       initTile("water", 1);
+       initTile("path", 2);
+    }
+
+    private void initTile(String tileType, int tileID){
+        // Load the tile image
         try {
-            tiles[0] = new Tile(); // water
-            tiles[0].image = new Image(new FileInputStream("/map_tiles/water.png"));
-            tiles[1] = new Tile(); // path
-            tiles[1].image = new Image(new FileInputStream("/map_tiles/path.png"));
-            tiles[2] = new Tile(); // grass
-            tiles[2].image = new Image(new FileInputStream("/map_tiles/grass.png"));
+            tiles[tileID] = new Tile();
+            String filepath = "res/map_tiles/" + tileType + ".png";
+            tiles[tileID].image = new Image(new FileInputStream(filepath), GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, false, false);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error loading tile image: {}", e.getMessage());
         }
     }
     public void loadMapFromFile(String filepath) throws FileNotFoundException {
         // Load the map from a file
         try (Scanner scanner = new Scanner(new File(filepath))) {
             // MAP FORMAT - hashed lines contain comment, then map width and height
-            scanner.useDelimiter("#.*\n");
-            String line = null;
+            String line = "";
             String[] values;
             while (!(line = scanner.nextLine()).isEmpty()){
+                log.debug("Reading line: {}", line);
+                if (line.startsWith("#")) continue;
                 values = line.split(" ");
-                if (values[0].equals("width")) {
-                    this.mapWidth = Integer.parseInt(values[1]);
-                } else if (values[0].equals("height")) {
-                    this.mapHeight = Integer.parseInt(values[1]);
-                } else {
-                    System.out.printf("Map %s has invalid data: %s%n", filepath, line);
+                for (String value : values) {
+                    log.debug("Value: {}", value);
+                }
+                switch (values[0]) {
+                    case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
+                    case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
+                    case "start:" -> {
+                        startX = Integer.parseInt(values[1]);
+                        startY = Integer.parseInt(values[2]);
+                    }
+                    default -> log.info("Map {} has invalid data: {}", filepath, line);
                 }
             }
-            this.mapWidth = scanner.nextInt();
-            this.mapHeight = scanner.nextInt();
-            int row = 0;
-            int col = 0;
+            log.info("Map {} loaded with dimensions {}x{}", filepath, this.mapWidth, this.mapHeight);
+            // Initialize the map array
             this.map = new int[this.mapHeight][this.mapWidth];
             // Read the map data
-            while (row < this.mapHeight && scanner.hasNextLine()) {
-                line = scanner.nextLine();
-                while(col < this.mapWidth) {
-                    String[] numbers = line.split(" ");
-                    int num = Integer.parseInt(numbers[col]);
-                    this.map[row][col] = num;
-                    col++;
-                }
-                if (col != this.mapWidth){
-                    System.out.printf("Map %s missing data on row %d expected %d got %d%n",
-                            filepath,
-                            row,
-                            this.mapWidth,
-                            col);
-                    // Fill in the rest of the row with 0's
-                    for (int i = col; i < this.mapWidth; i++){
-                        this.map[row][i] = 0;
-                    }
-                }
-                col = 0;
-                row++;
-            }
+            readMapData(scanner, filepath);
         }
     }
-
-    public void draw(GraphicsContext g2) {
-        // Draw the map to the screen
-        for (int i = 0; i < mapHeight; i++) {
-            for (int j = 0; j < mapWidth; j++) {
-                int tileType = map[i][j];
-                g2.drawImage(tiles[tileType].image, j * 32, i * 32);
+    private void readMapData(Scanner scanner, String filepath) {
+        int row = 0;
+        int col = 0;
+        while (row < this.mapHeight && scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            while(col < this.mapWidth) {
+                String[] numbers = line.split(" ");
+                int num = Integer.parseInt(numbers[col]);
+                this.map[row][col] = num;
+                col++;
             }
+            if (col != this.mapWidth){
+                log.error("Map {} missing data on row {} expected {} got {}",
+                        filepath,
+                        row,
+                        this.mapWidth,
+                        col);
+                // Fill in the rest of the row with 0's
+                for (int i = col; i < this.mapWidth; i++){
+                    this.map[row][i] = 0;
+                }
+            }
+            col = 0;
+            row++;
         }
     }
 }

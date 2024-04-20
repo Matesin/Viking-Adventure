@@ -1,14 +1,5 @@
 
 š
-java:S1104"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ýÿÿÿÿ8ûå¾¬î1J$57dd273a-2777-4dd6-b949-fbade7308ebd
-›
-java:S1104!"XMake maxWorldRows a static final constant or non-public and provide accessors if needed.(üæÕô8ûå¾¬î1J$c89f900c-ca14-42a4-9410-c2cee155daca
- 
-java:S1104""XMake maxWorldCols a static final constant or non-public and provide accessors if needed.(õÌÛ«øÿÿÿÿ8ûå¾¬î1J$d57c7459-f207-412a-8e4d-0d722b4f37ef
-ž
-java:S1104#"VMake worldWidth a static final constant or non-public and provide accessors if needed.(€ÓÃ‘ûÿÿÿÿ8ûå¾¬î1J$914e3c7e-1e93-48a4-9f84-0925b12c8c9f
-š
-java:S1104$"WMake worldHeight a static final constant or non-public and provide accessors if needed.(‡¼·¦8ûå¾¬î1J$6fb96917-0098-49ab-8341-f5e18a9f4a82
-m	java:S1061"+Replace this use of System.out by a logger.(’žÑò8†æ¾¬î1J$0749e8ab-d7c7-4def-b17c-f95d392b536d
+java:S1104"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ýÿÿÿÿ8„Ý“«ï1J$7dfb1473-1103-4fa2-be37-1f182f92e262
 t
-java:S11354"2Complete the task associated to this TODO comment.(¬–¿C8ëÐÁ¬î1J$1185b5e3-e84c-40ef-a3d5-3a846b08c525
+java:S11356"2Complete the task associated to this TODO comment.(¬–¿C8ŽÝ“«ï1J$621cf35d-1564-4108-a883-56546bcda7a8

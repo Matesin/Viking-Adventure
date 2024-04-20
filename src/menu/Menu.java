@@ -31,6 +31,7 @@ public class Menu extends Application {
                 // Create a new GamePanel
                 StackPane root = new StackPane();
                 Scene scene = new Scene(root, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
+
                 GamePanel gamePanel = new GamePanel(scene, root);
                 // Set the scene of the current stage to the GamePanel
                 Stage stage = (Stage) this.root.getScene().getWindow();

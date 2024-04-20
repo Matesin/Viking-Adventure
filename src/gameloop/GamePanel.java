@@ -12,8 +12,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import map.MapManager;
 
+@Slf4j
 public class GamePanel extends Pane {
     static final int INITIAL_TILE_SIZE = 32;
     public static final int SCALE = 2;
@@ -30,10 +32,10 @@ public class GamePanel extends Pane {
     @Setter
     private int fps = 60;
     // WORLD SETTINGS
-    public int maxWorldRows;
-    public int maxWorldCols;
-    public int worldWidth;
-    public int worldHeight;
+    @Getter
+    private int maxWorldRows;
+    @Getter
+    private int maxWorldCols;
     // PANE INIT
     Canvas canvas;
     GraphicsContext gc;
@@ -46,13 +48,16 @@ public class GamePanel extends Pane {
     @Setter
     private int chosenMapIndex;
     public GamePanel(Scene scene, StackPane root){
-        System.out.println("GamePanel created");
+        log.info("GamePanel created");
         this.scene = scene;
         this.root = root;
         //TODO: Add a map selector
-        setMap(0);
+        log.info("Setting up game panel");
+        setMap(1);
+        log.info("Initializing player");
         initPlayer();
         initCanvas();
+        log.info("Starting game loop");
         startGameLoop();
     }
     // CANVAS INIT
@@ -68,8 +73,10 @@ public class GamePanel extends Pane {
     private void initPlayer(){
         this.inputHandler = new InputHandler();
         this.player = new Player(this, this.inputHandler);
+        int playerStartX = mapManager.map.getStartX();
+        int playerStartY = mapManager.map.getStartY();
         player.getPlayerImage();
-        player.setDefaultValues(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
+        player.setDefaultValues(playerStartX, playerStartY);
     }
     // GAME LOOP INIT
     public void startGameLoop(){
@@ -81,10 +88,10 @@ public class GamePanel extends Pane {
         this.mapManager = new MapManager(this);
         this.chosenMapIndex = mapIndex;
         mapManager.loadMap(chosenMapIndex);
-        this.maxWorldRows = mapManager.getMapHeight();
-        this.maxWorldCols = mapManager.getMapWidth();
-        worldWidth = TILE_SIZE * maxWorldCols;
-        worldHeight = TILE_SIZE * maxWorldRows;
+        int worldHeight = mapManager.getMapHeight();
+        int worldWidth = mapManager.getMapWidth();
+        this.maxWorldRows = worldHeight * SCREEN_ROWS;
+        this.maxWorldCols = worldWidth * SCREEN_COLS;
     }
     // GAME LOOP
     public void update() {
@@ -99,7 +106,7 @@ public class GamePanel extends Pane {
         gc.setFill(Color.WHITE);
         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
         gc.setFont(statsFont);
-        gc.fillText("Player X: " + player.worldCoordX, 15, 30);
-        gc.fillText("Player Y: " + player.worldCoordY, 15, 60);
+        gc.fillText("Player X: " + player.getWorldCoordX(), 15, 30);
+        gc.fillText("Player Y: " + player.getWorldCoordY(), 15, 60);
     }
 }

@@ -1,14 +1,18 @@
 package entity;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import java.io.IOException;
 
 public abstract class Character {
     public int HP;
-    public int worldCoordX;
-    public int worldCoordY;
+    @Getter
+    int worldCoordX;
+    @Getter
+    int worldCoordY;
     public int movementSpeed;
     public int spriteID;
     public Rectangle hitbox;
