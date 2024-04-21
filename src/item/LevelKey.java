@@ -1,12 +1,15 @@
 package item;
 
-public class LevelKey extends Item{
-    int level;
-    int ID;
+import lombok.Getter;
+import lombok.Setter;
 
-    public LevelKey(int level, int ID) {
-        this.level = level;
-        this.ID = ID;
+@Getter
+@Setter
+public class LevelKey extends Item{
+    private int level;
+    private int ID;
+
+    public LevelKey() {
     }
     public void setName(String name) {
         this.name = name;

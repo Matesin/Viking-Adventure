@@ -342,3 +342,5 @@ H
 src/utils/TileUtils.java,c/4/c4b91a463ece9d528b91cf09b94c52238d13954d
 O
 src/utils/CollisionChecker.java,6/7/67d77b91f7c2b0d7158487f1fdc14f1906326663
+M
+src/gameloop/AssetSetter.java,4/9/495fa840e0056f554489c8ad1fccc8dd224fef04

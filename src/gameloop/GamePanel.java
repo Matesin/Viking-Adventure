@@ -2,6 +2,7 @@ package gameloop;
 
 import controller.InputHandler;
 import entity.Player;
+import item.Item;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,12 +47,15 @@ public class GamePanel extends Pane {
     GameLoop gameLoop;
     StackPane root;
     MapManager mapManager;
+
     @Getter
     GameMap chosenMap;
     @Getter
     @Setter
     private int chosenMapIndex;
-    public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public final CollisionChecker collisionChecker = new CollisionChecker(this);
+    public final AssetSetter assetSetter = new AssetSetter(this);
+    public Item[] items;
     public GamePanel(Scene scene, StackPane root){
         log.info("GamePanel created");
         this.scene = scene;
@@ -115,5 +119,6 @@ public class GamePanel extends Pane {
         gc.setFont(statsFont);
         gc.fillText("Player X: " + player.getWorldCoordX(), 15, 30);
         gc.fillText("Player Y: " + player.getWorldCoordY(), 15, 60);
+        gc.fillText("Current Sprite: " + player.getCurrentSprite(), 15, 90);
     }
 }

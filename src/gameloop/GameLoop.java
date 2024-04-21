@@ -12,7 +12,7 @@ public class GameLoop extends AnimationTimer {
     GamePanel gamePanel;
     Canvas canvas;
     GraphicsContext gc;
-    double durationMillis = 1000000000.0;
+    double durationMillis = 100000000.0;
     public GameLoop(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.canvas = gamePanel.canvas;

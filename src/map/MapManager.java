@@ -3,12 +3,17 @@ package map;
 import com.sun.media.jfxmedia.events.PlayerEvent;
 import entity.Player;
 import gameloop.GamePanel;
+import item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class MapManager {
     private static final Logger log = LoggerFactory.getLogger(MapManager.class);
@@ -63,7 +68,7 @@ public class MapManager {
         // Load the map
         log.info("Loading map {}", mapIndex);
         String mapIndexString = mapIndex < 10 ? "0" + mapIndex : "" + mapIndex;
-        String filepath = "res/maps/map" + mapIndexString + ".txt";
+        String filepath = "res/maps/map" + mapIndexString + "/map.txt";
         this.map = new GameMap();
         try {
             this.map.loadMapFromFile(filepath);
@@ -73,6 +78,46 @@ public class MapManager {
             log.error("Map file not found {}", e.getMessage());
         }
         log.info("Map loaded");
+    }
+    public void loadObjects(String mapIndex) {
+        // Load objects - feature to be implemented later
+        log.info("Loading objects for map {}", mapIndex);
+        String filepath = "res/maps/map" + mapIndex + "/obj.txt";
+        try {
+            // Read the object file
+            List<Item> items = new ArrayList<Item>();
+            String currentType = "";
+            // Read the object file
+            try (Scanner scanner = new Scanner(new File(filepath))) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (line.startsWith("#")) {
+                        continue;
+                    } else if (line.startsWith("*")){
+                        // Set the object type
+                        currentType = line.substring(1);
+                        continue;
+                    }
+
+                    String[] parts = line.split(" ");
+                    String itemID = parts[0];
+                    int x = Integer.parseInt(parts[1]);
+                    int y = Integer.parseInt(parts[2]);
+
+                    item.loadImage(itemID);
+                    item.setWorldCoordX(x);
+                    item.setWorldCoordY(y);
+                    items.add(item);
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            log.error("Object file not found {}", e.getMessage());
+        }
+    }
+    void setType(String type) {
+        if (type.equals())
+
     }
     public void saveMap() {
         // Save the map - feature to be implemented later

@@ -31,7 +31,6 @@ public class Player extends Character {
     @Getter
     private Image currentSprite;
 
-
     public Player(GamePanel gamePanel, InputHandler input) {
         this.gamePanel = gamePanel;
         this.input = input;
@@ -96,7 +95,6 @@ public class Player extends Character {
                 hitbox.setY(screenCoordY);
             }
         }
-
     }
     public void getPlayerImage() {
         // Load the sprites
@@ -124,22 +122,29 @@ public class Player extends Character {
         return new Image(fis, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, false, false);
     }
 
+    private long lastUpdate = 0;
+
     public void render(GraphicsContext gc) {
         //create movement effect by switching between two sprites
         gc.setFill(RED);
-        currentSprite = !(isMoving) ? currentSprite : switch (this.direction){
-            case "up" -> oddIteration ? up1 : up2;
-            case "down" -> oddIteration ? down1 : down2;
-            case "left" -> oddIteration ? left1 : left2;
-            case "right" -> oddIteration ? right1 : right2;
-            default -> null;
-        };
-        oddIteration = !oddIteration;
+        long now = System.currentTimeMillis();
+        // update the sprite relatively to speed
+        int speedConst = 1000;
+        if (now - lastUpdate > speedConst / this.speed) {
+            currentSprite = !(isMoving) ? currentSprite : switch (this.direction){
+                case "up" -> oddIteration ? up1 : up2;
+                case "down" -> oddIteration ? down1 : down2;
+                case "left" -> oddIteration ? left1 : left2;
+                case "right" -> oddIteration ? right1 : right2;
+                default -> null;
+            };
+            oddIteration = !oddIteration;
+            lastUpdate = now;
+        }
         assert currentSprite != null;
 
         //preventing different sprite dimensions by scaling the sprite to the size of the tile
         gc.drawImage(currentSprite, GamePanel.SCREEN_MIDDLE_X, GamePanel.SCREEN_MIDDLE_Y);
         gc.fillRect(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
-
     }
 }
