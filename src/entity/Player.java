@@ -43,8 +43,8 @@ public class Player extends Character {
         this.worldCoordY = beginY;
         this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
         this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
-        hitbox.setX(screenCoordX);
-        hitbox.setY(screenCoordY);
+        hitbox.setX(screenCoordX + GamePanel.TILE_SIZE / 4.0);
+        hitbox.setY(screenCoordY + GamePanel.TILE_SIZE / 2.0);
         hitbox.setHeight(GamePanel.TILE_SIZE / 1.5);
         hitbox.setWidth(GamePanel.TILE_SIZE / 2.0);
         currentSprite = down1;
@@ -91,8 +91,8 @@ public class Player extends Character {
                     default:
                         break;
                 }
-                hitbox.setX(screenCoordX);
-                hitbox.setY(screenCoordY);
+                hitbox.setX(screenCoordX + GamePanel.TILE_SIZE / 4.0);
+                hitbox.setY(screenCoordY + GamePanel.TILE_SIZE / 2.0);
             }
         }
     }

@@ -24,7 +24,8 @@ public class CollisionChecker {
         int entityTopRow = entityTopY / GamePanel.TILE_SIZE;
         int entityBottomRow = entityBottomY / GamePanel.TILE_SIZE;
 
-        int tileNum1, tileNum2;
+        int tileNum1;
+        int tileNum2;
 
         switch (entity.getDirection()){
             case "up":
@@ -49,7 +50,7 @@ public class CollisionChecker {
                 tileNum1 = gamePanel.getChosenMap().getMap()[entityLeftCol][entityBottomRow];
                 tileNum2 = gamePanel.getChosenMap().getMap()[entityRightCol][entityBottomRow];
                 if (gamePanel.getChosenMap().getTiles()[tileNum1].isCollision() ||
-                    gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
+                        gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
                     entity.collision = true;
                 }
                 break;
@@ -83,6 +84,5 @@ public class CollisionChecker {
             default:
                 break;
         }
-
     }
 }

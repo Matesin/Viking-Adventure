@@ -20,7 +20,7 @@ public class TileUtils {
     }
 
     public void initTile(String tileType, int tileID){
-        // Load the tile image
+
         try {
             gameMap.getTiles()[tileID] = new Tile();
             Image image = new Image(new FileInputStream("res/map_tiles/" + tileType +".png"), TILE_SIZE, TILE_SIZE, false, false);

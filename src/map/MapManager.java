@@ -80,43 +80,16 @@ public class MapManager {
         log.info("Map loaded");
     }
     public void loadObjects(String mapIndex) {
-        // Load objects - feature to be implemented later
-        log.info("Loading objects for map {}", mapIndex);
-        String filepath = "res/maps/map" + mapIndex + "/obj.txt";
-        try {
-            // Read the object file
-            List<Item> items = new ArrayList<Item>();
-            String currentType = "";
-            // Read the object file
-            try (Scanner scanner = new Scanner(new File(filepath))) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line.startsWith("#")) {
-                        continue;
-                    } else if (line.startsWith("*")){
-                        // Set the object type
-                        currentType = line.substring(1);
-                        continue;
-                    }
-
-                    String[] parts = line.split(" ");
-                    String itemID = parts[0];
-                    int x = Integer.parseInt(parts[1]);
-                    int y = Integer.parseInt(parts[2]);
-
-                    item.loadImage(itemID);
-                    item.setWorldCoordX(x);
-                    item.setWorldCoordY(y);
-                    items.add(item);
-                }
-
-            }
-        } catch (FileNotFoundException e) {
-            log.error("Object file not found {}", e.getMessage());
-        }
+//        // Load objects - feature to be implemented later
+//        log.info("Loading objects for map {}", mapIndex);
+//        String filepath = "res/maps/map" + mapIndex + "/obj.json";
+//        try{
+//
+//        } catch (FileNotFoundException e) {
+//            log.error("Object file not found {}", e.getMessage());
+//        }
     }
     void setType(String type) {
-        if (type.equals())
 
     }
     public void saveMap() {
