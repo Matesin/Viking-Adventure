@@ -14,12 +14,20 @@ public abstract class Character {
     @Getter
     int worldCoordY;
     @Getter
+    @Setter
+    int screenCoordX;
+    @Getter
+    @Setter
+    int screenCoordY;
+    @Getter
     String direction;
     @Getter
     int speed;
+    int width;
+    int height;
     public int movementSpeed;
     public int spriteID;
-    public Rectangle hitbox;
+    public Hitbox hitbox;
     public boolean collision;
     Image up1;
     Image up2;

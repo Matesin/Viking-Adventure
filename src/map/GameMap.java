@@ -43,9 +43,9 @@ public class GameMap implements Serializable {
     }
     public void getTileImages(){
         // Load the tile images
-        utils.initTile("grass", 0);
-        utils.initTile("water", 1);
-        utils.initTile("path", 2);
+        utils.initTile("path", 0);
+        utils.initTile("grass", 1, true, true);
+        utils.initTile("water", 2);
     }
 
 
@@ -55,7 +55,7 @@ public class GameMap implements Serializable {
             readMetadata(scanner, filepath);
             log.info("Map {} loaded with dimensions {}x{}", filepath, this.mapWidth, this.mapHeight);
             // Initialize the map array
-            this.map = new int[this.mapHeight][this.mapWidth];
+            this.map = new int[this.mapWidth][this.mapHeight];
             // Read the map data
             readMapData(scanner, filepath);
         }
@@ -65,12 +65,12 @@ public class GameMap implements Serializable {
         // Read the map data
         int row = 0;
         int col = 0;
-        while (row < this.mapHeight && scanner.hasNextLine()) {
+        while (row < this.mapHeight && scanner.hasNextLine()) { //y
             String line = scanner.nextLine();
-            while(col < this.mapWidth) {
+            while(col < this.mapWidth) { //x
                 String[] numbers = line.split(" ");
                 int num = Integer.parseInt(numbers[col]);
-                this.map[row][col] = num;
+                this.map[col][row] = num;
                 col++;
             }
             if (col != this.mapWidth){
@@ -103,8 +103,8 @@ public class GameMap implements Serializable {
                 case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
                 case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
                 case "start:" -> {
-                    startX = Integer.parseInt(values[1]);
-                    startY = Integer.parseInt(values[2]);
+                    startX = Integer.parseInt(values[1]) * GamePanel.TILE_SIZE;
+                    startY = Integer.parseInt(values[2]) * GamePanel.TILE_SIZE;
                 }
                 default -> log.info("Map {} has invalid data: {}", filepath, line);
             }

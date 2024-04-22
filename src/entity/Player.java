@@ -20,12 +20,6 @@ import static javafx.scene.paint.Color.RED;
 public class Player extends Character {
     InputHandler input;
     GamePanel gamePanel;
-    @Getter
-    @Setter
-    private int screenCoordX;
-    @Getter
-    @Setter
-    private int screenCoordY;
     private boolean isMoving = false;
     private boolean oddIteration = false;
     @Getter
@@ -34,7 +28,9 @@ public class Player extends Character {
     public Player(GamePanel gamePanel, InputHandler input) {
         this.gamePanel = gamePanel;
         this.input = input;
-        this.hitbox = new Rectangle();
+        this.height = GamePanel.TILE_SIZE;
+        this.width = GamePanel.TILE_SIZE;
+        this.hitbox = new Hitbox(this, GamePanel.TILE_SIZE / 3, GamePanel.TILE_SIZE / 2, (this.width - GamePanel.TILE_SIZE / 2) / 2, this.height /2);
         getPlayerImage();
     }
 
@@ -43,13 +39,10 @@ public class Player extends Character {
         this.worldCoordY = beginY;
         this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
         this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
-        hitbox.setX(screenCoordX + GamePanel.TILE_SIZE / 4.0);
-        hitbox.setY(screenCoordY + GamePanel.TILE_SIZE / 2.0);
-        hitbox.setHeight(GamePanel.TILE_SIZE / 1.5);
-        hitbox.setWidth(GamePanel.TILE_SIZE / 2.0);
         currentSprite = down1;
         this.speed = 5; // Adjust this value as needed
         direction = "down";
+        hitbox.update();
     }
 
     public void update(){
@@ -91,8 +84,7 @@ public class Player extends Character {
                     default:
                         break;
                 }
-                hitbox.setX(screenCoordX + GamePanel.TILE_SIZE / 4.0);
-                hitbox.setY(screenCoordY + GamePanel.TILE_SIZE / 2.0);
+                hitbox.update();
             }
         }
     }
@@ -145,6 +137,6 @@ public class Player extends Character {
 
         //preventing different sprite dimensions by scaling the sprite to the size of the tile
         gc.drawImage(currentSprite, GamePanel.SCREEN_MIDDLE_X, GamePanel.SCREEN_MIDDLE_Y);
-        gc.fillRect(hitbox.getX(), hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
+
     }
 }

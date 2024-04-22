@@ -1,11 +1,11 @@
 
 
-java:S1192B"FDefine a constant instead of duplicating this literal "right" 5 times.(ç¥‹’ıÿÿÿÿ8İÒù©ğ1J$d627fa96-ba44-4c55-ad16-7559aa3f8ab2
-
-java:S3358‡"DExtract this nested ternary operation into an independent statement.(£’—±ùÿÿÿÿ8‚Óù©ğ1J$689fe03d-cf41-4c2e-a21b-a818b3ccf43f
+java:S1192;"FDefine a constant instead of duplicating this literal "right" 5 times.(ç¥‹’ıÿÿÿÿ8üŞ¸ğ1J$541234a0-e7ea-4a79-aebc-1316efcac3db
+Œ
+java:S3358"DExtract this nested ternary operation into an independent statement.(£’—±ùÿÿÿÿ8¢üŞ¸ğ1J$5bb2fbcb-dad1-4cbc-9545-d51ef3804df5
 ˆ
-java:S3358ˆ"DExtract this nested ternary operation into an independent statement.(å×¦´8‚Óù©ğ1J$4f116f24-1db4-477d-a11f-d7d947e85b04
+java:S3358€"DExtract this nested ternary operation into an independent statement.(å×¦´8¢üŞ¸ğ1J$1873ad1a-8ccc-4492-9596-566bae815c08
 ˆ
-java:S3358‰"DExtract this nested ternary operation into an independent statement.(Âó±8‚Óù©ğ1J$8b2305be-1f33-4f46-8e00-b6e7bae14e0d
+java:S3358"DExtract this nested ternary operation into an independent statement.(Âó±8¢üŞ¸ğ1J$74e17778-aaf2-42c4-9873-8aa93acefd19
 ˆ
-java:S3358Š"DExtract this nested ternary operation into an independent statement.(Â«äû8‚Óù©ğ1J$8f815233-6e69-4a2b-acdb-d56ec93f8646
+java:S3358‚"DExtract this nested ternary operation into an independent statement.(Â«äû8¢üŞ¸ğ1J$5edd3c15-51eb-4803-be74-df87eec29434

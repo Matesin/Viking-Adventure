@@ -40,20 +40,17 @@ public class MapManager {
         int screenX;
         int screenY;
         while (worldRow < mapHeight && worldCol < mapWidth){
-            int tileID = map.getMap()[worldRow][worldCol];
+            int tileID = map.getMap()[worldCol][worldRow];
             worldX = worldCol * GamePanel.TILE_SIZE;
             worldY = worldRow * GamePanel.TILE_SIZE;
-            screenX = worldX - gamePanel.player.getWorldCoordX();
-            screenY = worldY - gamePanel.player.getWorldCoordY();
-            //When I wrote this logic, only God and I understood what I was doing. Now, only God knows.
-            if (screenX - 2 * GamePanel.TILE_SIZE < gamePanel.getMaxWorldCols() + gamePanel.player.getScreenCoordX()&&
-                screenY - 2 * GamePanel.TILE_SIZE < gamePanel.getMaxWorldRows() + gamePanel.player.getScreenCoordY()&&
-                screenX > - gamePanel.getMaxWorldCols() - gamePanel.player.getScreenCoordX() - GamePanel.TILE_SIZE &&
-                screenY > - gamePanel.getMaxWorldRows() - gamePanel.player.getScreenCoordY() - GamePanel.TILE_SIZE){
-                // Render all current tiles
-                gc.drawImage(map.getTiles()[tileID].image, screenX, screenY);
+            screenX = worldX - gamePanel.player.getWorldCoordX() + GamePanel.SCREEN_MIDDLE_X;
+            screenY = worldY - gamePanel.player.getWorldCoordY() + GamePanel.SCREEN_MIDDLE_Y;
+            if (screenX >= - GamePanel.TILE_SIZE &&
+                screenX <= GamePanel.SCREEN_WIDTH &&
+                screenY >= - GamePanel.TILE_SIZE &&
+                screenY <= GamePanel.SCREEN_HEIGHT) {
+                gc.drawImage(map.getTiles()[tileID].getImage(), screenX, screenY);
             }
-
             worldCol++;
             if (worldCol == mapWidth) {
                 worldCol = 0;

@@ -11,4 +11,7 @@ public class Tile {
     boolean solid = true;
     boolean collision = false;
     Image image;
+    @Getter
+    String type;
+
 }

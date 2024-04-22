@@ -62,7 +62,7 @@ public class GamePanel extends Pane {
         this.root = root;
         //TODO: Add a map selector
         log.info("Setting up game panel");
-        setMap(1);
+        setMap(2);
         log.info("Initializing player");
         initPlayer();
         initCanvas();
@@ -112,6 +112,7 @@ public class GamePanel extends Pane {
         gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         gc.setFill(Color.CADETBLUE);
         gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        player.hitbox.display(gc);
         player.render(gc);
         mapManager.renderMap(gc);
         gc.setFill(Color.WHITE);
@@ -120,5 +121,6 @@ public class GamePanel extends Pane {
         gc.fillText("Player X: " + player.getWorldCoordX(), 15, 30);
         gc.fillText("Player Y: " + player.getWorldCoordY(), 15, 60);
         gc.fillText("Current Sprite: " + player.getCurrentSprite(), 15, 90);
+        gc.fillText("Hitbox Coords: " + player.hitbox.getCoordX() + ", " + player.hitbox.getCoordY(), 15, 120);
     }
 }

@@ -1,16 +1,16 @@
 
 –
-java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$f8f5ed03-443d-4606-867d-1577afe07c09
+java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$b0d94ca0-f01c-4fa8-9bfa-f710de162e96
 œ
-java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$f28b6292-37b8-45e7-b4e8-aaa5c14af9e5
+java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$cf714a52-7763-4b54-8765-92304d4121b6
 —
-java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$d1034829-4dae-4ec7-b4c9-c0f408d42252
-š
-java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(¯¨ÿ¬üÿÿÿÿ8ç¢¢Ğï1J$0aabd4bb-ca17-4045-9d1d-c93243601e1a
+java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$9d57a5ea-d206-46ca-a676-2d66913c2b7c
+•
+java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(Ç“©8ªâì¯ğ1J$02deb620-6c64-482e-9a1b-c3a232c533cb
 ˜
-java:S1104"UMake collision a static final constant or non-public and provide accessors if needed.(¾Ê¶8çÜŸĞï1J$8426a844-d6d3-4e3e-923f-7f4de2695931
-”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$d4b31c5d-bd1a-4734-a2ac-807d4b04c25b
-m
-java:S1128"*Remove this unused import 'lombok.Setter'.(ó¸çµ8•¦ªï1J$0540379d-8a6d-4bd7-b169-dc5f0001f0ec
+java:S1104"UMake collision a static final constant or non-public and provide accessors if needed.(¾Ê¶8çÜŸĞï1J$00a309b1-4f36-48a4-9cd4-f43c066e06e2
+”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$b2c9f715-0d04-49c7-9c9e-eb7e2a632280
+
+java:S1128"9Remove this unused import 'javafx.scene.shape.Rectangle'.(ÖÉ­Œşÿÿÿÿ8®âì¯ğ1J$8968fd47-4524-403e-b516-0e066f03e46b
 x
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8ŒèĞï1J$4fe2cc19-b1f8-41fc-8f2d-088d541776ff
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8ŒèĞï1J$6989c970-9dde-4024-93a0-89378eb678a7

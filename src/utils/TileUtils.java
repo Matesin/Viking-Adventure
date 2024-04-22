@@ -25,6 +25,7 @@ public class TileUtils {
             gameMap.getTiles()[tileID] = new Tile();
             Image image = new Image(new FileInputStream("res/map_tiles/" + tileType +".png"), TILE_SIZE, TILE_SIZE, false, false);
             gameMap.getTiles()[tileID].setImage(image);
+            gameMap.getTiles()[tileID].setType(tileType);
         } catch (IOException e) {
             log.error("Error loading tile image: {}", e.getMessage());
         }

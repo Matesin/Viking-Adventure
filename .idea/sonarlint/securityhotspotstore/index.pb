@@ -344,3 +344,23 @@ O
 src/utils/CollisionChecker.java,6/7/67d77b91f7c2b0d7158487f1fdc14f1906326663
 M
 src/gameloop/AssetSetter.java,4/9/495fa840e0056f554489c8ad1fccc8dd224fef04
+Å
+Q.idea/sonarlint/securityhotspotstore/3/d/3d87d1172af91c565b276b1a58d84a16100886d6,1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c
+Å
+Q.idea/sonarlint/securityhotspotstore/4/9/495fa840e0056f554489c8ad1fccc8dd224fef04,1/3/1348b7049eee8a02f7543a95bcc29c9293b86937
+w
+G.idea/sonarlint/issuestore/4/9/495fa840e0056f554489c8ad1fccc8dd224fef04,e/4/e408ba4e9f3d3ce155cccde05310a2f35df3b2e9
+Å
+Q.idea/sonarlint/securityhotspotstore/c/4/c4b91a463ece9d528b91cf09b94c52238d13954d,a/9/a923e053ff2c0953bbf3e5e396f5f24bfe6aa741
+Å
+Q.idea/sonarlint/securityhotspotstore/6/7/67d77b91f7c2b0d7158487f1fdc14f1906326663,9/7/97590f2321ea70edd24608e6bba958850a55a74d
+c
+3.idea/libraries/fasterxml_jackson_core_databind.xml,d/0/d070e9cb377b53a9ccd07a5fe7d7f78eeea743b7
+F
+src/entity/Hitbox.java,0/a/0a598a5a88f38614402551a9d1fe76860be8edea
+F
+src/camera/Camera.java,8/1/81a81d1d2b729c501007685b2bd0dbef70c01459
+H
+src/gameloop/Camera.java,b/e/be8420d75f91d5c11b24e7bd47f7c03605793464
+G
+src/utils/ObjUtils.java,9/9/9929f815de1870c3dfa8c2a448ab0ce84dba103c

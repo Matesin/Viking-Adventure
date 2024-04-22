@@ -5,15 +5,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import lombok.Getter;
 
+@Getter
 public class InputHandler implements EventHandler<KeyEvent> {
-    @Getter
     boolean upPressed;
-    @Getter
     boolean downPressed;
-    @Getter
     boolean leftPressed;
-    @Getter
     boolean rightPressed;
+    boolean paused = false;
 
     public InputHandler() {
         upPressed = downPressed = leftPressed = rightPressed = false;
@@ -35,6 +33,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     break;
                 case D, RIGHT:
                     rightPressed = true;
+                    break;
+                case ESCAPE:
+                    paused = !paused;
                     break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;
