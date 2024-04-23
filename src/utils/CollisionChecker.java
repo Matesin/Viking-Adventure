@@ -4,6 +4,8 @@ import entity.Character;
 import gameloop.GamePanel;
 import lombok.extern.slf4j.Slf4j;
 
+import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Tile.*;
 
 @Slf4j
 public class CollisionChecker {
@@ -19,17 +21,17 @@ public class CollisionChecker {
         int entityTopY =  entity.hitbox.getCoordY();
         int entityBottomY = entity.hitbox.getCoordY() + entity.hitbox.getHeight();
 
-        int entityLeftCol = entityLeftX / GamePanel.TILE_SIZE;
-        int entityRightCol = entityRightX / GamePanel.TILE_SIZE;
-        int entityTopRow = entityTopY / GamePanel.TILE_SIZE;
-        int entityBottomRow = entityBottomY / GamePanel.TILE_SIZE;
+        int entityLeftCol = entityLeftX / TILE_SIZE;
+        int entityRightCol = entityRightX / TILE_SIZE;
+        int entityTopRow = entityTopY / TILE_SIZE;
+        int entityBottomRow = entityBottomY / TILE_SIZE;
 
         int tileNum1;
         int tileNum2;
 
         switch (entity.getDirection()){
             case "up":
-                entityTopRow = (entityTopY - GamePanel.TILE_SIZE) / GamePanel.TILE_SIZE;
+                entityTopRow = (entityTopY - TILE_SIZE) / TILE_SIZE;
                 if (entityTopRow < 0){
                     entity.collision = true;
                     break;
@@ -44,7 +46,7 @@ public class CollisionChecker {
                 }
                 break;
             case "down":
-                entityBottomRow = (entityBottomY + entity.getSpeed()) / GamePanel.TILE_SIZE;
+                entityBottomRow = (entityBottomY + entity.getSpeed()) / TILE_SIZE;
                 log.debug("entityBottomRow: {}", entityBottomRow);
                 if (entityBottomRow >= gamePanel.getChosenMap().getMapHeight()){
                     entity.collision = true;
@@ -59,7 +61,7 @@ public class CollisionChecker {
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftX - GamePanel.TILE_SIZE) / GamePanel.TILE_SIZE;
+                entityLeftCol = (entityLeftX - TILE_SIZE) / TILE_SIZE;
                 log.debug("entityLeftCol: {}", entityLeftCol);
                 if (entityLeftCol < 0 ){
                     entity.collision = true;
@@ -74,7 +76,7 @@ public class CollisionChecker {
 
                 break;
             case "right":
-                entityRightCol = (entityRightX + entity.getSpeed()) / GamePanel.TILE_SIZE;
+                entityRightCol = (entityRightX + entity.getSpeed()) / TILE_SIZE;
                 log.debug("entityRightCol: {}", entityRightCol);
                 if (entityRightCol >= gamePanel.getChosenMap().getMapWidth() ){
                     entity.collision = true;
@@ -85,7 +87,7 @@ public class CollisionChecker {
                 if (gamePanel.getChosenMap().getTiles()[tileNum1].isCollision() || gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
                     entity.collision = true;
                     log.debug("Collision detected with tile type: {}", gamePanel.getChosenMap().getTiles()[tileNum1].getType());
-                    log.debug("Player position in map array: x: {}, y: {}", (entity.getWorldCoordX() / GamePanel.TILE_SIZE) - 1, (entity.getWorldCoordY()/GamePanel.TILE_SIZE) -1 );
+                    log.debug("Player position in map array: x: {}, y: {}", (entity.getWorldCoordX() / TILE_SIZE) - 1, (TILE_SIZE/entity.getWorldCoordY()) -1 );
                 }
 
                 break;

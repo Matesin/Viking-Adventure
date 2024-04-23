@@ -1,20 +1,20 @@
 
 ’
-java:S1104"OMake map a static final constant or non-public and provide accessors if needed.(”–á 8ƒ™€±ð1J$43fcbf68-2d2e-4e1b-9ba4-e9ee8bc3c4f0
+java:S1104"OMake map a static final constant or non-public and provide accessors if needed.(”–á 8ƒ™€±ð1J$5e019159-8df7-4c29-a907-5c4621380fae
 É
-java:S1186Y"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ˆŠ‡Ìÿÿÿÿÿ8åœ€±ð1J$420d8b9e-0ea0-4738-9d61-01e9991c00ce
-~	java:S125Q"<This block of commented-out lines of code should be removed.(²Äì²8õœ€±ð1J$c4ce819a-ecfe-4b1b-a1f3-bf77f9fb30ce
-c
-java:S1128"FRemove this unused import 'com.sun.media.jfxmedia.events.PlayerEvent'.(ˆ„ž§8ëÛ¢ºð1
-L
-java:S1128"*Remove this unused import 'entity.Player'.(Ç÷äûÿÿÿÿ8ëÛ¢ºð1
-C
-java:S1128"&Remove this unused import 'item.Item'.(Üó¸Ì8ëÛ¢ºð1
-F
-java:S1128")Remove this unused import 'java.io.File'.(†Ð¥Å8ëÛ¢ºð1
-M
-java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ëÛ¢ºð1
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ëÛ¢ºð1
-P
-java:S1128".Remove this unused import 'java.util.Scanner'.(ÒÜÅ¸úÿÿÿÿ8ëÛ¢ºð1
+java:S1186\"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ˆŠ‡Ìÿÿÿÿÿ8åœ€±ð1J$0f7f5a67-68cb-4897-81a3-2f8cdc03f3a1
+~	java:S125T"<This block of commented-out lines of code should be removed.(²Äì²8õœ€±ð1J$55b4c1fd-1307-426a-b37c-0b1be62e8e06
+‰
+java:S1128"FRemove this unused import 'com.sun.media.jfxmedia.events.PlayerEvent'.(ˆ„ž§8µ¡¿×ð1J$43201f35-8c43-4715-a282-d60f2586b7f4
+r
+java:S1128"*Remove this unused import 'entity.Player'.(Ç÷äûÿÿÿÿ8µ¡¿×ð1J$969ab0f8-4f39-4c91-ab52-e9ac93f74759
+i
+java:S1128"&Remove this unused import 'item.Item'.(Üó¸Ì8µ¡¿×ð1J$4ccc6289-c97a-477e-a97d-b22c30aa7b58
+l
+java:S1128")Remove this unused import 'java.io.File'.(†Ð¥Å8µ¡¿×ð1J$55ae7fba-a78a-4857-8df4-daec08553426
+s
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8µ¡¿×ð1J$3abfc178-9ec8-4b48-9d86-9952964442c9
+s
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8µ¡¿×ð1J$1e98030b-f6f1-4ee7-88ae-9a04e3e77f3b
+v
+java:S1128".Remove this unused import 'java.util.Scanner'.(ÒÜÅ¸úÿÿÿÿ8µ¡¿×ð1J$c621c831-8856-46b9-b085-17ae9cb05b14

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Tile.*;
+
 public class MapManager {
     private static final Logger log = LoggerFactory.getLogger(MapManager.class);
     /*
@@ -41,14 +44,14 @@ public class MapManager {
         int screenY;
         while (worldRow < mapHeight && worldCol < mapWidth){
             int tileID = map.getMap()[worldCol][worldRow];
-            worldX = worldCol * GamePanel.TILE_SIZE;
-            worldY = worldRow * GamePanel.TILE_SIZE;
-            screenX = worldX - gamePanel.player.getWorldCoordX() + GamePanel.SCREEN_MIDDLE_X;
-            screenY = worldY - gamePanel.player.getWorldCoordY() + GamePanel.SCREEN_MIDDLE_Y;
-            if (screenX >= - GamePanel.TILE_SIZE &&
-                screenX <= GamePanel.SCREEN_WIDTH &&
-                screenY >= - GamePanel.TILE_SIZE &&
-                screenY <= GamePanel.SCREEN_HEIGHT) {
+            worldX = worldCol * TILE_SIZE;
+            worldY = worldRow * TILE_SIZE;
+            screenX = worldX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
+            screenY = worldY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
+            if (screenX >= - TILE_SIZE &&
+                screenX <= SCREEN_WIDTH &&
+                screenY >= - TILE_SIZE &&
+                screenY <= SCREEN_HEIGHT) {
                 gc.drawImage(map.getTiles()[tileID].getImage(), screenX, screenY);
             }
             worldCol++;

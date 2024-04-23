@@ -3,6 +3,7 @@ package gameloop;
 import controller.InputHandler;
 import entity.Player;
 import item.Item;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,17 +19,13 @@ import map.GameMap;
 import map.MapManager;
 import utils.CollisionChecker;
 
+import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Tile.*;
+import static gameloop.GamePanel.*;
+
 @Slf4j
 public class GamePanel extends Pane {
-    static final int INITIAL_TILE_SIZE = 32;
-    public static final int SCALE = 2;
-    public static final int TILE_SIZE = INITIAL_TILE_SIZE * SCALE;
-    public static final int SCREEN_COLS = 16;
-    public static final int SCREEN_ROWS = 12;
-    public static final int SCREEN_WIDTH = TILE_SIZE * SCREEN_COLS;
-    public static final int SCREEN_HEIGHT = TILE_SIZE * SCREEN_ROWS;
-    public static final int SCREEN_MIDDLE_X = SCREEN_WIDTH / 2;
-    public static final int SCREEN_MIDDLE_Y = SCREEN_HEIGHT / 2;
+
     public Player player;
 
     @Getter
@@ -40,11 +37,15 @@ public class GamePanel extends Pane {
     @Getter
     private int maxWorldCols;
     // PANE INIT
+    @FXML
     Canvas canvas;
+    @FXML
     GraphicsContext gc;
+    @Getter
     InputHandler inputHandler;
     Scene scene;
     GameLoop gameLoop;
+    @Getter
     StackPane root;
     MapManager mapManager;
 

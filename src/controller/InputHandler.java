@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class InputHandler implements EventHandler<KeyEvent> {
@@ -11,6 +12,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
     boolean downPressed;
     boolean leftPressed;
     boolean rightPressed;
+    @Setter
     boolean paused = false;
 
     public InputHandler() {

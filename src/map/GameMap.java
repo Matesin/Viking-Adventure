@@ -6,10 +6,16 @@ import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Marker;
 import utils.TileUtils;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+
+import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Tile.*;
+
 @Slf4j
 public class GameMap implements Serializable {
     /*
@@ -37,8 +43,8 @@ public class GameMap implements Serializable {
     public GameMap(){
         this.utils = new TileUtils(this);
         tiles = new Tile[NUM_TILE_TYPES];
-        startX = GamePanel.SCREEN_MIDDLE_X;
-        startY = GamePanel.SCREEN_MIDDLE_Y;
+        startX = SCREEN_MIDDLE_X;
+        startY = SCREEN_MIDDLE_Y;
         getTileImages();
     }
     public void getTileImages(){
@@ -103,10 +109,10 @@ public class GameMap implements Serializable {
                 case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
                 case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
                 case "start:" -> {
-                    startX = Integer.parseInt(values[1]) * GamePanel.TILE_SIZE;
-                    startY = Integer.parseInt(values[2]) * GamePanel.TILE_SIZE;
+                    startX = Integer.parseInt(values[1]) * TILE_SIZE;
+                    startY = Integer.parseInt(values[2]) * TILE_SIZE;
                 }
-                default -> log.info("Map {} has invalid data: {}", filepath, line);
+                default -> log.info((Marker) Level.SEVERE, "Map {} has invalid data: {}", filepath, line);
             }
         }
     }

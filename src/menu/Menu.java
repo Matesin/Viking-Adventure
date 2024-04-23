@@ -22,33 +22,34 @@ import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.List;
 
+import static gameloop.Constants.Screen.*;
+
 public class Menu extends Application {
 /*
 * TODO: ADD TRANSITIONS between menu and nodes
 */
-    private List<Pair<String, Runnable>> menuButtons = Arrays.asList(
+    private final List<Pair<String, Runnable>> menuButtons = Arrays.asList(
             new Pair<>("Start", () -> {
                 // Create a new GamePanel
-                StackPane root = new StackPane();
-                Scene scene = new Scene(root, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
-
-                GamePanel gamePanel = new GamePanel(scene, root);
+                StackPane game = new StackPane();
+                Scene scene = new Scene(game, SCREEN_WIDTH, SCREEN_HEIGHT);
+                new GamePanel(scene, game);
                 // Set the scene of the current stage to the GamePanel
                 Stage stage = (Stage) this.root.getScene().getWindow();
                 stage.setScene(scene);
             }),
             new Pair<>("Settings", () -> {
-                StackPane root = new StackPane();
-                Scene scene = new Scene(root, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
+                StackPane settings = new StackPane();
+                Scene scene = new Scene(settings, SCREEN_WIDTH, SCREEN_HEIGHT);
                 Stage stage = (Stage) this.root.getScene().getWindow();
-                SettingsGUI settingsGUI = new SettingsGUI();
+                new SettingsGUI();
                 //***TEMPORARY
                 Text text = new Text("Under Construction");
-                text.setX(GamePanel.SCREEN_MIDDLE_X);
-                text.setY(GamePanel.SCREEN_MIDDLE_Y);
+                text.setX(SCREEN_MIDDLE_X);
+                text.setY(SCREEN_MIDDLE_Y);
                 text.setFill(Color.BLACK);
                 text.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-                root.getChildren().add(text);
+                this.root.getChildren().add(text);
                 //TEMPORARY***
 //                root.getChildren().add(settingsGUI);
                 stage.setScene(scene);
@@ -57,20 +58,20 @@ public class Menu extends Application {
                 System.exit(0);
             }),
             new Pair<>("Jebuto", () -> {
-                StackPane root = new StackPane();
-                Scene scene = new Scene(root, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
+                StackPane jebutoRoot = new StackPane();
+                Scene scene = new Scene(jebutoRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
                 Stage stage = (Stage) this.root.getScene().getWindow();
-                root.setStyle("-fx-background-color: white;");
+                jebutoRoot.setStyle("-fx-background-color: white;");
                 Text text = new Text("Jebuto");
-                text.setX(GamePanel.SCREEN_MIDDLE_X);
-                text.setY(GamePanel.SCREEN_MIDDLE_Y);
+                text.setX(SCREEN_MIDDLE_X);
+                text.setY(SCREEN_MIDDLE_Y);
                 text.setFill(Color.BLACK);
                 text.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-                root.getChildren().add(text);
+                jebutoRoot.getChildren().add(text);
                 stage.setScene(scene);
             })
     );
-    private Pane root = new Pane();
+    private final Pane root = new Pane();
     private final VBox menuBox = new VBox(2);
 
     private Parent createContent(){
@@ -87,8 +88,8 @@ public class Menu extends Application {
     private void addTitle(){
         final int titleNameFontSize = 70;
         GameTitle title = new GameTitle("Viking Adventure", titleNameFontSize);
-        title.setLayoutX((double) GamePanel.SCREEN_MIDDLE_X / 3); // test value, change to dynamic
-        title.setTranslateY((double) GamePanel.SCREEN_HEIGHT / 5);
+        title.setLayoutX((double) SCREEN_MIDDLE_X / 3); // test value, change to dynamic
+        title.setTranslateY((double) SCREEN_HEIGHT / 5);
 
         this.root.getChildren().add(title);
     }
@@ -125,7 +126,7 @@ public class Menu extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        Scene scene = new Scene(createContent(), GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
+        Scene scene = new Scene(createContent(), SCREEN_WIDTH, SCREEN_HEIGHT);
         stage.setTitle("Viking Adventure");
         stage.setScene(scene);
         stage.show();

@@ -1,9 +1,9 @@
 
 •
-java:S1104"YMake reactionRange a static final constant or non-public and provide accessors if needed.(Ó¹ÞÛJ$c9b43cb3-3cdb-4b6b-b794-1636caf3ad66
+java:S1104"YMake reactionRange a static final constant or non-public and provide accessors if needed.(Ó¹ÞÛJ$2e540062-d696-4784-ae9a-5f863b76f0a2
 ˜
-java:S1104"WMake attackRange a static final constant or non-public and provide accessors if needed.(›áÏÅúÿÿÿÿJ$9928148a-4268-4765-9c31-3a9d1f363ddc
+java:S1104"WMake attackRange a static final constant or non-public and provide accessors if needed.(›áÏÅúÿÿÿÿJ$e9ad3dc5-5300-4731-b1f5-511c3800e009
 k
-java:S1068"/Remove this unused "isTriggered" private field.(¢›êéJ$4132d288-563a-49b0-8acd-dd29c99e95a8
+java:S1068"/Remove this unused "isTriggered" private field.(¢›êéJ$593f4ecf-049f-4eff-823d-57d7317b9c97
 t
-java:S1068"3Remove this unused "isInAttackRange" private field.(Ûã’ÉýÿÿÿÿJ$79daf2a0-8ce5-4afd-b692-d85fea42ce8e
+java:S1068"3Remove this unused "isInAttackRange" private field.(Ûã’ÉýÿÿÿÿJ$91a049b4-789d-43e6-845d-accec65bc6a9

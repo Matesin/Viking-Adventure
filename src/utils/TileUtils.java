@@ -9,7 +9,7 @@ import map.Tile;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import static gameloop.GamePanel.TILE_SIZE;
+import static gameloop.Constants.Tile.*;
 
 @Slf4j
 public class TileUtils {

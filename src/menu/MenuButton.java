@@ -13,25 +13,25 @@ import javafx.scene.text.Text;
 
 
 public class MenuButton extends Pane {
-    private Text text;
-    private Effect shadow = new DropShadow(5, Color.BLACK);
-    private Effect glow = new BoxBlur(1, 1, 3);
-    private int textSize = 20;
-    private int buttonWidth = 200;
-    private int buttonHeight = 60;
+
     public MenuButton(String name){
+        int buttonWidth = 200;
+        int buttonHeight = 60;
         Polygon button = new Polygon(
                 0, 0,
                 buttonWidth, 0,
-                buttonWidth,  buttonHeight,
+                buttonWidth, buttonHeight,
                 0, buttonHeight
         );
-        text = new Text(name);
+        Text text = new Text(name);
+        int textSize = 20;
         text.setFont(Font.font("Verdana", FontWeight.BOLD, textSize));
         text.setTranslateX(10);
         text.setTranslateY((double) buttonHeight / 2 + (double) textSize / 4);
         text.setFill(Color.BLACK);
         text.setStroke(Color.WHITE);
+        Effect glow = new BoxBlur(1, 1, 3);
+        Effect shadow = new DropShadow(5, Color.BLACK);
         text.effectProperty().bind(
                 Bindings.when(hoverProperty())
                         .then(shadow)

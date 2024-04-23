@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static javafx.scene.paint.Color.RED;
+import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Tile.*;
 
 @Slf4j
 public class Player extends Character {
@@ -28,17 +30,17 @@ public class Player extends Character {
     public Player(GamePanel gamePanel, InputHandler input) {
         this.gamePanel = gamePanel;
         this.input = input;
-        this.height = GamePanel.TILE_SIZE;
-        this.width = GamePanel.TILE_SIZE;
-        this.hitbox = new Hitbox(this, GamePanel.TILE_SIZE / 3, GamePanel.TILE_SIZE / 2, (this.width - GamePanel.TILE_SIZE / 2) / 2, this.height /2);
+        this.height = TILE_SIZE;
+        this.width = TILE_SIZE;
+        this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /2);
         getPlayerImage();
     }
 
     public void setDefaultValues(int beginX, int beginY){
         this.worldCoordX = beginX;
         this.worldCoordY = beginY;
-        this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
-        this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
+        this.screenCoordX = SCREEN_MIDDLE_X;
+        this.screenCoordY = SCREEN_MIDDLE_Y;
         currentSprite = down1;
         this.speed = 5; // Adjust this value as needed
         direction = "down";
@@ -111,7 +113,7 @@ public class Player extends Character {
         }
         String filepath = "res/player/player" + direction + spriteNum + ".png";
         FileInputStream fis = new FileInputStream(filepath);
-        return new Image(fis, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, false, false);
+        return new Image(fis, TILE_SIZE, TILE_SIZE, false, false);
     }
 
     private long lastUpdate = 0;
@@ -136,7 +138,7 @@ public class Player extends Character {
         assert currentSprite != null;
 
         //preventing different sprite dimensions by scaling the sprite to the size of the tile
-        gc.drawImage(currentSprite, GamePanel.SCREEN_MIDDLE_X, GamePanel.SCREEN_MIDDLE_Y);
+        gc.drawImage(currentSprite, SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
 
     }
 }
