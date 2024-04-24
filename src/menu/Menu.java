@@ -24,6 +24,7 @@ import java.util.List;
 
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Button.*;
+import static gameloop.Constants.MenuLayout.*;
 
 public class Menu extends Application {
 /*
@@ -34,16 +35,18 @@ public class Menu extends Application {
                 // Create a new GamePanel
                 StackPane game = new StackPane();
                 Scene scene = new Scene(game, SCREEN_WIDTH, SCREEN_HEIGHT);
-                new GamePanel(scene, game);
                 // Set the scene of the current stage to the GamePanel
                 Stage stage = (Stage) this.root.getScene().getWindow();
+                new GamePanel(scene, game);
                 stage.setScene(scene);
             }),
             new Pair<>("Settings", () -> {
                 StackPane settings = new StackPane();
                 Scene scene = new Scene(settings, SCREEN_WIDTH, SCREEN_HEIGHT);
                 Stage stage = (Stage) this.root.getScene().getWindow();
-                new GameSettings();
+                new GameSettings(stage);
+                stage.setScene(scene);
+
                 //***TEMPORARY
                 Text text = new Text("Under Construction");
                 text.setX(SCREEN_MIDDLE_X);
@@ -53,7 +56,6 @@ public class Menu extends Application {
                 this.root.getChildren().add(text);
                 //TEMPORARY***
 //                root.getChildren().add(settingsGUI);
-                stage.setScene(scene);
             }),
             new Pair<>("Exit", () -> {
                 System.exit(0);
@@ -90,8 +92,8 @@ public class Menu extends Application {
         final int titleNameFontSize = 70;
         GameTitle title = new GameTitle("Viking Adventure", titleNameFontSize);
         title.display();
-        title.setLayoutX((double) SCREEN_MIDDLE_X / 3); // test value, change to dynamic
-        title.setTranslateY((double) SCREEN_HEIGHT / 5);
+        title.setLayoutX(MENU_TITLE_X); // test value, change to dynamic
+        title.setTranslateY(MENU_TITLE_Y);
 
         this.root.getChildren().add(title);
     }

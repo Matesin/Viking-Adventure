@@ -50,8 +50,8 @@ public class GameMap implements Serializable {
     public void getTileImages(){
         // Load the tile images
         utils.initTile("path", 0);
-        utils.initTile("grass", 1, true, true);
-        utils.initTile("water", 2);
+        utils.initTile("grass", 1);
+        utils.initTile("water", 2, true, true);
     }
 
 

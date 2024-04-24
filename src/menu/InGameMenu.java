@@ -6,19 +6,17 @@ import gameloop.GamePanel;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static gameloop.Constants.MenuLayout.*;
+import static gameloop.Constants.Button.*;
 
 @Slf4j
 public class InGameMenu {
@@ -28,6 +26,7 @@ public class InGameMenu {
     private final GamePanel gamePanel;
     private Scene previousScene;
     private List<Pair<String, Runnable>> menuButtons;
+
     public InGameMenu(Stage mainStage, GamePanel gamePanel) {
         this.mainStage = mainStage;
         this.gamePanel = gamePanel;
@@ -62,9 +61,9 @@ public class InGameMenu {
         menuButtons.forEach(data -> {
             MenuButton item = new MenuButton(data.getKey());
             item.setOnAction(data.getValue());
-            item.setTranslateX(SCREEN_MIDDLE_X - 100);
-            item.setTranslateY(SCREEN_MIDDLE_Y - 100 + menuButtons.indexOf(data) * 60);
-            Rectangle clip = new Rectangle(300, 60);
+            item.setTranslateX(MENU_BUTTONS_X);
+            item.setTranslateY(MENU_BUTTONS_Y + menuButtons.indexOf(data) * MENU_BUTTONS_SPACING);
+            Rectangle clip = new Rectangle(BUTTON_WIDTH, BUTTON_HEIGHT);
             item.setClip(clip);
             menuBox.getChildren().addAll(item);
         });

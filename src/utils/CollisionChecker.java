@@ -31,7 +31,7 @@ public class CollisionChecker {
 
         switch (entity.getDirection()){
             case "up":
-                entityTopRow = (entityTopY - TILE_SIZE) / TILE_SIZE;
+                entityTopRow = (entityTopY - entity.getSpeed()) / TILE_SIZE;
                 if (entityTopRow < 0){
                     entity.collision = true;
                     break;
@@ -61,7 +61,7 @@ public class CollisionChecker {
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftX - TILE_SIZE) / TILE_SIZE;
+                entityLeftCol = (entityLeftX - entity.getSpeed()) / TILE_SIZE;
                 log.debug("entityLeftCol: {}", entityLeftCol);
                 if (entityLeftCol < 0 ){
                     entity.collision = true;

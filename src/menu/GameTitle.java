@@ -12,6 +12,7 @@ public class GameTitle extends Pane {
         /*
          * This class is responsible for creating the title of the game and storing its values.
          * */
+        title.setText(name);
         title.setFont(Font.font("Verdana", FontWeight.BOLD, fontSize));
         title.setFill(Color.BLACK);
         title.setStroke(Color.WHITE);
