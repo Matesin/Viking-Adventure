@@ -1,0 +1,297 @@
+Index: src/map/GameMap.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package map;\n\nimport javafx.scene.canvas.GraphicsContext;\nimport javafx.scene.image.Image;\nimport lombok.Getter;\nimport lombok.Setter;\n\nimport java.io.*;\nimport java.util.Scanner;\n\npublic class GameMap implements Serializable {\n    /*\n    * The GameMap class is responsible for storing the map data and rendering the map to the screen.\n    * NUM_TILE_TYPES - array of all tile types available\n    * tiles - array of all tiles in the map\n    * game - the game panel\n     */\n    private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*\n    Tile[] tiles;\n    @Getter\n    private int mapWidth;\n    @Getter\n    private int mapHeight;\n    @Setter\n    @Getter\n    private int[][] map;\n\n\n    public GameMap(){\n        tiles = new Tile[NUM_TILE_TYPES];\n        getTileImages();\n    }\n    public void getTileImages(){\n        // Load the tile images\n        try {\n            tiles[0] = new Tile(); // water\n            tiles[0].image = new Image(new FileInputStream(\"/map_tiles/water.png\"));\n            tiles[1] = new Tile(); // path\n            tiles[1].image = new Image(new FileInputStream(\"/map_tiles/path.png\"));\n            tiles[2] = new Tile(); // grass\n            tiles[2].image = new Image(new FileInputStream(\"/map_tiles/grass.png\"));\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n    public void loadMapFromFile(String filepath) throws FileNotFoundException {\n        // Load the map from a file\n        try (Scanner scanner = new Scanner(new File(filepath))) {\n            // MAP FORMAT - hashed lines contain comment, then map width and height\n            scanner.useDelimiter(\"#.*\\n\");\n            String line = null;\n            String[] values;\n            while (!(line = scanner.nextLine()).isEmpty()){\n                values = line.split(\" \");\n                if (values[0].equals(\"width\")) {\n                    this.mapWidth = Integer.parseInt(values[1]);\n                } else if (values[0].equals(\"height\")) {\n                    this.mapHeight = Integer.parseInt(values[1]);\n                } else {\n                    System.out.printf(\"Map %s has invalid data: %s%n\", filepath, line);\n                }\n            }\n            this.mapWidth = scanner.nextInt();\n            this.mapHeight = scanner.nextInt();\n            int row = 0;\n            int col = 0;\n            this.map = new int[this.mapHeight][this.mapWidth];\n            // Read the map data\n            while (row < this.mapHeight && scanner.hasNextLine()) {\n                line = scanner.nextLine();\n                while(col < this.mapWidth) {\n                    String[] numbers = line.split(\" \");\n                    int num = Integer.parseInt(numbers[col]);\n                    this.map[row][col] = num;\n                    col++;\n                }\n                if (col != this.mapWidth){\n                    System.out.printf(\"Map %s missing data on row %d expected %d got %d%n\",\n                            filepath,\n                            row,\n                            this.mapWidth,\n                            col);\n                    // Fill in the rest of the row with 0's\n                    for (int i = col; i < this.mapWidth; i++){\n                        this.map[row][i] = 0;\n                    }\n                }\n                col = 0;\n                row++;\n            }\n        }\n    }\n\n    public void draw(GraphicsContext g2) {\n        // Draw the map to the screen\n        for (int i = 0; i < mapHeight; i++) {\n            for (int j = 0; j < mapWidth; j++) {\n                int tileType = map[i][j];\n                g2.drawImage(tiles[tileType].image, j * 32, i * 32);\n            }\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/map/GameMap.java b/src/map/GameMap.java
+--- a/src/map/GameMap.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/map/GameMap.java	(date 1713508246912)
+@@ -1,13 +1,15 @@
+ package map;
+ 
++import gameloop.GamePanel;
+ import javafx.scene.canvas.GraphicsContext;
+ import javafx.scene.image.Image;
+ import lombok.Getter;
+ import lombok.Setter;
++import lombok.extern.slf4j.Slf4j;
+ 
+ import java.io.*;
+ import java.util.Scanner;
+-
++@Slf4j
+ public class GameMap implements Serializable {
+     /*
+     * The GameMap class is responsible for storing the map data and rendering the map to the screen.
+@@ -24,80 +26,82 @@
+     @Setter
+     @Getter
+     private int[][] map;
++    private int startX;
++    private int startY;
+ 
+ 
+     public GameMap(){
+         tiles = new Tile[NUM_TILE_TYPES];
++        startX = GamePanel.SCREEN_MIDDLE_X;
++        startY = GamePanel.SCREEN_MIDDLE_Y;
+         getTileImages();
+     }
+     public void getTileImages(){
+         // Load the tile images
++       initTile("grass", 0);
++       initTile("water", 1);
++       initTile("path", 2);
++    }
++
++    private void initTile(String tileType, int tileID){
++        // Load the tile image
+         try {
+-            tiles[0] = new Tile(); // water
+-            tiles[0].image = new Image(new FileInputStream("/map_tiles/water.png"));
+-            tiles[1] = new Tile(); // path
+-            tiles[1].image = new Image(new FileInputStream("/map_tiles/path.png"));
+-            tiles[2] = new Tile(); // grass
+-            tiles[2].image = new Image(new FileInputStream("/map_tiles/grass.png"));
++            tiles[tileID] = new Tile();
++            String filepath = "/map_tiles/" + tileType + ".png";
++            tiles[tileID].image = new Image(new FileInputStream(filepath));
+         } catch (IOException e) {
+-            e.printStackTrace();
++            log.error("Error loading tile image: {}", e.getMessage());
+         }
+     }
+     public void loadMapFromFile(String filepath) throws FileNotFoundException {
+         // Load the map from a file
+         try (Scanner scanner = new Scanner(new File(filepath))) {
+             // MAP FORMAT - hashed lines contain comment, then map width and height
+-            scanner.useDelimiter("#.*\n");
+             String line = null;
+             String[] values;
+             while (!(line = scanner.nextLine()).isEmpty()){
+                 values = line.split(" ");
+-                if (values[0].equals("width")) {
+-                    this.mapWidth = Integer.parseInt(values[1]);
+-                } else if (values[0].equals("height")) {
+-                    this.mapHeight = Integer.parseInt(values[1]);
+-                } else {
+-                    System.out.printf("Map %s has invalid data: %s%n", filepath, line);
++                switch (values[0]) {
++                    case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
++                    case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
++                    case "start:" -> {
++                        startX = Integer.parseInt(values[1]);
++                        startY = Integer.parseInt(values[2]);
++                    }
++                    default -> log.info("Map {} has invalid data: {}", filepath, line);
+                 }
+             }
+             this.mapWidth = scanner.nextInt();
+             this.mapHeight = scanner.nextInt();
+-            int row = 0;
+-            int col = 0;
+             this.map = new int[this.mapHeight][this.mapWidth];
+             // Read the map data
+-            while (row < this.mapHeight && scanner.hasNextLine()) {
+-                line = scanner.nextLine();
+-                while(col < this.mapWidth) {
+-                    String[] numbers = line.split(" ");
+-                    int num = Integer.parseInt(numbers[col]);
+-                    this.map[row][col] = num;
+-                    col++;
+-                }
+-                if (col != this.mapWidth){
+-                    System.out.printf("Map %s missing data on row %d expected %d got %d%n",
+-                            filepath,
+-                            row,
+-                            this.mapWidth,
+-                            col);
+-                    // Fill in the rest of the row with 0's
+-                    for (int i = col; i < this.mapWidth; i++){
+-                        this.map[row][i] = 0;
+-                    }
+-                }
+-                col = 0;
+-                row++;
+-            }
++            readMapData(scanner, filepath);
++        }
++    }
++    private void readMapData(Scanner scanner, String filepath) {
++        int row = 0;
++        int col = 0;
++        while (row < this.mapHeight && scanner.hasNextLine()) {
++            String line = scanner.nextLine();
++            while(col < this.mapWidth) {
++                String[] numbers = line.split(" ");
++                int num = Integer.parseInt(numbers[col]);
++                this.map[row][col] = num;
++                col++;
++            }
++            if (col != this.mapWidth){
++                log.error("Map {} missing data on row {} expected {} got {}",
++                        filepath,
++                        row,
++                        this.mapWidth,
++                        col);
++                // Fill in the rest of the row with 0's
++                for (int i = col; i < this.mapWidth; i++){
++                    this.map[row][i] = 0;
++                }
++            }
++            col = 0;
++            row++;
+         }
+     }
+-
+-    public void draw(GraphicsContext g2) {
+-        // Draw the map to the screen
+-        for (int i = 0; i < mapHeight; i++) {
+-            for (int j = 0; j < mapWidth; j++) {
+-                int tileType = map[i][j];
+-                g2.drawImage(tiles[tileType].image, j * 32, i * 32);
+-            }
+-        }
+-    }
+ }
+Index: src/map/MapManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package map;\n\nimport com.sun.media.jfxmedia.events.PlayerEvent;\nimport entity.Player;\nimport gameloop.GamePanel;\nimport javafx.scene.canvas.GraphicsContext;\nimport lombok.Getter;\n\nimport java.io.FileNotFoundException;\n\npublic class MapManager {\n    /*\n    * The map manager class is responsible for managing the game map.\n    * */\n    public GameMap map;\n    @Getter\n    private int mapWidth;\n    @Getter\n    private int mapHeight;\n    GamePanel gamePanel;\n    public MapManager(GamePanel gamePanel) {\n        this.gamePanel = gamePanel;\n    }\n    public void generateMap() {\n        // Generate the map - feature to be implemented later\n    }\n    public void renderMap(GraphicsContext gc) {\n        // Render current map based off player position\n        int playerX = gamePanel.player.worldCoordX;\n        int playerY = gamePanel.player.worldCoordY;\n        int screenX = gamePanel.player.screenCoordX;\n        int screenY = gamePanel.player.screenCoordY;\n        int offsetX = screenX - playerX;\n        int offsetY = screenY - playerY;\n        int startCol = Math.max(playerX / GamePanel.TILE_SIZE, 0);\n        int startRow = Math.max(playerY / GamePanel.TILE_SIZE, 0);\n        int endCol = Math.min(startCol + GamePanel.SCREEN_COLS, mapWidth);\n        int endRow = Math.min(startRow + GamePanel.SCREEN_ROWS, mapHeight);\n        for (int row = startRow; row < endRow; row++) {\n            for (int col = startCol; col < endCol; col++) {\n                int tile = this.map.getMap()[row][col];\n                gc.drawImage(map.tiles[tile].image, (col - startCol) * GamePanel.TILE_SIZE + offsetX, (row - startRow) * GamePanel.TILE_SIZE + offsetY);\n            }\n        }\n    }\n    public void updateMap() {\n        // Update the map\n    }\n    public void loadMap(int mapIndex) {\n        // Load the map\n        this.map = new GameMap();\n        try {\n            this.map.loadMapFromFile(\"res/maps/map\" + mapIndex + \".txt\");\n            this.mapWidth = this.map.getMapWidth();\n            this.mapHeight = this.map.getMapHeight();\n        } catch (FileNotFoundException e) {\n            e.printStackTrace();\n        }\n    }\n    public void saveMap() {\n        // Save the map - feature to be implemented later\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/map/MapManager.java b/src/map/MapManager.java
+--- a/src/map/MapManager.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/map/MapManager.java	(date 1713508246932)
+@@ -25,21 +25,13 @@
+         // Generate the map - feature to be implemented later
+     }
+     public void renderMap(GraphicsContext gc) {
+-        // Render current map based off player position
+-        int playerX = gamePanel.player.worldCoordX;
+-        int playerY = gamePanel.player.worldCoordY;
+-        int screenX = gamePanel.player.screenCoordX;
+-        int screenY = gamePanel.player.screenCoordY;
+-        int offsetX = screenX - playerX;
+-        int offsetY = screenY - playerY;
+-        int startCol = Math.max(playerX / GamePanel.TILE_SIZE, 0);
+-        int startRow = Math.max(playerY / GamePanel.TILE_SIZE, 0);
+-        int endCol = Math.min(startCol + GamePanel.SCREEN_COLS, mapWidth);
+-        int endRow = Math.min(startRow + GamePanel.SCREEN_ROWS, mapHeight);
+-        for (int row = startRow; row < endRow; row++) {
+-            for (int col = startCol; col < endCol; col++) {
+-                int tile = this.map.getMap()[row][col];
+-                gc.drawImage(map.tiles[tile].image, (col - startCol) * GamePanel.TILE_SIZE + offsetX, (row - startRow) * GamePanel.TILE_SIZE + offsetY);
++        for(int worldRow = 0; worldRow < map.getMapHeight(); worldRow++) {
++            for (int worldCol = 0; worldCol < map.getMapWidth(); worldCol++) {
++                int tileType = map.getMap()[worldRow][worldCol];
++                int worldX = worldCol * GamePanel.TILE_SIZE;
++                int worldY = worldRow * GamePanel.TILE_SIZE;
++                // Draw the tile
++                gc.drawImage(map.tiles[tileType].image, worldX, worldY);
+             }
+         }
+     }
+@@ -50,7 +42,8 @@
+         // Load the map
+         this.map = new GameMap();
+         try {
+-            this.map.loadMapFromFile("res/maps/map" + mapIndex + ".txt");
++            String mapIndexString = mapIndex < 10 ? "0" + mapIndex : "" + mapIndex;
++            this.map.loadMapFromFile("res/maps/map" + mapIndexString + ".txt");
+             this.mapWidth = this.map.getMapWidth();
+             this.mapHeight = this.map.getMapHeight();
+         } catch (FileNotFoundException e) {
+Index: src/map/Tile.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package map;\n\nimport javafx.scene.image.Image;\n\nimport java.io.Serializable;\n\npublic class Tile implements Serializable {\n    boolean isSolid;\n    boolean collision = false;\n    public Image image;\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/map/Tile.java b/src/map/Tile.java
+--- a/src/map/Tile.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/map/Tile.java	(date 1713508246928)
+@@ -1,12 +1,12 @@
+ package map;
+ 
+ import javafx.scene.image.Image;
++import lombok.Getter;
+ 
+-import java.io.Serializable;
+ 
+-public class Tile implements Serializable {
++public class Tile {
+     boolean isSolid;
+     boolean collision = false;
+-    public Image image;
++    Image image;
+ 
+ }
+Index: src/controller/InputHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller;\n\nimport javafx.event.EventHandler;\nimport javafx.scene.input.KeyCode;\nimport javafx.scene.input.KeyEvent;\n\npublic class InputHandler implements EventHandler<KeyEvent> {\n    public boolean upPressed;\n    public boolean downPressed;\n    public boolean leftPressed;\n    public boolean rightPressed;\n\n    public InputHandler() {\n        upPressed = downPressed = leftPressed = rightPressed = false;\n    }\n\n    @Override\n    public void handle(KeyEvent keyEvent) {\n        KeyCode keyCode = keyEvent.getCode();\n        if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {\n            switch (keyCode){\n                case W:\n                case UP:\n                    System.out.println(\"Up pressed\");\n                    upPressed = true;\n                    break;\n                case S:\n                case DOWN:\n                    System.out.println(\"Down pressed\");\n                    downPressed = true;\n                    break;\n                case A:\n                case LEFT:\n                    System.out.println(\"Left pressed\");\n                    leftPressed = true;\n                    break;\n                case D:\n                case RIGHT:\n                    System.out.println(\"Right pressed\");\n                    rightPressed = true;\n                    break;\n                default:\n                    rightPressed = leftPressed = downPressed = upPressed = false;\n                    break;\n            }\n        } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {\n            switch (keyCode){\n                case W:\n                case UP:\n                    System.out.println(\"Up released\");\n                    upPressed = false;\n                    break;\n                case S:\n                case DOWN:\n                    System.out.println(\"Down released\");\n                    downPressed = false;\n                    break;\n                case A:\n                case LEFT:\n                    System.out.println(\"Left released\");\n                    leftPressed = false;\n                    break;\n                case D:\n                case RIGHT:\n                    System.out.println(\"Right released\");\n                    rightPressed = false;\n                    break;\n                default:\n                    rightPressed = leftPressed = downPressed = upPressed = false;\n                    break;\n            }\n        }\n        System.out.println(\"input status: \" + upPressed + downPressed + leftPressed + rightPressed);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/controller/InputHandler.java b/src/controller/InputHandler.java
+--- a/src/controller/InputHandler.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/controller/InputHandler.java	(date 1713507240836)
+@@ -19,8 +19,7 @@
+         KeyCode keyCode = keyEvent.getCode();
+         if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+             switch (keyCode){
+-                case W:
+-                case UP:
++                case W, UP:
+                     System.out.println("Up pressed");
+                     upPressed = true;
+                     break;
+Index: res/maps/map01.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/res/maps/map01.txt b/res/maps/map01.txt
+new file mode 100644
+--- /dev/null	(date 1713502355547)
++++ b/res/maps/map01.txt	(date 1713502355547)
+@@ -0,0 +1,33 @@
++#test map, test comment
++width: 20
++height: 20
++
++0 1 2 2 1 0 1 2 2 2 0 1 2 0 1 2 1 0 1 0 1 2 1 0 1 2 1 0 1 2
++1 2 0 2 1 2 0 1 2 1 2 2 1 1 0 2 1 2 2 0 1 2 0 1 2 0 1 0 0 1
++2 0 1 0 2 0 1 1 2 0 1 1 0 2 0 2 1 0 2 2 1 1 0 2 2 1 1 0 1 0
++0 2 1 0 1 2 1 0 2 1 0 2 1 0 1 1 0 2 1 0 2 2 1 0 1 2 1 0 2 1
++1 2 2 1 0 2 0 1 2 1 0 1 2 1 0 1 2 1 0 1 2 2 2 1 0 1 1 0 1 0
++0 1 2 1 0 2 0 1 1 2 1 1 2 2 1 1 2 2 2 1 2 2 1 1 2 1 2 1 2 1
++0 2 2 1 2 0 1 0 2 0 2 1 0 1 2 1 2 1 1 2 0 2 1 0 1 2 1 1 0 1
++1 1 2 0 1 2 2 1 2 0 1 2 1 2 1 2 0 0 2 1 1 1 0 0 2 1 1 2 0 2
++2 1 1 0 2 1 1 2 2 1 0 2 0 1 2 0 1 2 1 0 2 1 0 1 1 2 0 2 1 1
++0 2 1 1 0 2 0 1 0 2 1 0 1 0 2 2 1 2 0 1 0 1 2 1 2 2 1 2 1 1
++2 0 1 2 0 2 1 1 0 1 1 2 1 2 2 0 1 2 2 0 2 2 1 0 1 1 0 2 2 1
++1 1 0 1 2 0 2 0 1 1 1 0 2 1 2 1 0 1 2 1 1 0 1 2 0 2 1 0 1 2
++1 2 0 2 0 1 2 0 2 2 1 0 2 0 1 1 2 0 2 0 2 1 2 2 0 1 0 2 1 1
++0 2 2 1 1 0 1 1 2 1 0 1 0 2 2 0 1 2 2 1 2 0 2 1 2 0 2 2 1 2
++0 1 2 2 0 1 1 1 2 2 0 1 2 0 1 1 0 1 0 2 1 2 1 0 1 2 1 1 2 0
++2 1 1 0 1 2 1 0 2 1 2 2 1 0 2 0 2 1 0 2 2 0 1 2 1 2 1 0 2 1
++0 1 2 1 0 1 2 2 0 2 2 1 1 2 2 1 0 1 1 2 1 0 1 2 1 2 2 0 1 2
++1 2 0 1 0 2 0 1 1 1 2 2 0 1 2 0 1 2 0 2 1 0 2 2 0 1 1 2 2 1
++2 1 2 0 2 1 1 0 2 0 1 2 1 0 1 1 0 1 0 1 0 2 0 2 1 1 1 0 2 2
++1 0 1 1 1 0 2 0 1 2 0 2 1 2 0 2 1 2 0 1 0 1 1 1 0 2 0 2 2 0
++0 2 1 2 0 1 2 1 0 1 0 1 0 1 0 2 2 2 1 0 1 2 1 1 0 1 0 2 2 1
++2 0 1 2 1 2 2 1 2 1 2 0 2 0 1 2 1 2 1 0 1 2 0 2 1 2 0 1 2 1
++1 1 0 2 1 0 1 1 0 1 2 0 1 1 2 1 0 1 0 2 2 1 0 2 1 1 0 2 1 1
++1 0 2 1 2 0 2 0 1 1 2 1 1 0 1 0 1 2 1 1 0 1 2 0 1 2 0 2 2 1
++2 2 1 1 0 2 0 1 1 1 2 0 1 0 1 1 2 0 1 0 1 1 2 1 2 1 2 0 2 1
++1 0 2 1 1 2 0 1 1 2 1 0 1 2 1 1 0 1 0 2 1 1 2 1 0 2 0 1 0 1
++1 0 1 2 2 1 1 0 2 1 2 1 2 1 1 2 1 2 0 1 1 0 2 1 0 1 1 0 2 2
++2 0 2 2 2 0 2 1 2 0 1 0 2 0 1 2 2 1 0 1 2 1 0 1 1 1 0 1 2 1
++0 1 1 0 1 1 2 1 2 0 1 2 1 0 2 0 1 2 1 0 1 2 0 1 2 0 2 2 2 1
+\ No newline at end of file

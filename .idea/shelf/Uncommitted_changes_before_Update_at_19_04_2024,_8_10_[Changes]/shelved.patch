@@ -1,0 +1,805 @@
+Index: src/gameloop/UtilityFunctions.java
+===================================================================
+diff --git a/src/gameloop/UtilityFunctions.java b/src/gameloop/UtilityFunctions.java
+deleted file mode 100644
+--- a/src/gameloop/UtilityFunctions.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ /dev/null	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
+@@ -1,2 +0,0 @@
+-package gameloop;public class UtilityFunctions {
+-}
+Index: src/map/GameMap.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package map;\n\nimport javafx.scene.canvas.GraphicsContext;\nimport javafx.scene.image.Image;\nimport lombok.Getter;\nimport lombok.Setter;\n\nimport java.io.*;\nimport java.util.Scanner;\n\npublic class GameMap implements Serializable {\n    /*\n    * The GameMap class is responsible for storing the map data and rendering the map to the screen.\n    * NUM_TILE_TYPES - array of all tile types available\n    * tiles - array of all tiles in the map\n    * game - the game panel\n     */\n    private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*\n    Tile[] tiles;\n    @Getter\n    private int mapWidth;\n    @Getter\n    private int mapHeight;\n    @Setter\n    @Getter\n    private int[][] map;\n\n\n    public GameMap(){\n        tiles = new Tile[NUM_TILE_TYPES];\n        getTileImages();\n    }\n    public void getTileImages(){\n        // Load the tile images\n        try {\n            tiles[0] = new Tile(); // water\n            tiles[0].image = new Image(new FileInputStream(\"/map_tiles/water.png\"));\n            tiles[1] = new Tile(); // path\n            tiles[1].image = new Image(new FileInputStream(\"/map_tiles/path.png\"));\n            tiles[2] = new Tile(); // grass\n            tiles[2].image = new Image(new FileInputStream(\"/map_tiles/grass.png\"));\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n    public void loadMapFromFile(String filepath) throws FileNotFoundException {\n        // Load the map from a file\n        try (Scanner scanner = new Scanner(new File(filepath))) {\n            // MAP FORMAT - hashed lines contain comment, then map width and height\n            scanner.useDelimiter(\"#.*\\n\");\n            String line = null;\n            String[] values;\n            while (!(line = scanner.nextLine()).isEmpty()){\n                values = line.split(\" \");\n                if (values[0].equals(\"width\")) {\n                    this.mapWidth = Integer.parseInt(values[1]);\n                } else if (values[0].equals(\"height\")) {\n                    this.mapHeight = Integer.parseInt(values[1]);\n                } else {\n                    System.out.printf(\"Map %s has invalid data: %s%n\", filepath, line);\n                }\n            }\n            this.mapWidth = scanner.nextInt();\n            this.mapHeight = scanner.nextInt();\n            int row = 0;\n            int col = 0;\n            this.map = new int[this.mapHeight][this.mapWidth];\n            // Read the map data\n            while (row < this.mapHeight && scanner.hasNextLine()) {\n                line = scanner.nextLine();\n                while(col < this.mapWidth) {\n                    String[] numbers = line.split(\" \");\n                    int num = Integer.parseInt(numbers[col]);\n                    this.map[row][col] = num;\n                    col++;\n                }\n                if (col != this.mapWidth){\n                    System.out.printf(\"Map %s missing data on row %d expected %d got %d%n\",\n                            filepath,\n                            row,\n                            this.mapWidth,\n                            col);\n                    // Fill in the rest of the row with 0's\n                    for (int i = col; i < this.mapWidth; i++){\n                        this.map[row][i] = 0;\n                    }\n                }\n                col = 0;\n                row++;\n            }\n        }\n    }\n\n    public void draw(GraphicsContext g2) {\n        // Draw the map to the screen\n        for (int i = 0; i < mapHeight; i++) {\n            for (int j = 0; j < mapWidth; j++) {\n                int tileType = map[i][j];\n                g2.drawImage(tiles[tileType].image, j * 32, i * 32);\n            }\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/map/GameMap.java b/src/map/GameMap.java
+--- a/src/map/GameMap.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/map/GameMap.java	(date 1713506704468)
+@@ -1,14 +1,17 @@
+ package map;
+ 
++import gameloop.GamePanel;
+ import javafx.scene.canvas.GraphicsContext;
+ import javafx.scene.image.Image;
+ import lombok.Getter;
+ import lombok.Setter;
++import lombok.extern.slf4j.Slf4j;
++import utils.UtilityFunctions;
+ 
+ import java.io.*;
+ import java.util.Scanner;
+-
+-public class GameMap implements Serializable {
++@Slf4j
++public class GameMap {
+     /*
+     * The GameMap class is responsible for storing the map data and rendering the map to the screen.
+     * NUM_TILE_TYPES - array of all tile types available
+@@ -21,82 +24,107 @@
+     private int mapWidth;
+     @Getter
+     private int mapHeight;
++    @Getter
++    private int playerStartX;
++    @Getter
++    private int playerStartY;
+     @Setter
+     @Getter
+     private int[][] map;
+-
++    UtilityFunctions utils;
+ 
+     public GameMap(){
+         tiles = new Tile[NUM_TILE_TYPES];
+         getTileImages();
++        utils = new UtilityFunctions();
++        //initialize to default, change later
++        this.playerStartX = GamePanel.SCREEN_MIDDLE_X;
++        this.playerStartY = GamePanel.SCREEN_MIDDLE_Y;
+     }
+-    public void getTileImages(){
++    private void getTileImages() {
++        log.info("Loading tile images");
+         // Load the tile images
++        setupTile("water", 0);
++        setupTile("path", 1);
++        setupTile("grass", 2);
++        log.info("Tile images loaded");
++    }
++    private void setupTile(String tilename, int index) {
+         try {
+-            tiles[0] = new Tile(); // water
+-            tiles[0].image = new Image(new FileInputStream("/map_tiles/water.png"));
+-            tiles[1] = new Tile(); // path
+-            tiles[1].image = new Image(new FileInputStream("/map_tiles/path.png"));
+-            tiles[2] = new Tile(); // grass
+-            tiles[2].image = new Image(new FileInputStream("/map_tiles/grass.png"));
++            // Load the tile image
++            tiles[index] = new Tile();
++            FileInputStream fis = new FileInputStream("res/map_tiles/" + tilename + ".png");
++            Image img = new Image(fis, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, false, false);
++            tiles[index].setImage(img);
++
+         } catch (IOException e) {
+-            e.printStackTrace();
++            log.error("Error loading tile image: {}", e.getMessage());
+         }
+     }
++
+     public void loadMapFromFile(String filepath) throws FileNotFoundException {
+         // Load the map from a file
++        log.info("Loading map from file: {}", filepath);
+         try (Scanner scanner = new Scanner(new File(filepath))) {
+             // MAP FORMAT - hashed lines contain comment, then map width and height
+-            scanner.useDelimiter("#.*\n");
+-            String line = null;
++            String line = "";
+             String[] values;
+             while (!(line = scanner.nextLine()).isEmpty()){
++                log.info("Reading map data: {}", line);
++                if (line.startsWith("#")) {
++                    continue;
++                }
+                 values = line.split(" ");
+-                if (values[0].equals("width")) {
++                // Read the map width and height
++                // TODO: POSSIBLE IMPLEMENTATION OF WILDCARDS
++                if (values[0].equals("width:")) {
+                     this.mapWidth = Integer.parseInt(values[1]);
+-                } else if (values[0].equals("height")) {
++                } else if (values[0].equals("height:")) {
+                     this.mapHeight = Integer.parseInt(values[1]);
++                } else if (values[0].equals("playerStart:")) {
++                    this.playerStartX = Integer.parseInt(values[1]);
++                    this.playerStartY = Integer.parseInt(values[2]);
+                 } else {
+-                    System.out.printf("Map %s has invalid data: %s%n", filepath, line);
++                    log.error("Map {} has invalid data: {}", filepath, line);
+                 }
+             }
+-            this.mapWidth = scanner.nextInt();
+-            this.mapHeight = scanner.nextInt();
+-            int row = 0;
+-            int col = 0;
+-            this.map = new int[this.mapHeight][this.mapWidth];
+-            // Read the map data
+-            while (row < this.mapHeight && scanner.hasNextLine()) {
+-                line = scanner.nextLine();
+-                while(col < this.mapWidth) {
+-                    String[] numbers = line.split(" ");
+-                    int num = Integer.parseInt(numbers[col]);
+-                    this.map[row][col] = num;
+-                    col++;
+-                }
+-                if (col != this.mapWidth){
+-                    System.out.printf("Map %s missing data on row %d expected %d got %d%n",
+-                            filepath,
+-                            row,
+-                            this.mapWidth,
+-                            col);
+-                    // Fill in the rest of the row with 0's
+-                    for (int i = col; i < this.mapWidth; i++){
+-                        this.map[row][i] = 0;
+-                    }
+-                }
+-                col = 0;
+-                row++;
+-            }
++            log.info("Map width: {} height: {}", this.mapWidth, this.mapHeight);
++            readMapData(scanner, filepath);
++        }
++        log.info("Map loaded!");
++    }
++    private void readMapData(Scanner scanner, String filepath) {
++        int row = 0;
++        int col = 0;
++        this.map = new int[this.mapHeight][this.mapWidth];
++        while (row < this.mapHeight && scanner.hasNextLine()) {
++            String line = scanner.nextLine();
++            while(col < this.mapWidth) {
++                String[] numbers = line.split(" ");
++                int num = Integer.parseInt(numbers[col]);
++                this.map[row][col] = num;
++                col++;
++            }
++            if (col != this.mapWidth){
++                log.error("Map {} missing data on row {} expected {} got {}",
++                        filepath,
++                        row,
++                        this.mapWidth,
++                        col);
++                // Fill in the rest of the row with 0's
++                for (int i = col; i < this.mapWidth; i++){
++                    this.map[row][i] = 0;
++                }
++            }
++            col = 0;
++            row++;
+         }
+     }
+-
+-    public void draw(GraphicsContext g2) {
+-        // Draw the map to the screen
+-        for (int i = 0; i < mapHeight; i++) {
+-            for (int j = 0; j < mapWidth; j++) {
+-                int tileType = map[i][j];
+-                g2.drawImage(tiles[tileType].image, j * 32, i * 32);
++    private void printMap() {
++        // Print the map to the console, test purposes
++        for (int i = 0; i < this.mapHeight; i++){
++            for (int j = 0; j < this.mapWidth; j++){
++                log.info("{} ", this.map[i][j]);
+             }
+         }
+     }
+Index: src/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import javafx.application.Application;\nimport javafx.stage.Stage;\nimport lombok.extern.slf4j.Slf4j;\nimport menu.Menu;\n\n@Slf4j\npublic class Main extends Application {\n    public static void main(String[] args) {\n        launch(args);\n    }\n\n    @Override\n    public void start(Stage primaryStage) throws Exception {\n        Menu mainMenu = new Menu();\n        mainMenu.start(primaryStage);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Main.java b/src/Main.java
+--- a/src/Main.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/Main.java	(date 1713298481124)
+@@ -3,6 +3,7 @@
+ import lombok.extern.slf4j.Slf4j;
+ import menu.Menu;
+ 
++
+ @Slf4j
+ public class Main extends Application {
+     public static void main(String[] args) {
+@@ -11,6 +12,7 @@
+ 
+     @Override
+     public void start(Stage primaryStage) throws Exception {
++        log.info("Starting game");
+         Menu mainMenu = new Menu();
+         mainMenu.start(primaryStage);
+     }
+Index: src/map/MapManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package map;\n\nimport com.sun.media.jfxmedia.events.PlayerEvent;\nimport entity.Player;\nimport gameloop.GamePanel;\nimport javafx.scene.canvas.GraphicsContext;\nimport lombok.Getter;\n\nimport java.io.FileNotFoundException;\n\npublic class MapManager {\n    /*\n    * The map manager class is responsible for managing the game map.\n    * */\n    public GameMap map;\n    @Getter\n    private int mapWidth;\n    @Getter\n    private int mapHeight;\n    GamePanel gamePanel;\n    public MapManager(GamePanel gamePanel) {\n        this.gamePanel = gamePanel;\n    }\n    public void generateMap() {\n        // Generate the map - feature to be implemented later\n    }\n    public void renderMap(GraphicsContext gc) {\n        // Render current map based off player position\n        int playerX = gamePanel.player.worldCoordX;\n        int playerY = gamePanel.player.worldCoordY;\n        int screenX = gamePanel.player.screenCoordX;\n        int screenY = gamePanel.player.screenCoordY;\n        int offsetX = screenX - playerX;\n        int offsetY = screenY - playerY;\n        int startCol = Math.max(playerX / GamePanel.TILE_SIZE, 0);\n        int startRow = Math.max(playerY / GamePanel.TILE_SIZE, 0);\n        int endCol = Math.min(startCol + GamePanel.SCREEN_COLS, mapWidth);\n        int endRow = Math.min(startRow + GamePanel.SCREEN_ROWS, mapHeight);\n        for (int row = startRow; row < endRow; row++) {\n            for (int col = startCol; col < endCol; col++) {\n                int tile = this.map.getMap()[row][col];\n                gc.drawImage(map.tiles[tile].image, (col - startCol) * GamePanel.TILE_SIZE + offsetX, (row - startRow) * GamePanel.TILE_SIZE + offsetY);\n            }\n        }\n    }\n    public void updateMap() {\n        // Update the map\n    }\n    public void loadMap(int mapIndex) {\n        // Load the map\n        this.map = new GameMap();\n        try {\n            this.map.loadMapFromFile(\"res/maps/map\" + mapIndex + \".txt\");\n            this.mapWidth = this.map.getMapWidth();\n            this.mapHeight = this.map.getMapHeight();\n        } catch (FileNotFoundException e) {\n            e.printStackTrace();\n        }\n    }\n    public void saveMap() {\n        // Save the map - feature to be implemented later\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/map/MapManager.java b/src/map/MapManager.java
+--- a/src/map/MapManager.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/map/MapManager.java	(date 1713506704486)
+@@ -17,29 +17,23 @@
+     private int mapWidth;
+     @Getter
+     private int mapHeight;
++    Player player;
+     GamePanel gamePanel;
+-    public MapManager(GamePanel gamePanel) {
+-        this.gamePanel = gamePanel;
++    public MapManager(Player player) {
++        this.player = player;
+     }
+     public void generateMap() {
+         // Generate the map - feature to be implemented later
+     }
+     public void renderMap(GraphicsContext gc) {
+         // Render current map based off player position
+-        int playerX = gamePanel.player.worldCoordX;
+-        int playerY = gamePanel.player.worldCoordY;
+-        int screenX = gamePanel.player.screenCoordX;
+-        int screenY = gamePanel.player.screenCoordY;
+-        int offsetX = screenX - playerX;
+-        int offsetY = screenY - playerY;
+-        int startCol = Math.max(playerX / GamePanel.TILE_SIZE, 0);
+-        int startRow = Math.max(playerY / GamePanel.TILE_SIZE, 0);
+-        int endCol = Math.min(startCol + GamePanel.SCREEN_COLS, mapWidth);
+-        int endRow = Math.min(startRow + GamePanel.SCREEN_ROWS, mapHeight);
+-        for (int row = startRow; row < endRow; row++) {
+-            for (int col = startCol; col < endCol; col++) {
+-                int tile = this.map.getMap()[row][col];
+-                gc.drawImage(map.tiles[tile].image, (col - startCol) * GamePanel.TILE_SIZE + offsetX, (row - startRow) * GamePanel.TILE_SIZE + offsetY);
++        for (int worldRow = 0; worldRow < map.getMapHeight(); worldRow++) {
++            for (int worldCol = 0; worldCol < map.getMapWidth(); worldCol++) {
++                int tileType = map.getMap()[worldRow][worldCol];
++                int worldX = worldCol * GamePanel.TILE_SIZE;
++                int worldY = worldRow * GamePanel.TILE_SIZE;
++                // Draw the tile
++                gc.drawImage(map.tiles[tileType].getImage(), worldX, worldY);
+             }
+         }
+     }
+@@ -48,14 +42,18 @@
+     }
+     public void loadMap(int mapIndex) {
+         // Load the map
++        String mapIndexString = mapIndex > 9 ? "" + mapIndex : "0" + mapIndex;
+         this.map = new GameMap();
+         try {
+-            this.map.loadMapFromFile("res/maps/map" + mapIndex + ".txt");
++            this.map.loadMapFromFile("res/maps/map" + mapIndexString + ".txt");
++
+             this.mapWidth = this.map.getMapWidth();
+             this.mapHeight = this.map.getMapHeight();
+         } catch (FileNotFoundException e) {
+             e.printStackTrace();
+         }
++        player.setScreenCoordX(this.map.getPlayerStartX());
++        player.setScreenCoordY(this.map.getPlayerStartY());
+     }
+     public void saveMap() {
+         // Save the map - feature to be implemented later
+Index: src/map/Tile.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package map;\n\nimport javafx.scene.image.Image;\n\nimport java.io.Serializable;\n\npublic class Tile implements Serializable {\n    boolean isSolid;\n    boolean collision = false;\n    public Image image;\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/map/Tile.java b/src/map/Tile.java
+--- a/src/map/Tile.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/map/Tile.java	(date 1713499745999)
+@@ -1,12 +1,15 @@
+ package map;
+ 
+ import javafx.scene.image.Image;
++import lombok.Getter;
++import lombok.Setter;
+ 
+-import java.io.Serializable;
++/*import java.io.Serializable;*/
+ 
+-public class Tile implements Serializable {
++public class Tile /*implements Serializable*/{
+     boolean isSolid;
+     boolean collision = false;
+-    public Image image;
+-
++    @Getter
++    @Setter
++    private Image image;
+ }
+Index: src/gameloop/GamePanel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package gameloop;\n\nimport controller.InputHandler;\nimport entity.Player;\nimport javafx.scene.Scene;\nimport javafx.scene.canvas.Canvas;\nimport javafx.scene.canvas.GraphicsContext;\nimport javafx.scene.layout.Pane;\nimport javafx.scene.layout.StackPane;\nimport javafx.scene.paint.Color;\nimport javafx.scene.text.Font;\nimport javafx.scene.text.FontWeight;\nimport lombok.Getter;\nimport lombok.Setter;\nimport map.MapManager;\n\npublic class GamePanel extends Pane {\n    static final int INITIAL_TILE_SIZE = 32;\n    public static final int SCALE = 2;\n    public static final int TILE_SIZE = INITIAL_TILE_SIZE * SCALE;\n    public static final int SCREEN_COLS = 16;\n    public static final int SCREEN_ROWS = 12;\n    public static final int SCREEN_WIDTH = TILE_SIZE * SCREEN_COLS;\n    public static final int SCREEN_HEIGHT = TILE_SIZE * SCREEN_ROWS;\n    public static final int SCREEN_MIDDLE_X = SCREEN_WIDTH / 2;\n    public static final int SCREEN_MIDDLE_Y = SCREEN_HEIGHT / 2;\n    public Player player;\n\n    @Getter\n    @Setter\n    private int fps = 60;\n    // WORLD SETTINGS\n    public int maxWorldRows;\n    public int maxWorldCols;\n    public int worldWidth;\n    public int worldHeight;\n    // PANE INIT\n    Canvas canvas;\n    GraphicsContext gc;\n    InputHandler inputHandler;\n    Scene scene;\n    GameLoop gameLoop;\n    StackPane root;\n    MapManager mapManager;\n    @Getter\n    @Setter\n    private int chosenMapIndex;\n    public GamePanel(Scene scene, StackPane root){\n        System.out.println(\"GamePanel created\");\n        this.scene = scene;\n        this.root = root;\n        //TODO: Add a map selector\n        setMap(0);\n        initPlayer();\n        initCanvas();\n        startGameLoop();\n    }\n    // CANVAS INIT\n    private void initCanvas() {\n        this.canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);\n        this.canvas.setFocusTraversable(true);\n        this.canvas.setOnKeyPressed(inputHandler);\n        this.canvas.setOnKeyReleased(inputHandler);\n        this.gc = canvas.getGraphicsContext2D();\n        this.root.getChildren().add(canvas);\n    }\n    // PLAYER INIT\n    private void initPlayer(){\n        this.inputHandler = new InputHandler();\n        this.player = new Player(this, this.inputHandler);\n        player.getPlayerImage();\n        player.setDefaultValues(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);\n    }\n    // GAME LOOP INIT\n    public void startGameLoop(){\n        this.gameLoop = new GameLoop(this);\n        gameLoop.start();\n    }\n    // SETUP MAP\n    public void setMap(int mapIndex){\n        this.mapManager = new MapManager(this);\n        this.chosenMapIndex = mapIndex;\n        mapManager.loadMap(chosenMapIndex);\n        this.maxWorldRows = mapManager.getMapHeight();\n        this.maxWorldCols = mapManager.getMapWidth();\n        worldWidth = TILE_SIZE * maxWorldCols;\n        worldHeight = TILE_SIZE * maxWorldRows;\n    }\n    // GAME LOOP\n    public void update() {\n        player.update();\n    }\n    public void draw(GraphicsContext gc) {\n        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);\n        gc.setFill(Color.CADETBLUE);\n        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);\n        player.render(gc);\n        mapManager.renderMap(gc);\n        gc.setFill(Color.WHITE);\n        Font statsFont = Font.font(\"Segoe Script\", FontWeight.BOLD, 24);\n        gc.setFont(statsFont);\n        gc.fillText(\"Player X: \" + player.worldCoordX, 15, 30);\n        gc.fillText(\"Player Y: \" + player.worldCoordY, 15, 60);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/gameloop/GamePanel.java b/src/gameloop/GamePanel.java
+--- a/src/gameloop/GamePanel.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/gameloop/GamePanel.java	(date 1713507037919)
+@@ -12,8 +12,9 @@
+ import javafx.scene.text.FontWeight;
+ import lombok.Getter;
+ import lombok.Setter;
++import lombok.extern.slf4j.Slf4j;
+ import map.MapManager;
+-
++@Slf4j
+ public class GamePanel extends Pane {
+     static final int INITIAL_TILE_SIZE = 32;
+     public static final int SCALE = 2;
+@@ -24,16 +25,17 @@
+     public static final int SCREEN_HEIGHT = TILE_SIZE * SCREEN_ROWS;
+     public static final int SCREEN_MIDDLE_X = SCREEN_WIDTH / 2;
+     public static final int SCREEN_MIDDLE_Y = SCREEN_HEIGHT / 2;
+-    public Player player;
++    @Getter
++    private Player player;
+ 
+     @Getter
+     @Setter
+     private int fps = 60;
+     // WORLD SETTINGS
+-    public int maxWorldRows;
+-    public int maxWorldCols;
+-    public int worldWidth;
+-    public int worldHeight;
++    private int maxWorldRows;
++    private int maxWorldCols;
++    private int worldWidth;
++    private int worldHeight;
+     // PANE INIT
+     Canvas canvas;
+     GraphicsContext gc;
+@@ -46,13 +48,17 @@
+     @Setter
+     private int chosenMapIndex;
+     public GamePanel(Scene scene, StackPane root){
+-        System.out.println("GamePanel created");
++        log.info("GamePanel created");
+         this.scene = scene;
+         this.root = root;
+         //TODO: Add a map selector
+-        setMap(0);
++        log.info("Initializing player");
+         initPlayer();
++        log.info("Setting map");
++        setMap(1);
++        log.info("Initializing canvas");
+         initCanvas();
++        log.info("Starting game loop");
+         startGameLoop();
+     }
+     // CANVAS INIT
+@@ -78,13 +84,15 @@
+     }
+     // SETUP MAP
+     public void setMap(int mapIndex){
+-        this.mapManager = new MapManager(this);
+-        this.chosenMapIndex = mapIndex;
+-        mapManager.loadMap(chosenMapIndex);
+-        this.maxWorldRows = mapManager.getMapHeight();
+-        this.maxWorldCols = mapManager.getMapWidth();
+-        worldWidth = TILE_SIZE * maxWorldCols;
+-        worldHeight = TILE_SIZE * maxWorldRows;
++        if (player != null){
++            this.mapManager = new MapManager(this.player);
++            this.chosenMapIndex = mapIndex;
++            mapManager.loadMap(chosenMapIndex);
++            this.maxWorldRows = mapManager.getMapHeight();
++            this.maxWorldCols = mapManager.getMapWidth();
++            worldWidth = TILE_SIZE * maxWorldCols;
++            worldHeight = TILE_SIZE * maxWorldRows;
++        }else log.error("Player is null!");
+     }
+     // GAME LOOP
+     public void update() {
+@@ -99,7 +107,8 @@
+         gc.setFill(Color.WHITE);
+         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
+         gc.setFont(statsFont);
+-        gc.fillText("Player X: " + player.worldCoordX, 15, 30);
+-        gc.fillText("Player Y: " + player.worldCoordY, 15, 60);
++        gc.fillText("Player X: " + player.getWorldCoordX(), 15, 30);
++        gc.fillText("Player Y: " + player.getScreenCoordY(), 15, 60);
++        gc.fillText("Current Sprite: " + player.getCurrentSprite().toString(), 15, 90);
+     }
+ }
+Index: res/maps/map01.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/res/maps/map01.txt b/res/maps/map01.txt
+new file mode 100644
+--- /dev/null	(date 1713502355547)
++++ b/res/maps/map01.txt	(date 1713502355547)
+@@ -0,0 +1,33 @@
++#test map, test comment
++width: 20
++height: 20
++
++0 1 2 2 1 0 1 2 2 2 0 1 2 0 1 2 1 0 1 0 1 2 1 0 1 2 1 0 1 2
++1 2 0 2 1 2 0 1 2 1 2 2 1 1 0 2 1 2 2 0 1 2 0 1 2 0 1 0 0 1
++2 0 1 0 2 0 1 1 2 0 1 1 0 2 0 2 1 0 2 2 1 1 0 2 2 1 1 0 1 0
++0 2 1 0 1 2 1 0 2 1 0 2 1 0 1 1 0 2 1 0 2 2 1 0 1 2 1 0 2 1
++1 2 2 1 0 2 0 1 2 1 0 1 2 1 0 1 2 1 0 1 2 2 2 1 0 1 1 0 1 0
++0 1 2 1 0 2 0 1 1 2 1 1 2 2 1 1 2 2 2 1 2 2 1 1 2 1 2 1 2 1
++0 2 2 1 2 0 1 0 2 0 2 1 0 1 2 1 2 1 1 2 0 2 1 0 1 2 1 1 0 1
++1 1 2 0 1 2 2 1 2 0 1 2 1 2 1 2 0 0 2 1 1 1 0 0 2 1 1 2 0 2
++2 1 1 0 2 1 1 2 2 1 0 2 0 1 2 0 1 2 1 0 2 1 0 1 1 2 0 2 1 1
++0 2 1 1 0 2 0 1 0 2 1 0 1 0 2 2 1 2 0 1 0 1 2 1 2 2 1 2 1 1
++2 0 1 2 0 2 1 1 0 1 1 2 1 2 2 0 1 2 2 0 2 2 1 0 1 1 0 2 2 1
++1 1 0 1 2 0 2 0 1 1 1 0 2 1 2 1 0 1 2 1 1 0 1 2 0 2 1 0 1 2
++1 2 0 2 0 1 2 0 2 2 1 0 2 0 1 1 2 0 2 0 2 1 2 2 0 1 0 2 1 1
++0 2 2 1 1 0 1 1 2 1 0 1 0 2 2 0 1 2 2 1 2 0 2 1 2 0 2 2 1 2
++0 1 2 2 0 1 1 1 2 2 0 1 2 0 1 1 0 1 0 2 1 2 1 0 1 2 1 1 2 0
++2 1 1 0 1 2 1 0 2 1 2 2 1 0 2 0 2 1 0 2 2 0 1 2 1 2 1 0 2 1
++0 1 2 1 0 1 2 2 0 2 2 1 1 2 2 1 0 1 1 2 1 0 1 2 1 2 2 0 1 2
++1 2 0 1 0 2 0 1 1 1 2 2 0 1 2 0 1 2 0 2 1 0 2 2 0 1 1 2 2 1
++2 1 2 0 2 1 1 0 2 0 1 2 1 0 1 1 0 1 0 1 0 2 0 2 1 1 1 0 2 2
++1 0 1 1 1 0 2 0 1 2 0 2 1 2 0 2 1 2 0 1 0 1 1 1 0 2 0 2 2 0
++0 2 1 2 0 1 2 1 0 1 0 1 0 1 0 2 2 2 1 0 1 2 1 1 0 1 0 2 2 1
++2 0 1 2 1 2 2 1 2 1 2 0 2 0 1 2 1 2 1 0 1 2 0 2 1 2 0 1 2 1
++1 1 0 2 1 0 1 1 0 1 2 0 1 1 2 1 0 1 0 2 2 1 0 2 1 1 0 2 1 1
++1 0 2 1 2 0 2 0 1 1 2 1 1 0 1 0 1 2 1 1 0 1 2 0 1 2 0 2 2 1
++2 2 1 1 0 2 0 1 1 1 2 0 1 0 1 1 2 0 1 0 1 1 2 1 2 1 2 0 2 1
++1 0 2 1 1 2 0 1 1 2 1 0 1 2 1 1 0 1 0 2 1 1 2 1 0 2 0 1 0 1
++1 0 1 2 2 1 1 0 2 1 2 1 2 1 1 2 1 2 0 1 1 0 2 1 0 1 1 0 2 2
++2 0 2 2 2 0 2 1 2 0 1 0 2 0 1 2 2 1 0 1 2 1 0 1 1 1 0 1 2 1
++0 1 1 0 1 1 2 1 2 0 1 2 1 0 2 0 1 2 1 0 1 2 0 1 2 0 2 2 2 1
+\ No newline at end of file
+Index: src/entity/Player.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package entity;\n\nimport com.sun.tools.javac.Main;\nimport controller.InputHandler;\nimport gameloop.GamePanel;\nimport javafx.scene.canvas.GraphicsContext;\nimport javafx.scene.image.Image;\n\nimport java.io.FileInputStream;\nimport java.io.IOException;\n\npublic class Player extends Character {\n    InputHandler input;\n    GamePanel game;\n    public int worldCoordX;\n    public int worldCoordY;\n    public int screenCoordX;\n    public int screenCoordY;\n    private int playerSpeed;\n    private String direction;\n    boolean isMoving = false;\n    private Image currentSprite;\n\n    public Player(GamePanel game, InputHandler input) {\n        this.game = game;\n        this.input = input;\n        getPlayerImage();\n    }\n\n    public void setDefaultValues(int beginX, int beginY){\n        this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;\n        this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;\n        this.worldCoordX = beginX;\n        this.worldCoordY = beginY;\n        currentSprite = down1;\n        playerSpeed = 5; // Adjust this value as needed\n        direction = \"down\";\n    }\n\n    public void update(){\n        if(input.upPressed){\n            worldCoordY -= playerSpeed;\n            direction = \"up\";\n        }\n        if(input.downPressed){\n            worldCoordY += playerSpeed;\n            direction = \"down\";\n        }\n        if(input.leftPressed){\n            worldCoordX -= playerSpeed;\n            direction = \"left\";\n        }\n        if(input.rightPressed){\n            worldCoordX += playerSpeed;\n            direction = \"right\";\n        }\n\n        isMoving = input.upPressed || input.downPressed || input.leftPressed || input.rightPressed;\n    }\n    public void getPlayerImage() {\n        // Load the sprites\n        try {\n            up1 = new Image(new FileInputStream(\"res/player/playerUp1.png\"));\n            up2 = new Image(new FileInputStream(\"res/player/playerUp2.png\"));\n            down1 = new Image(new FileInputStream(\"res/player/playerDown1.png\"));\n            down2 = new Image(new FileInputStream(\"res/player/playerDown2.png\"));\n            left1 = new Image(new FileInputStream(\"res/player/playerLeft1.png\"));\n            left2 = new Image(new FileInputStream(\"res/player/playerLeft2.png\"));\n            right1 = new Image(new FileInputStream(\"res/player/playerRight1.png\"));\n            right2 = new Image(new FileInputStream(\"res/player/playerRight2.png\"));\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n\n    public void render(GraphicsContext gc) {\n        //create movement effect by switching between two sprites\n        currentSprite = switch (this.direction){\n            case \"up\" -> (isMoving) ? up1 : up2;\n            case \"down\" -> (isMoving) ? down1 : down2;\n            case \"left\" -> (isMoving) ? left1 : left2;\n            case \"right\" -> (isMoving) ? right1 : right2;\n            default -> null;\n        };\n        assert currentSprite != null;\n\n    /*\n    TODO: set current player position - if player's world position is less than half of the screen width\n     away from the map border set the position to worldCoordX - screenCoordX\n     */\n        //preventing different sprite dimensions by scaling the sprite to the size of the tile\n        gc.drawImage(currentSprite, worldCoordX, worldCoordY, GamePanel.TILE_SIZE,  GamePanel.TILE_SIZE);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/entity/Player.java b/src/entity/Player.java
+--- a/src/entity/Player.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/entity/Player.java	(date 1713506704476)
+@@ -5,20 +5,28 @@
+ import gameloop.GamePanel;
+ import javafx.scene.canvas.GraphicsContext;
+ import javafx.scene.image.Image;
++import lombok.Getter;
++import lombok.Setter;
++import lombok.extern.slf4j.Slf4j;
+ 
+ import java.io.FileInputStream;
+ import java.io.IOException;
+ 
++@Slf4j
+ public class Player extends Character {
+     InputHandler input;
+     GamePanel game;
+-    public int worldCoordX;
+-    public int worldCoordY;
+-    public int screenCoordX;
+-    public int screenCoordY;
++    @Getter
++    @Setter
++    private int screenCoordX;
++    @Getter
++    @Setter
++    private int screenCoordY;
+     private int playerSpeed;
+     private String direction;
+-    boolean isMoving = false;
++    private boolean isMoving = false;
++    private boolean oddIteration = false;
++    @Getter
+     private Image currentSprite;
+ 
+     public Player(GamePanel game, InputHandler input) {
+@@ -28,10 +36,10 @@
+     }
+ 
+     public void setDefaultValues(int beginX, int beginY){
+-        this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
+-        this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
+         this.worldCoordX = beginX;
+         this.worldCoordY = beginY;
++        this.screenCoordX = GamePanel.SCREEN_MIDDLE_X;
++        this.screenCoordY = GamePanel.SCREEN_MIDDLE_Y;
+         currentSprite = down1;
+         playerSpeed = 5; // Adjust this value as needed
+         direction = "down";
+@@ -55,6 +63,7 @@
+             direction = "right";
+         }
+ 
++
+         isMoving = input.upPressed || input.downPressed || input.leftPressed || input.rightPressed;
+     }
+     public void getPlayerImage() {
+@@ -69,19 +78,20 @@
+             right1 = new Image(new FileInputStream("res/player/playerRight1.png"));
+             right2 = new Image(new FileInputStream("res/player/playerRight2.png"));
+         } catch (IOException e) {
+-            e.printStackTrace();
++            log.error("Error loading player sprites: {}", e.getMessage());
+         }
+     }
+ 
+     public void render(GraphicsContext gc) {
+         //create movement effect by switching between two sprites
+-        currentSprite = switch (this.direction){
+-            case "up" -> (isMoving) ? up1 : up2;
+-            case "down" -> (isMoving) ? down1 : down2;
+-            case "left" -> (isMoving) ? left1 : left2;
+-            case "right" -> (isMoving) ? right1 : right2;
++        currentSprite = !(isMoving) ? currentSprite : switch (this.direction){
++            case "up" -> oddIteration ? up1 : up2;
++            case "down" -> oddIteration ? down1 : down2;
++            case "left" -> oddIteration ? left1 : left2;
++            case "right" -> oddIteration ? right1 : right2;
+             default -> null;
+         };
++        oddIteration = !oddIteration;
+         assert currentSprite != null;
+ 
+     /*
+@@ -89,6 +99,6 @@
+      away from the map border set the position to worldCoordX - screenCoordX
+      */
+         //preventing different sprite dimensions by scaling the sprite to the size of the tile
+-        gc.drawImage(currentSprite, worldCoordX, worldCoordY, GamePanel.TILE_SIZE,  GamePanel.TILE_SIZE);
++        gc.drawImage(currentSprite, screenCoordX, screenCoordY, GamePanel.TILE_SIZE,  GamePanel.TILE_SIZE);
+     }
+ }
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Default ignored files\n/shelf/\n/workspace.xml\n# Editor-based HTTP Client requests\n/httpRequests/\n# Datasource local storage ignored files\n/dataSources/\n/dataSources.local.xml\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+--- a/.idea/.gitignore	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/.idea/.gitignore	(date 1713270366088)
+@@ -6,3 +6,5 @@
+ # Datasource local storage ignored files
+ /dataSources/
+ /dataSources.local.xml
++# School
++pjv-2024
+Index: src/controller/InputHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller;\n\nimport javafx.event.EventHandler;\nimport javafx.scene.input.KeyCode;\nimport javafx.scene.input.KeyEvent;\n\npublic class InputHandler implements EventHandler<KeyEvent> {\n    public boolean upPressed;\n    public boolean downPressed;\n    public boolean leftPressed;\n    public boolean rightPressed;\n\n    public InputHandler() {\n        upPressed = downPressed = leftPressed = rightPressed = false;\n    }\n\n    @Override\n    public void handle(KeyEvent keyEvent) {\n        KeyCode keyCode = keyEvent.getCode();\n        if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {\n            switch (keyCode){\n                case W:\n                case UP:\n                    System.out.println(\"Up pressed\");\n                    upPressed = true;\n                    break;\n                case S:\n                case DOWN:\n                    System.out.println(\"Down pressed\");\n                    downPressed = true;\n                    break;\n                case A:\n                case LEFT:\n                    System.out.println(\"Left pressed\");\n                    leftPressed = true;\n                    break;\n                case D:\n                case RIGHT:\n                    System.out.println(\"Right pressed\");\n                    rightPressed = true;\n                    break;\n                default:\n                    rightPressed = leftPressed = downPressed = upPressed = false;\n                    break;\n            }\n        } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {\n            switch (keyCode){\n                case W:\n                case UP:\n                    System.out.println(\"Up released\");\n                    upPressed = false;\n                    break;\n                case S:\n                case DOWN:\n                    System.out.println(\"Down released\");\n                    downPressed = false;\n                    break;\n                case A:\n                case LEFT:\n                    System.out.println(\"Left released\");\n                    leftPressed = false;\n                    break;\n                case D:\n                case RIGHT:\n                    System.out.println(\"Right released\");\n                    rightPressed = false;\n                    break;\n                default:\n                    rightPressed = leftPressed = downPressed = upPressed = false;\n                    break;\n            }\n        }\n        System.out.println(\"input status: \" + upPressed + downPressed + leftPressed + rightPressed);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/controller/InputHandler.java b/src/controller/InputHandler.java
+--- a/src/controller/InputHandler.java	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/src/controller/InputHandler.java	(date 1713499272268)
+@@ -19,24 +19,16 @@
+         KeyCode keyCode = keyEvent.getCode();
+         if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+             switch (keyCode){
+-                case W:
+-                case UP:
+-                    System.out.println("Up pressed");
++                case W, UP:
+                     upPressed = true;
+                     break;
+-                case S:
+-                case DOWN:
+-                    System.out.println("Down pressed");
++                case S, DOWN:
+                     downPressed = true;
+                     break;
+-                case A:
+-                case LEFT:
+-                    System.out.println("Left pressed");
++                case A, LEFT:
+                     leftPressed = true;
+                     break;
+-                case D:
+-                case RIGHT:
+-                    System.out.println("Right pressed");
++                case D, RIGHT:
+                     rightPressed = true;
+                     break;
+                 default:
+@@ -45,24 +37,16 @@
+             }
+         } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+             switch (keyCode){
+-                case W:
+-                case UP:
+-                    System.out.println("Up released");
++                case W, UP:
+                     upPressed = false;
+                     break;
+-                case S:
+-                case DOWN:
+-                    System.out.println("Down released");
++                case S, DOWN:
+                     downPressed = false;
+                     break;
+-                case A:
+-                case LEFT:
+-                    System.out.println("Left released");
++                case A, LEFT:
+                     leftPressed = false;
+                     break;
+-                case D:
+-                case RIGHT:
+-                    System.out.println("Right released");
++                case D, RIGHT:
+                     rightPressed = false;
+                     break;
+                 default:
+@@ -70,6 +54,5 @@
+                     break;
+             }
+         }
+-        System.out.println("input status: " + upPressed + downPressed + leftPressed + rightPressed);
+     }
+ }
+\ No newline at end of file
+Index: src/utils/UtilityFunctions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/utils/UtilityFunctions.java b/src/utils/UtilityFunctions.java
+new file mode 100644
+--- /dev/null	(date 1713501292159)
++++ b/src/utils/UtilityFunctions.java	(date 1713501292159)
+@@ -0,0 +1,16 @@
++package utils;
++
++import javafx.scene.image.Image;
++
++public class UtilityFunctions {
++    public Image scaleImage(Image image, int width, int height) {
++        // Scale the image
++        image = new Image(image.getUrl(), width, height, false, false);
++        return image;
++    }
++    public Image scaleImage(Image image, int scale) {
++        // Scale the image
++        image = new Image(image.getUrl(), image.getWidth() * scale, image.getHeight() * scale, false, false);
++        return image;
++    }
++}
+Index: .idea/sonarlint/issuestore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nF\n\u0016src/gameloop/Main.java\u0012,d/4/d41275a2648ec8d9218596f153465db89bb20320\nK\n\u001Bsrc/gameloop/GamePanel.java\u0012,9/9/998d9d0d7db14c577580c8508735689298db10eb\nI\n\u0019src/entity/Character.java\u0012,2/9/291c1b5a25f185c67d063a13ef6705eb3d148c1a\n:\n\n.gitignore\u0012,a/5/a5cc2925ca8258af241be7e5b0381edf30266302\nF\n\u0016src/entity/Player.java\u0012,5/2/523a6d6a865441bbb4d3f284442e8ab68be1a6a8\nP\n src/controller/InputHandler.java\u0012,9/3/93cd98295e51b11f72fd793f02b148c30449ac42\nC\n\u0013src/entity/NPC.java\u0012,f/1/f18bb592b69edc372c54b67ce74757b5078c5176\nB\n\u0012src/item/Item.java\u0012,2/e/2e9f1a3e0c0d127b9dd2e056361d536329b23b21\nF\n\u0016src/item/LevelKey.java\u0012,7/9/79f76c984d6ddf91deaa1b0820972022f1f6bc98\nI\n\u0019src/item/MeleeWeapon.java\u0012,9/9/993dba105d645f8c9457c8339f48b770e6ad3eaa\nD\n\u0014src/item/Potion.java\u0012,9/f/9f8c8c8254aab2a9f2728853fd1ed402c2e0cf99\nD\n\u0014src/item/Weapon.java\u0012,b/9/b91651470c5cdf9e8896a3be25008eee1e70165f\nK\n\u001Bsrc/item/WeaponUpgrade.java\u0012,b/3/b38f47160509437ec823dd03f0fff41506a2fe9b\nD\n\u0014src/map/GameMap.java\u0012,9/b/9ba477e4b0e88c662e577299af5a637f5c3b4a44\nG\n\u0017src/map/MapManager.java\u0012,e/f/ef72b57fb0a831314f635a51299783f1cc3a64a0\nA\n\u0011src/map/Tile.java\u0012,5/d/5d6cb45bc6260cc8bf80c9f3a882752f984e4647\nE\n\u0015src/entity/Enemy.java\u0012,6/b/6b9bb6c9415ca1d2227026c66a6e0e1747219767\nM\n\u001Dsrc/entity/RespondingNPC.java\u0012,4/1/41994d955ee88c55085f36037199fb8fce3a1665\nM\n\u001Dsrc/entity/TaskAuthority.java\u0012,e/5/e5ff034a3cf4381ed85861a6498356e66f72dbca\nJ\n\u001Asrc/gameloop/GameLoop.java\u0012,4/a/4a3760fbf9041dd3c15be765055add165b943d93\nR\n\"src/gameloop/UtilityFunctions.java\u0012,3/4/34e115906071fa12e2c527d33e351efc47e350a1\nV\n&src/gameloop/CalculationFunctions.java\u0012,3/d/3d1e31628e2d8e2c1ca8ba82bb8774c8d0495536\nL\n\u001Csrc/entity/TaskVillager.java\u0012,b/d/bdf6a605de9341e03d7700678c544aa3a97e1dd1\nJ\n\u001Asrc/item/RangedWeapon.java\u0012,5/8/587a90b35d2ba32977c7d95ce4a5e00224a15909\nD\n\u0014Viking Adventure.iml\u0012,5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/9/998d9d0d7db14c577580c8508735689298db10eb\u0012,6/f/6f7edd501039e264c6fe87b65db14904a9549ebd\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/9/993dba105d645f8c9457c8339f48b770e6ad3eaa\u0012,1/4/14c5f6105ddea25d5bcc8a664a2a7f27fcf8f018\nw\nG.idea/sonarlint/issuestore/b/d/bdf6a605de9341e03d7700678c544aa3a97e1dd1\u0012,9/b/9b31a286b19d127067131d9ae37ffb83b044cfad\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/1/f18bb592b69edc372c54b67ce74757b5078c5176\u0012,b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/d/3d1e31628e2d8e2c1ca8ba82bb8774c8d0495536\u0012,7/0/70a1b4bb64d394f3def2763bbe0eafd4fb1576ac\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/b/9ba477e4b0e88c662e577299af5a637f5c3b4a44\u0012,f/d/fdbe04f447c001ae2079b2f7021fbe63a142eddb\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/9/79f76c984d6ddf91deaa1b0820972022f1f6bc98\u0012,b/d/bde709a78b6823e30ef373b39aab7077518e8d6e\nw\nG.idea/sonarlint/issuestore/4/1/41994d955ee88c55085f36037199fb8fce3a1665\u0012,e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33\nC\n\u0013src/tasks/Task.java\u0012,3/2/3274c13c802fdd4f4c0bd72afbb851f447e32183\nw\nG.idea/sonarlint/issuestore/e/5/e5ff034a3cf4381ed85861a6498356e66f72dbca\u0012,0/6/06eeb801b348c1be4393ced01fddff0726e0a829\nF\n\u0016src/entity/Warden.java\u0012,b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4\nC\n\u0013src/entity/Mob.java\u0012,7/3/738214d40e84c0e7996268f5756ab7159a600a3a\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/f/9f8c8c8254aab2a9f2728853fd1ed402c2e0cf99\u0012,d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/1/41994d955ee88c55085f36037199fb8fce3a1665\u0012,0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12\nI\n\u0019src/shapes/Rectangle.java\u0012,7/4/748305d6e381875c2f20891bc50c8b353307c7a8\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/a/4a3760fbf9041dd3c15be765055add165b943d93\u0012,6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302\u0012,3/0/30205a209c6ce77c4cfc19a09e6f57c588b7fb88\nw\nG.idea/sonarlint/issuestore/f/1/f18bb592b69edc372c54b67ce74757b5078c5176\u0012,a/a/aa14c716e8e4c1f5894f8d2e86f936d68209a841\nw\nG.idea/sonarlint/issuestore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302\u0012,e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/2/523a6d6a865441bbb4d3f284442e8ab68be1a6a8\u0012,2/0/206d42f36b5eeb16255f2392071d9f558628d8b3\n]\n-.idea/sonarlint/securityhotspotstore/index.pb\u0012,8/8/88a9255124c95bdc913197c120a8d560edc59c8e\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/8/587a90b35d2ba32977c7d95ce4a5e00224a15909\u0012,1/3/1386184296a4acf60c52f0680ab5d6d3173b75c4\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/3/b38f47160509437ec823dd03f0fff41506a2fe9b\u0012,b/0/b031fe80d5f54cd791d14ed184788f7fe189108a\nw\nG.idea/sonarlint/issuestore/5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75\u0012,f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/9/b91651470c5cdf9e8896a3be25008eee1e70165f\u0012,4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e\nI\n\u0019.idea/libraries/javaf.xml\u0012,9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75\u0012,f/5/f54eb3589a1617b84e4fae26ce078ac750b44099\nJ\n\u001A.idea/libraries/lombok.xml\u0012,2/e/2e746fc19417b9c0a6caff5342319552b0f18200\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/d/5d6cb45bc6260cc8bf80c9f3a882752f984e4647\u0012,9/a/9a904db6c30ab5669ef41717d5164d7b44636542\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/d/bdf6a605de9341e03d7700678c544aa3a97e1dd1\u0012,5/a/5ab300cae6e180857b02561fe199570337d5f979\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/9/291c1b5a25f185c67d063a13ef6705eb3d148c1a\u0012,b/a/baa6d5c52f502434e35d31e4e90451d93f90b30d\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/3/93cd98295e51b11f72fd793f02b148c30449ac42\u0012,e/d/ed6342d7e1515374cc8a13c30090b6f4897de52e\nS\n#.idea/sonarlint/issuestore/index.pb\u0012,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/e/2e9f1a3e0c0d127b9dd2e056361d536329b23b21\u0012,b/b/bbf9abb81ec92e9030566a7596162663f4bc0114\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/d/4/d41275a2648ec8d9218596f153465db89bb20320\u0012,c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/b/6b9bb6c9415ca1d2227026c66a6e0e1747219767\u0012,5/e/5e152f4ee7fda2724e66c4311f8ffab9cd55602f\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/5/e5ff034a3cf4381ed85861a6498356e66f72dbca\u0012,4/f/4f0f9f69aef23354e50e933f09b93eb154f18b54\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/4/34e115906071fa12e2c527d33e351efc47e350a1\u0012,2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/f/ef72b57fb0a831314f635a51299783f1cc3a64a0\u0012,a/d/adede9b34d57ad05236076a77b305d5f29823084\n=\n\rsrc/Main.java\u0012,9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138\nF\n\u0016src/menu/MainMenu.java\u0012,6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa\nB\n\u0012src/menu/Menu.java\u0012,b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c\nE\n\u0015src/menu/MenuGUI.java\u0012,a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25\nF\n\u0016src/menu/Settings.java\u0012,c/8/c8483b9afe3b0d193a484010480647825a41a0d8\nG\n\u0017src/menu/GameTitle.java\u0012,c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2\nF\n\u0016src/menu/MenuItem.java\u0012,4/0/40273c01162de331e831edfeaeed32ead986aad5\nH\n\u0018src/menu/InGameMenu.java\u0012,f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12\nI\n\u0019src/menu/SettingsGUI.java\u0012,a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5\nP\n src/GUIUtils/FadeTransition.java\u0012,5/a/5a8968da9dd8e517578053bae50c3538932b7fbb\nH\n\u0018src/menu/MenuButton.java\u0012,3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693\nI\n\u0019src/menu/MapSelector.java\u0012,0/1/0192667dcb93a195e83a9362116f1d2ea3804835\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\u0012,b/b/bbf202272a96de5cd6b6828ffdc55fb3ce45289c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12\u0012,0/2/02178543aca731bf4ad5303f71ee55f799ace59e\nw\nG.idea/sonarlint/issuestore/a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5\u0012,7/3/7314ca658587f044f28d84b2f570fa8e85d20064\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5\u0012,6/9/693c45abed1511009f578f5f9dda00c50ea90ed4\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/a/5a8968da9dd8e517578053bae50c3538932b7fbb\u0012,5/a/5a7ed5d013c58899d16cdafb25dbb6b639685177\nw\nG.idea/sonarlint/issuestore/2/e/2e746fc19417b9c0a6caff5342319552b0f18200\u0012,4/2/422213cbd9774a0e384790d01618051739ac883f\nw\nG.idea/sonarlint/issuestore/2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd\u0012,5/4/54077c9330011b0c2fe33a238fc487122084f0b7\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/d/bde709a78b6823e30ef373b39aab7077518e8d6e\u0012,1/d/1d5fab7f8cab013af4d154e98bb5a3b85733da19\nw\nG.idea/sonarlint/issuestore/9/b/9b31a286b19d127067131d9ae37ffb83b044cfad\u0012,b/d/bdaaff04bc5fceaa1a16b132428e06c0fae8ca15\nS\n#.idea/libraries/Logback_Classic.xml\u0012,f/7/f7a80effdf48a3117654508481a1a05913678102\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd\u0012,2/8/280a95bab15fb434a372c22a3e5096bb5746453b\nI\n\u0019.idea/libraries/SLF4J.xml\u0012,2/d/2d58b279bdaebb3fc13733594645bf378002f06f\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2\u0012,e/4/e4d7163f0720e419a99cf20b3d9c40d147d0d5f7\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/e/2e746fc19417b9c0a6caff5342319552b0f18200\u0012,c/b/cbc9714b42c25a2ea5c05672b9eba23ec6a859d8\nw\nG.idea/sonarlint/issuestore/b/d/bde709a78b6823e30ef373b39aab7077518e8d6e\u0012,e/b/eb056001acd3b90416cefae1113b5dbda242e027\nw\nG.idea/sonarlint/issuestore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\u0012,f/0/f0e0f9cec86fe4b939ae22be5264c758801eb28f\nw\nG.idea/sonarlint/issuestore/3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693\u0012,5/e/5e73c287e204899f6c773dfb3a9fa55b58529c11\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693\u0012,3/9/39c7f39305544c6eb33b35ef5361799b88385b48\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/b/9b31a286b19d127067131d9ae37ffb83b044cfad\u0012,8/1/81d72739ab4aa2d392b49f31cf8a67a55bb0aa17\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/0/1/0192667dcb93a195e83a9362116f1d2ea3804835\u0012,d/c/dcc23e7326fb8a8741a09b1d016eb3e5122a1e2a\nw\nG.idea/sonarlint/issuestore/9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2\u0012,9/c/9cfa336d914426130ea73e5e1fd4ddcaa8f6ac1c\nw\nG.idea/sonarlint/issuestore/0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12\u0012,0/a/0a2c70e92866cc7e68988855fa5d440893d12143\nw\nG.idea/sonarlint/issuestore/0/6/06eeb801b348c1be4393ced01fddff0726e0a829\u0012,c/4/c4c4e9ffc1b575a925543ee349f3110d78331d30\nw\nG.idea/sonarlint/issuestore/1/3/1386184296a4acf60c52f0680ab5d6d3173b75c4\u0012,a/9/a9aaeb0d8a8e2f08cf8b0d114adce2cae20fad69\nw\nG.idea/sonarlint/issuestore/2/0/206d42f36b5eeb16255f2392071d9f558628d8b3\u0012,d/a/da1c8d5e5dc1ddb9f5bb660f804548454af5e549\nw\nG.idea/sonarlint/issuestore/1/4/14c5f6105ddea25d5bcc8a664a2a7f27fcf8f018\u0012,9/6/96bf1c90f08a4ae321bc381a5e7029c0657ebc1f\nw\nG.idea/sonarlint/issuestore/3/0/30205a209c6ce77c4cfc19a09e6f57c588b7fb88\u0012,8/3/83c97b69f1983e71cd804a5894ec167e14452d2c\nw\nG.idea/sonarlint/issuestore/4/f/4f0f9f69aef23354e50e933f09b93eb154f18b54\u0012,c/7/c733031f72620003b2a4e23a69f34b941bcb3d0a\nw\nG.idea/sonarlint/issuestore/4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e\u0012,1/4/14639c59ce65d4397a808f60f9798d8399c578fc\nw\nG.idea/sonarlint/issuestore/5/e/5e152f4ee7fda2724e66c4311f8ffab9cd55602f\u0012,4/9/49dc9713eab6e820e6d9626934f727aa4e32f18b\nw\nG.idea/sonarlint/issuestore/5/a/5ab300cae6e180857b02561fe199570337d5f979\u0012,b/a/baa03e2d19206fe6c1528e74c722a998c70b001f\nw\nG.idea/sonarlint/issuestore/6/f/6f7edd501039e264c6fe87b65db14904a9549ebd\u0012,a/3/a398cccafdf78f22d41973a479f5475665633289\nw\nG.idea/sonarlint/issuestore/6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6\u0012,f/a/fabdea510e94f397c71240e77dcd99e5624de329\nw\nG.idea/sonarlint/issuestore/7/3/738214d40e84c0e7996268f5756ab7159a600a3a\u0012,c/4/c4c09419f2db8cd076b1d69cdbaceeed55259de1\nw\nG.idea/sonarlint/issuestore/7/0/70a1b4bb64d394f3def2763bbe0eafd4fb1576ac\u0012,8/4/845bbe97ffe2fab87b74fd015cce873aa7bfb0f6\nw\nG.idea/sonarlint/issuestore/7/4/748305d6e381875c2f20891bc50c8b353307c7a8\u0012,f/c/fcb8270d4e88e8aaca72b5bb5b6ede6670613145\nw\nG.idea/sonarlint/issuestore/9/a/9a904db6c30ab5669ef41717d5164d7b44636542\u0012,5/9/5962cad869ca68b167a83ea730edf394ad349bd3\nw\nG.idea/sonarlint/issuestore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e\u0012,a/e/ae9ddf453f55affea2d6b9e3973cac1eb2efb4e1\nw\nG.idea/sonarlint/issuestore/a/d/adede9b34d57ad05236076a77b305d5f29823084\u0012,a/c/ac77e3c7f9ff04549b21faf080967888b93daff6\nw\nG.idea/sonarlint/issuestore/a/a/aa14c716e8e4c1f5894f8d2e86f936d68209a841\u0012,d/a/dae8788d619597a74d1da7d31d9163b240d9075f\nw\nG.idea/sonarlint/issuestore/b/a/baa6d5c52f502434e35d31e4e90451d93f90b30d\u0012,f/7/f7dd99347df6d51a77b6f7a65a1f9d9f9907d17d\nw\nG.idea/sonarlint/issuestore/b/0/b031fe80d5f54cd791d14ed184788f7fe189108a\u0012,4/3/43da0c4b953843a7ff09cc9ffadb6c84ceaab372\nw\nG.idea/sonarlint/issuestore/b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4\u0012,2/5/2580318ded169336cfa161c73c1b51647a448f57\nw\nG.idea/sonarlint/issuestore/b/b/bbf9abb81ec92e9030566a7596162663f4bc0114\u0012,e/d/ede1bed703c87f93b840bdba27d4e6c52df104b9\nw\nG.idea/sonarlint/issuestore/b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66\u0012,b/c/bceb7c76e56632869957cbff7b8060ade1089eef\nw\nG.idea/sonarlint/issuestore/d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1\u0012,e/0/e0a4bd14d240f7ca90fbed68fae22e4ac82a22fa\nw\nG.idea/sonarlint/issuestore/c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c\u0012,1/0/106a7c3e4439121fb4b3ed0f2e87e3d672ebb193\nw\nG.idea/sonarlint/issuestore/e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec\u0012,8/a/8a6dae537be9f47878c6964c6ee40cab0ca75e28\nw\nG.idea/sonarlint/issuestore/e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33\u0012,f/d/fde210730b6f02b54d074ba2f4a2dfb4a382b25b\nw\nG.idea/sonarlint/issuestore/f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7\u0012,8/5/8598a78044185a98ee498fc41b8da2884bf55b1f\nw\nG.idea/sonarlint/issuestore/e/d/ed6342d7e1515374cc8a13c30090b6f4897de52e\u0012,4/9/49249738b8a3d8ed7bf8de88b117da9b19a355f2\nw\nG.idea/sonarlint/issuestore/f/d/fdbe04f447c001ae2079b2f7021fbe63a142eddb\u0012,7/7/77cde635269810fd4d169282472bd5a3489ac5bc\nw\nG.idea/sonarlint/issuestore/f/5/f54eb3589a1617b84e4fae26ce078ac750b44099\u0012,6/5/65875ffbc40252230ffd5d763e9075591a9ec9a1\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/0/6/06eeb801b348c1be4393ced01fddff0726e0a829\u0012,5/9/592945ee4f9051c8968779b800a60c7f7a786a42\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12\u0012,3/b/3b758e263ed1068f5fe74960ca4b4b4af6280855\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/1/4/14c5f6105ddea25d5bcc8a664a2a7f27fcf8f018\u0012,8/b/8b94dbe49539de6be2183cf6ed50461f0b7570d6\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/1/3/1386184296a4acf60c52f0680ab5d6d3173b75c4\u0012,2/1/21ddb9a080343f0969f567fec6df07149ed67779\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/0/30205a209c6ce77c4cfc19a09e6f57c588b7fb88\u0012,6/7/67eaf978e530588b1f14f51aeca296c2b659e272\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/0/206d42f36b5eeb16255f2392071d9f558628d8b3\u0012,2/a/2a14a37ce70f7234579e038af9c2e2b238688754\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e\u0012,d/6/d632232b822d478f00babe3639a3768e5423c1e3\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/2/3274c13c802fdd4f4c0bd72afbb851f447e32183\u0012,7/d/7de3ba5905055cf9c0638852c89ffbac498c821c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/a/5ab300cae6e180857b02561fe199570337d5f979\u0012,4/7/476b7721a04ca4845924fc7ecce64de78af3c426\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/f/4f0f9f69aef23354e50e933f09b93eb154f18b54\u0012,5/c/5c77877c12aa9492723c0f2fbbf7c827116f98c1\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6\u0012,5/a/5ab2a9cb8b04ca26ec5994aff439a360d1a9fc85\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/e/5e152f4ee7fda2724e66c4311f8ffab9cd55602f\u0012,4/5/45206f39f7a631207610c59a929157acfddbd33b\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/0/70a1b4bb64d394f3def2763bbe0eafd4fb1576ac\u0012,4/c/4c9dcdbc9308fb97cf8985fca32f062946e74fb8\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/f/6f7edd501039e264c6fe87b65db14904a9549ebd\u0012,8/f/8f3b8883b5b11a425a4d9123a7697fe61fcbbe73\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/4/748305d6e381875c2f20891bc50c8b353307c7a8\u0012,d/f/df5b9812a12dc87c48b2577c92b3554ede365b0e\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/3/738214d40e84c0e7996268f5756ab7159a600a3a\u0012,d/4/d49db68b963dec116de763ea5b3dc4e3fec9cce9\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e\u0012,9/0/909762385fc6eb20f922a91c6865741308b57f2c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/a/aa14c716e8e4c1f5894f8d2e86f936d68209a841\u0012,2/4/243353a45f6e91e22fc5f5f0ca11fc3edaccc17b\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/a/9a904db6c30ab5669ef41717d5164d7b44636542\u0012,7/9/79b5ba42adb1fa8e51b35fc446e07eb9d1ec9098\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/0/b031fe80d5f54cd791d14ed184788f7fe189108a\u0012,b/6/b6ebf5b647b712d18268b6c5fac3392a4c6f97f8\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/d/adede9b34d57ad05236076a77b305d5f29823084\u0012,3/7/37f3598e94084caab28a3cac95f49e94b954ee17\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/b/bbf9abb81ec92e9030566a7596162663f4bc0114\u0012,a/2/a2f70f2f5a04b5e9ea946ff4b8971389d4f99f49\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/a/baa6d5c52f502434e35d31e4e90451d93f90b30d\u0012,5/4/542113aa245e307ea953c6c080e03caa617ff6b0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66\u0012,b/0/b0ddc835a3808a8be5631b2317c2de993178c831\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4\u0012,e/1/e1a90d500c25c4687904ed7582f6640af7528051\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c\u0012,3/f/3f48169d7ff0eb9ddbe96840718b4f427e67db0a\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33\u0012,e/b/eb7a37bb024c760e7bf531ede090d5839ec7e97a\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1\u0012,f/a/fadacd566e38d856a0481af07fb778a62cdc234e\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/d/ed6342d7e1515374cc8a13c30090b6f4897de52e\u0012,7/c/7c0d9fb87578fcb5767dc6e12426380b01e84fad\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec\u0012,9/a/9a43762646d6c9d33ccdc2a92292c8078d1078f0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/5/f54eb3589a1617b84e4fae26ce078ac750b44099\u0012,f/b/fb89552965db449a38b894a5da3ac5d759b345de\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7\u0012,4/9/49dabad3b46e01ca4aa377343e0309e902b770a5\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/d/fdbe04f447c001ae2079b2f7021fbe63a142eddb\u0012,a/2/a2654c4c9c1264cc32086ceeda8c0c1d6614e0bb\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138\u0012,b/0/b08f1ab659fbdd998f45c0def99188f980cc899b\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa\u0012,3/0/30f5865d6b9f1db6cbe84f07e9b1abafd06ebf87\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c\u0012,f/6/f670ea8461bdb6fc5fb1e1613f46f346f37daeb0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25\u0012,b/b/bb40929114e7048fe572e0d6b33332cec1b23842\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/c/8/c8483b9afe3b0d193a484010480647825a41a0d8\u0012,f/c/fc948a58e285c7ba2c204f4916074b9dcefee80c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2\u0012,2/f/2f4fade0be9865b9218e4f68bffc86ef45d94d74\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5\u0012,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/issuestore/index.pb b/.idea/sonarlint/issuestore/index.pb
+--- a/.idea/sonarlint/issuestore/index.pb	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/.idea/sonarlint/issuestore/index.pb	(date 1713507021131)
+@@ -1,6 +1,4 @@
+ 
+-F
+-src/gameloop/Main.java,d/4/d41275a2648ec8d9218596f153465db89bb20320
+ K
+ src/gameloop/GamePanel.java,9/9/998d9d0d7db14c577580c8508735689298db10eb
+ I
+@@ -78,8 +76,6 @@
+ Q.idea/sonarlint/securityhotspotstore/9/f/9f8c8c8254aab2a9f2728853fd1ed402c2e0cf99,d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1
+ �
+ Q.idea/sonarlint/securityhotspotstore/4/1/41994d955ee88c55085f36037199fb8fce3a1665,0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12
+-I
+-src/shapes/Rectangle.java,7/4/748305d6e381875c2f20891bc50c8b353307c7a8
+ �
+ Q.idea/sonarlint/securityhotspotstore/4/a/4a3760fbf9041dd3c15be765055add165b943d93,6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6
+ �
+@@ -131,24 +127,14 @@
+ =
+ 
+ src/Main.java,9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138
+-F
+-src/menu/MainMenu.java,6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa
+ B
+ src/menu/Menu.java,b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c
+-E
+-src/menu/MenuGUI.java,a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25
+-F
+-src/menu/Settings.java,c/8/c8483b9afe3b0d193a484010480647825a41a0d8
+ G
+ src/menu/GameTitle.java,c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2
+-F
+-src/menu/MenuItem.java,4/0/40273c01162de331e831edfeaeed32ead986aad5
+ H
+ src/menu/InGameMenu.java,f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12
+ I
+ src/menu/SettingsGUI.java,a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5
+-P
+- src/GUIUtils/FadeTransition.java,5/a/5a8968da9dd8e517578053bae50c3538932b7fbb
+ H
+ src/menu/MenuButton.java,3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693
+ I
+@@ -338,4 +324,6 @@
+ �
+ Q.idea/sonarlint/securityhotspotstore/c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2,2/f/2f4fade0be9865b9218e4f68bffc86ef45d94d74
+ �
+-Q.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
+\ No newline at end of file
++Q.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
++O
++src/utils/UtilityFunctions.java,3/d/3d87d1172af91c565b276b1a58d84a16100886d6
+\ No newline at end of file
+Index: .idea/sonarlint/securityhotspotstore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nF\n\u0016src/gameloop/Main.java\u0012,d/4/d41275a2648ec8d9218596f153465db89bb20320\nK\n\u001Bsrc/gameloop/GamePanel.java\u0012,9/9/998d9d0d7db14c577580c8508735689298db10eb\nI\n\u0019src/entity/Character.java\u0012,2/9/291c1b5a25f185c67d063a13ef6705eb3d148c1a\n:\n\n.gitignore\u0012,a/5/a5cc2925ca8258af241be7e5b0381edf30266302\nF\n\u0016src/entity/Player.java\u0012,5/2/523a6d6a865441bbb4d3f284442e8ab68be1a6a8\nP\n src/controller/InputHandler.java\u0012,9/3/93cd98295e51b11f72fd793f02b148c30449ac42\nC\n\u0013src/entity/NPC.java\u0012,f/1/f18bb592b69edc372c54b67ce74757b5078c5176\nB\n\u0012src/item/Item.java\u0012,2/e/2e9f1a3e0c0d127b9dd2e056361d536329b23b21\nF\n\u0016src/item/LevelKey.java\u0012,7/9/79f76c984d6ddf91deaa1b0820972022f1f6bc98\nI\n\u0019src/item/MeleeWeapon.java\u0012,9/9/993dba105d645f8c9457c8339f48b770e6ad3eaa\nD\n\u0014src/item/Potion.java\u0012,9/f/9f8c8c8254aab2a9f2728853fd1ed402c2e0cf99\nD\n\u0014src/item/Weapon.java\u0012,b/9/b91651470c5cdf9e8896a3be25008eee1e70165f\nK\n\u001Bsrc/item/WeaponUpgrade.java\u0012,b/3/b38f47160509437ec823dd03f0fff41506a2fe9b\nD\n\u0014src/map/GameMap.java\u0012,9/b/9ba477e4b0e88c662e577299af5a637f5c3b4a44\nG\n\u0017src/map/MapManager.java\u0012,e/f/ef72b57fb0a831314f635a51299783f1cc3a64a0\nA\n\u0011src/map/Tile.java\u0012,5/d/5d6cb45bc6260cc8bf80c9f3a882752f984e4647\nE\n\u0015src/entity/Enemy.java\u0012,6/b/6b9bb6c9415ca1d2227026c66a6e0e1747219767\nM\n\u001Dsrc/entity/RespondingNPC.java\u0012,4/1/41994d955ee88c55085f36037199fb8fce3a1665\nM\n\u001Dsrc/entity/TaskAuthority.java\u0012,e/5/e5ff034a3cf4381ed85861a6498356e66f72dbca\nJ\n\u001Asrc/gameloop/GameLoop.java\u0012,4/a/4a3760fbf9041dd3c15be765055add165b943d93\nR\n\"src/gameloop/UtilityFunctions.java\u0012,3/4/34e115906071fa12e2c527d33e351efc47e350a1\nV\n&src/gameloop/CalculationFunctions.java\u0012,3/d/3d1e31628e2d8e2c1ca8ba82bb8774c8d0495536\nL\n\u001Csrc/entity/TaskVillager.java\u0012,b/d/bdf6a605de9341e03d7700678c544aa3a97e1dd1\nJ\n\u001Asrc/item/RangedWeapon.java\u0012,5/8/587a90b35d2ba32977c7d95ce4a5e00224a15909\nD\n\u0014Viking Adventure.iml\u0012,5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/9/998d9d0d7db14c577580c8508735689298db10eb\u0012,6/f/6f7edd501039e264c6fe87b65db14904a9549ebd\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/9/993dba105d645f8c9457c8339f48b770e6ad3eaa\u0012,1/4/14c5f6105ddea25d5bcc8a664a2a7f27fcf8f018\nw\nG.idea/sonarlint/issuestore/b/d/bdf6a605de9341e03d7700678c544aa3a97e1dd1\u0012,9/b/9b31a286b19d127067131d9ae37ffb83b044cfad\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/1/f18bb592b69edc372c54b67ce74757b5078c5176\u0012,b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/d/3d1e31628e2d8e2c1ca8ba82bb8774c8d0495536\u0012,7/0/70a1b4bb64d394f3def2763bbe0eafd4fb1576ac\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/b/9ba477e4b0e88c662e577299af5a637f5c3b4a44\u0012,f/d/fdbe04f447c001ae2079b2f7021fbe63a142eddb\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/9/79f76c984d6ddf91deaa1b0820972022f1f6bc98\u0012,b/d/bde709a78b6823e30ef373b39aab7077518e8d6e\nw\nG.idea/sonarlint/issuestore/4/1/41994d955ee88c55085f36037199fb8fce3a1665\u0012,e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33\nC\n\u0013src/tasks/Task.java\u0012,3/2/3274c13c802fdd4f4c0bd72afbb851f447e32183\nw\nG.idea/sonarlint/issuestore/e/5/e5ff034a3cf4381ed85861a6498356e66f72dbca\u0012,0/6/06eeb801b348c1be4393ced01fddff0726e0a829\nF\n\u0016src/entity/Warden.java\u0012,b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4\nC\n\u0013src/entity/Mob.java\u0012,7/3/738214d40e84c0e7996268f5756ab7159a600a3a\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/f/9f8c8c8254aab2a9f2728853fd1ed402c2e0cf99\u0012,d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/1/41994d955ee88c55085f36037199fb8fce3a1665\u0012,0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12\nI\n\u0019src/shapes/Rectangle.java\u0012,7/4/748305d6e381875c2f20891bc50c8b353307c7a8\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/a/4a3760fbf9041dd3c15be765055add165b943d93\u0012,6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302\u0012,3/0/30205a209c6ce77c4cfc19a09e6f57c588b7fb88\nw\nG.idea/sonarlint/issuestore/f/1/f18bb592b69edc372c54b67ce74757b5078c5176\u0012,a/a/aa14c716e8e4c1f5894f8d2e86f936d68209a841\nw\nG.idea/sonarlint/issuestore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302\u0012,e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/2/523a6d6a865441bbb4d3f284442e8ab68be1a6a8\u0012,2/0/206d42f36b5eeb16255f2392071d9f558628d8b3\n]\n-.idea/sonarlint/securityhotspotstore/index.pb\u0012,8/8/88a9255124c95bdc913197c120a8d560edc59c8e\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/8/587a90b35d2ba32977c7d95ce4a5e00224a15909\u0012,1/3/1386184296a4acf60c52f0680ab5d6d3173b75c4\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/3/b38f47160509437ec823dd03f0fff41506a2fe9b\u0012,b/0/b031fe80d5f54cd791d14ed184788f7fe189108a\nw\nG.idea/sonarlint/issuestore/5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75\u0012,f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/9/b91651470c5cdf9e8896a3be25008eee1e70165f\u0012,4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e\nI\n\u0019.idea/libraries/javaf.xml\u0012,9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75\u0012,f/5/f54eb3589a1617b84e4fae26ce078ac750b44099\nJ\n\u001A.idea/libraries/lombok.xml\u0012,2/e/2e746fc19417b9c0a6caff5342319552b0f18200\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/d/5d6cb45bc6260cc8bf80c9f3a882752f984e4647\u0012,9/a/9a904db6c30ab5669ef41717d5164d7b44636542\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/d/bdf6a605de9341e03d7700678c544aa3a97e1dd1\u0012,5/a/5ab300cae6e180857b02561fe199570337d5f979\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/9/291c1b5a25f185c67d063a13ef6705eb3d148c1a\u0012,b/a/baa6d5c52f502434e35d31e4e90451d93f90b30d\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/3/93cd98295e51b11f72fd793f02b148c30449ac42\u0012,e/d/ed6342d7e1515374cc8a13c30090b6f4897de52e\nS\n#.idea/sonarlint/issuestore/index.pb\u0012,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/e/2e9f1a3e0c0d127b9dd2e056361d536329b23b21\u0012,b/b/bbf9abb81ec92e9030566a7596162663f4bc0114\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/d/4/d41275a2648ec8d9218596f153465db89bb20320\u0012,c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/b/6b9bb6c9415ca1d2227026c66a6e0e1747219767\u0012,5/e/5e152f4ee7fda2724e66c4311f8ffab9cd55602f\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/5/e5ff034a3cf4381ed85861a6498356e66f72dbca\u0012,4/f/4f0f9f69aef23354e50e933f09b93eb154f18b54\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/4/34e115906071fa12e2c527d33e351efc47e350a1\u0012,2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/f/ef72b57fb0a831314f635a51299783f1cc3a64a0\u0012,a/d/adede9b34d57ad05236076a77b305d5f29823084\n=\n\rsrc/Main.java\u0012,9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138\nF\n\u0016src/menu/MainMenu.java\u0012,6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa\nB\n\u0012src/menu/Menu.java\u0012,b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c\nE\n\u0015src/menu/MenuGUI.java\u0012,a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25\nF\n\u0016src/menu/Settings.java\u0012,c/8/c8483b9afe3b0d193a484010480647825a41a0d8\nG\n\u0017src/menu/GameTitle.java\u0012,c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2\nF\n\u0016src/menu/MenuItem.java\u0012,4/0/40273c01162de331e831edfeaeed32ead986aad5\nH\n\u0018src/menu/InGameMenu.java\u0012,f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12\nI\n\u0019src/menu/SettingsGUI.java\u0012,a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5\nP\n src/GUIUtils/FadeTransition.java\u0012,5/a/5a8968da9dd8e517578053bae50c3538932b7fbb\nH\n\u0018src/menu/MenuButton.java\u0012,3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693\nI\n\u0019src/menu/MapSelector.java\u0012,0/1/0192667dcb93a195e83a9362116f1d2ea3804835\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\u0012,b/b/bbf202272a96de5cd6b6828ffdc55fb3ce45289c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12\u0012,0/2/02178543aca731bf4ad5303f71ee55f799ace59e\nw\nG.idea/sonarlint/issuestore/a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5\u0012,7/3/7314ca658587f044f28d84b2f570fa8e85d20064\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5\u0012,6/9/693c45abed1511009f578f5f9dda00c50ea90ed4\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/a/5a8968da9dd8e517578053bae50c3538932b7fbb\u0012,5/a/5a7ed5d013c58899d16cdafb25dbb6b639685177\nw\nG.idea/sonarlint/issuestore/2/e/2e746fc19417b9c0a6caff5342319552b0f18200\u0012,4/2/422213cbd9774a0e384790d01618051739ac883f\nw\nG.idea/sonarlint/issuestore/2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd\u0012,5/4/54077c9330011b0c2fe33a238fc487122084f0b7\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/d/bde709a78b6823e30ef373b39aab7077518e8d6e\u0012,1/d/1d5fab7f8cab013af4d154e98bb5a3b85733da19\nw\nG.idea/sonarlint/issuestore/9/b/9b31a286b19d127067131d9ae37ffb83b044cfad\u0012,b/d/bdaaff04bc5fceaa1a16b132428e06c0fae8ca15\nS\n#.idea/libraries/Logback_Classic.xml\u0012,f/7/f7a80effdf48a3117654508481a1a05913678102\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd\u0012,2/8/280a95bab15fb434a372c22a3e5096bb5746453b\nI\n\u0019.idea/libraries/SLF4J.xml\u0012,2/d/2d58b279bdaebb3fc13733594645bf378002f06f\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2\u0012,e/4/e4d7163f0720e419a99cf20b3d9c40d147d0d5f7\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/e/2e746fc19417b9c0a6caff5342319552b0f18200\u0012,c/b/cbc9714b42c25a2ea5c05672b9eba23ec6a859d8\nw\nG.idea/sonarlint/issuestore/b/d/bde709a78b6823e30ef373b39aab7077518e8d6e\u0012,e/b/eb056001acd3b90416cefae1113b5dbda242e027\nw\nG.idea/sonarlint/issuestore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\u0012,f/0/f0e0f9cec86fe4b939ae22be5264c758801eb28f\nw\nG.idea/sonarlint/issuestore/3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693\u0012,5/e/5e73c287e204899f6c773dfb3a9fa55b58529c11\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693\u0012,3/9/39c7f39305544c6eb33b35ef5361799b88385b48\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/b/9b31a286b19d127067131d9ae37ffb83b044cfad\u0012,8/1/81d72739ab4aa2d392b49f31cf8a67a55bb0aa17\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/0/1/0192667dcb93a195e83a9362116f1d2ea3804835\u0012,d/c/dcc23e7326fb8a8741a09b1d016eb3e5122a1e2a\nw\nG.idea/sonarlint/issuestore/9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2\u0012,9/c/9cfa336d914426130ea73e5e1fd4ddcaa8f6ac1c\nw\nG.idea/sonarlint/issuestore/0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12\u0012,0/a/0a2c70e92866cc7e68988855fa5d440893d12143\nw\nG.idea/sonarlint/issuestore/0/6/06eeb801b348c1be4393ced01fddff0726e0a829\u0012,c/4/c4c4e9ffc1b575a925543ee349f3110d78331d30\nw\nG.idea/sonarlint/issuestore/1/3/1386184296a4acf60c52f0680ab5d6d3173b75c4\u0012,a/9/a9aaeb0d8a8e2f08cf8b0d114adce2cae20fad69\nw\nG.idea/sonarlint/issuestore/2/0/206d42f36b5eeb16255f2392071d9f558628d8b3\u0012,d/a/da1c8d5e5dc1ddb9f5bb660f804548454af5e549\nw\nG.idea/sonarlint/issuestore/1/4/14c5f6105ddea25d5bcc8a664a2a7f27fcf8f018\u0012,9/6/96bf1c90f08a4ae321bc381a5e7029c0657ebc1f\nw\nG.idea/sonarlint/issuestore/3/0/30205a209c6ce77c4cfc19a09e6f57c588b7fb88\u0012,8/3/83c97b69f1983e71cd804a5894ec167e14452d2c\nw\nG.idea/sonarlint/issuestore/4/f/4f0f9f69aef23354e50e933f09b93eb154f18b54\u0012,c/7/c733031f72620003b2a4e23a69f34b941bcb3d0a\nw\nG.idea/sonarlint/issuestore/4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e\u0012,1/4/14639c59ce65d4397a808f60f9798d8399c578fc\nw\nG.idea/sonarlint/issuestore/5/e/5e152f4ee7fda2724e66c4311f8ffab9cd55602f\u0012,4/9/49dc9713eab6e820e6d9626934f727aa4e32f18b\nw\nG.idea/sonarlint/issuestore/5/a/5ab300cae6e180857b02561fe199570337d5f979\u0012,b/a/baa03e2d19206fe6c1528e74c722a998c70b001f\nw\nG.idea/sonarlint/issuestore/6/f/6f7edd501039e264c6fe87b65db14904a9549ebd\u0012,a/3/a398cccafdf78f22d41973a479f5475665633289\nw\nG.idea/sonarlint/issuestore/6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6\u0012,f/a/fabdea510e94f397c71240e77dcd99e5624de329\nw\nG.idea/sonarlint/issuestore/7/3/738214d40e84c0e7996268f5756ab7159a600a3a\u0012,c/4/c4c09419f2db8cd076b1d69cdbaceeed55259de1\nw\nG.idea/sonarlint/issuestore/7/0/70a1b4bb64d394f3def2763bbe0eafd4fb1576ac\u0012,8/4/845bbe97ffe2fab87b74fd015cce873aa7bfb0f6\nw\nG.idea/sonarlint/issuestore/7/4/748305d6e381875c2f20891bc50c8b353307c7a8\u0012,f/c/fcb8270d4e88e8aaca72b5bb5b6ede6670613145\nw\nG.idea/sonarlint/issuestore/9/a/9a904db6c30ab5669ef41717d5164d7b44636542\u0012,5/9/5962cad869ca68b167a83ea730edf394ad349bd3\nw\nG.idea/sonarlint/issuestore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e\u0012,a/e/ae9ddf453f55affea2d6b9e3973cac1eb2efb4e1\nw\nG.idea/sonarlint/issuestore/a/d/adede9b34d57ad05236076a77b305d5f29823084\u0012,a/c/ac77e3c7f9ff04549b21faf080967888b93daff6\nw\nG.idea/sonarlint/issuestore/a/a/aa14c716e8e4c1f5894f8d2e86f936d68209a841\u0012,d/a/dae8788d619597a74d1da7d31d9163b240d9075f\nw\nG.idea/sonarlint/issuestore/b/a/baa6d5c52f502434e35d31e4e90451d93f90b30d\u0012,f/7/f7dd99347df6d51a77b6f7a65a1f9d9f9907d17d\nw\nG.idea/sonarlint/issuestore/b/0/b031fe80d5f54cd791d14ed184788f7fe189108a\u0012,4/3/43da0c4b953843a7ff09cc9ffadb6c84ceaab372\nw\nG.idea/sonarlint/issuestore/b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4\u0012,2/5/2580318ded169336cfa161c73c1b51647a448f57\nw\nG.idea/sonarlint/issuestore/b/b/bbf9abb81ec92e9030566a7596162663f4bc0114\u0012,e/d/ede1bed703c87f93b840bdba27d4e6c52df104b9\nw\nG.idea/sonarlint/issuestore/b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66\u0012,b/c/bceb7c76e56632869957cbff7b8060ade1089eef\nw\nG.idea/sonarlint/issuestore/d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1\u0012,e/0/e0a4bd14d240f7ca90fbed68fae22e4ac82a22fa\nw\nG.idea/sonarlint/issuestore/c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c\u0012,1/0/106a7c3e4439121fb4b3ed0f2e87e3d672ebb193\nw\nG.idea/sonarlint/issuestore/e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec\u0012,8/a/8a6dae537be9f47878c6964c6ee40cab0ca75e28\nw\nG.idea/sonarlint/issuestore/e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33\u0012,f/d/fde210730b6f02b54d074ba2f4a2dfb4a382b25b\nw\nG.idea/sonarlint/issuestore/f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7\u0012,8/5/8598a78044185a98ee498fc41b8da2884bf55b1f\nw\nG.idea/sonarlint/issuestore/e/d/ed6342d7e1515374cc8a13c30090b6f4897de52e\u0012,4/9/49249738b8a3d8ed7bf8de88b117da9b19a355f2\nw\nG.idea/sonarlint/issuestore/f/d/fdbe04f447c001ae2079b2f7021fbe63a142eddb\u0012,7/7/77cde635269810fd4d169282472bd5a3489ac5bc\nw\nG.idea/sonarlint/issuestore/f/5/f54eb3589a1617b84e4fae26ce078ac750b44099\u0012,6/5/65875ffbc40252230ffd5d763e9075591a9ec9a1\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/0/6/06eeb801b348c1be4393ced01fddff0726e0a829\u0012,5/9/592945ee4f9051c8968779b800a60c7f7a786a42\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12\u0012,3/b/3b758e263ed1068f5fe74960ca4b4b4af6280855\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/1/4/14c5f6105ddea25d5bcc8a664a2a7f27fcf8f018\u0012,8/b/8b94dbe49539de6be2183cf6ed50461f0b7570d6\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/1/3/1386184296a4acf60c52f0680ab5d6d3173b75c4\u0012,2/1/21ddb9a080343f0969f567fec6df07149ed67779\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/0/30205a209c6ce77c4cfc19a09e6f57c588b7fb88\u0012,6/7/67eaf978e530588b1f14f51aeca296c2b659e272\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/2/0/206d42f36b5eeb16255f2392071d9f558628d8b3\u0012,2/a/2a14a37ce70f7234579e038af9c2e2b238688754\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e\u0012,d/6/d632232b822d478f00babe3639a3768e5423c1e3\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/3/2/3274c13c802fdd4f4c0bd72afbb851f447e32183\u0012,7/d/7de3ba5905055cf9c0638852c89ffbac498c821c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/a/5ab300cae6e180857b02561fe199570337d5f979\u0012,4/7/476b7721a04ca4845924fc7ecce64de78af3c426\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/f/4f0f9f69aef23354e50e933f09b93eb154f18b54\u0012,5/c/5c77877c12aa9492723c0f2fbbf7c827116f98c1\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6\u0012,5/a/5ab2a9cb8b04ca26ec5994aff439a360d1a9fc85\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/5/e/5e152f4ee7fda2724e66c4311f8ffab9cd55602f\u0012,4/5/45206f39f7a631207610c59a929157acfddbd33b\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/0/70a1b4bb64d394f3def2763bbe0eafd4fb1576ac\u0012,4/c/4c9dcdbc9308fb97cf8985fca32f062946e74fb8\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/f/6f7edd501039e264c6fe87b65db14904a9549ebd\u0012,8/f/8f3b8883b5b11a425a4d9123a7697fe61fcbbe73\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/4/748305d6e381875c2f20891bc50c8b353307c7a8\u0012,d/f/df5b9812a12dc87c48b2577c92b3554ede365b0e\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/7/3/738214d40e84c0e7996268f5756ab7159a600a3a\u0012,d/4/d49db68b963dec116de763ea5b3dc4e3fec9cce9\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e\u0012,9/0/909762385fc6eb20f922a91c6865741308b57f2c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/a/aa14c716e8e4c1f5894f8d2e86f936d68209a841\u0012,2/4/243353a45f6e91e22fc5f5f0ca11fc3edaccc17b\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/a/9a904db6c30ab5669ef41717d5164d7b44636542\u0012,7/9/79b5ba42adb1fa8e51b35fc446e07eb9d1ec9098\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/0/b031fe80d5f54cd791d14ed184788f7fe189108a\u0012,b/6/b6ebf5b647b712d18268b6c5fac3392a4c6f97f8\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/d/adede9b34d57ad05236076a77b305d5f29823084\u0012,3/7/37f3598e94084caab28a3cac95f49e94b954ee17\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/b/bbf9abb81ec92e9030566a7596162663f4bc0114\u0012,a/2/a2f70f2f5a04b5e9ea946ff4b8971389d4f99f49\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/a/baa6d5c52f502434e35d31e4e90451d93f90b30d\u0012,5/4/542113aa245e307ea953c6c080e03caa617ff6b0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66\u0012,b/0/b0ddc835a3808a8be5631b2317c2de993178c831\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4\u0012,e/1/e1a90d500c25c4687904ed7582f6640af7528051\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c\u0012,3/f/3f48169d7ff0eb9ddbe96840718b4f427e67db0a\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33\u0012,e/b/eb7a37bb024c760e7bf531ede090d5839ec7e97a\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1\u0012,f/a/fadacd566e38d856a0481af07fb778a62cdc234e\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/d/ed6342d7e1515374cc8a13c30090b6f4897de52e\u0012,7/c/7c0d9fb87578fcb5767dc6e12426380b01e84fad\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec\u0012,9/a/9a43762646d6c9d33ccdc2a92292c8078d1078f0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/5/f54eb3589a1617b84e4fae26ce078ac750b44099\u0012,f/b/fb89552965db449a38b894a5da3ac5d759b345de\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7\u0012,4/9/49dabad3b46e01ca4aa377343e0309e902b770a5\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/f/d/fdbe04f447c001ae2079b2f7021fbe63a142eddb\u0012,a/2/a2654c4c9c1264cc32086ceeda8c0c1d6614e0bb\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138\u0012,b/0/b08f1ab659fbdd998f45c0def99188f980cc899b\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa\u0012,3/0/30f5865d6b9f1db6cbe84f07e9b1abafd06ebf87\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c\u0012,f/6/f670ea8461bdb6fc5fb1e1613f46f346f37daeb0\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25\u0012,b/b/bb40929114e7048fe572e0d6b33332cec1b23842\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/c/8/c8483b9afe3b0d193a484010480647825a41a0d8\u0012,f/c/fc948a58e285c7ba2c204f4916074b9dcefee80c\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2\u0012,2/f/2f4fade0be9865b9218e4f68bffc86ef45d94d74\n�\u0001\nQ.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5\u0012,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/securityhotspotstore/index.pb b/.idea/sonarlint/securityhotspotstore/index.pb
+--- a/.idea/sonarlint/securityhotspotstore/index.pb	(revision 7a33d0df58317ad08a864018eeeebc375da1b6f1)
++++ b/.idea/sonarlint/securityhotspotstore/index.pb	(date 1713507021133)
+@@ -1,6 +1,4 @@
+ 
+-F
+-src/gameloop/Main.java,d/4/d41275a2648ec8d9218596f153465db89bb20320
+ K
+ src/gameloop/GamePanel.java,9/9/998d9d0d7db14c577580c8508735689298db10eb
+ I
+@@ -78,8 +76,6 @@
+ Q.idea/sonarlint/securityhotspotstore/9/f/9f8c8c8254aab2a9f2728853fd1ed402c2e0cf99,d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1
+ �
+ Q.idea/sonarlint/securityhotspotstore/4/1/41994d955ee88c55085f36037199fb8fce3a1665,0/1/015ddbe6a7ae4978f222c0319e0e16d8fb5f5f12
+-I
+-src/shapes/Rectangle.java,7/4/748305d6e381875c2f20891bc50c8b353307c7a8
+ �
+ Q.idea/sonarlint/securityhotspotstore/4/a/4a3760fbf9041dd3c15be765055add165b943d93,6/7/67e69f86c67f11439ff7dbfe2346c617f414bdd6
+ �
+@@ -131,24 +127,14 @@
+ =
+ 
+ src/Main.java,9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138
+-F
+-src/menu/MainMenu.java,6/5/659bae1b81330bbf5e0c9aacd8abbfdedbc370fa
+ B
+ src/menu/Menu.java,b/5/b57a6028d340a2df5ff1d52f953a0ad38eba9b8c
+-E
+-src/menu/MenuGUI.java,a/b/abb9dafaeb971c7095d1d9c66f795f1b77703a25
+-F
+-src/menu/Settings.java,c/8/c8483b9afe3b0d193a484010480647825a41a0d8
+ G
+ src/menu/GameTitle.java,c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2
+-F
+-src/menu/MenuItem.java,4/0/40273c01162de331e831edfeaeed32ead986aad5
+ H
+ src/menu/InGameMenu.java,f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12
+ I
+ src/menu/SettingsGUI.java,a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5
+-P
+- src/GUIUtils/FadeTransition.java,5/a/5a8968da9dd8e517578053bae50c3538932b7fbb
+ H
+ src/menu/MenuButton.java,3/3/33282ed9e6b63f6b4dfb512867e43837e71a8693
+ I
+@@ -338,4 +324,6 @@
+ �
+ Q.idea/sonarlint/securityhotspotstore/c/a/ca3a120dfd32f45c43be65201ac258bfce9e96a2,2/f/2f4fade0be9865b9218e4f68bffc86ef45d94d74
+ �
+-Q.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
+\ No newline at end of file
++Q.idea/sonarlint/securityhotspotstore/4/0/40273c01162de331e831edfeaeed32ead986aad5,8/e/8e97d9604d4aa7c7240e8c310d0989825f122ce0
++O
++src/utils/UtilityFunctions.java,3/d/3d87d1172af91c565b276b1a58d84a16100886d6
+\ No newline at end of file

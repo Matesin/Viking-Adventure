@@ -1,0 +1,17 @@
+
+š
+java:S1104"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8Ğ¼ê§ï1J$4eb947bc-838b-42b0-95f8-e698d89216a0
+š
+java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8Ğ¼ê§ï1J$badaec06-18bd-44be-acce-e22c37718abf
+ 
+java:S1104"XMake screenCoordX a static final constant or non-public and provide accessors if needed.(¿ÏÊÖüÿÿÿÿ8Ğ¼ê§ï1J$26909644-ef1f-4804-aa32-e175a64e010b
+›
+java:S1104"XMake screenCoordY a static final constant or non-public and provide accessors if needed.(¤ŒÌÈ8Ñ¼ê§ï1J$6d8c36b1-3037-450c-ab53-c5585f7588b1
+w
+java:S2387"4"worldCoordX" is the name of a field in "Character".(¾Â«‡8Ù¼ê§ï1J$98793870-d6ea-44d3-af5c-75add41ad315
+w
+java:S2387"4"worldCoordY" is the name of a field in "Character".(³ôÔ¦8Ù¼ê§ï1J$ed7eb679-c553-4328-b356-350a6a8c1a18
+u
+java:S1135X"2Complete the task associated to this TODO comment.(âÊ“8Ş¼ê§ï1J$70fd124b-e1dc-4364-80f7-eeb773b7ce4b
+W
+java:S1128"5Remove this unused import 'com.sun.tools.javac.Main'.( ƒ™şüÿÿÿÿ8‹ºñ§ï1

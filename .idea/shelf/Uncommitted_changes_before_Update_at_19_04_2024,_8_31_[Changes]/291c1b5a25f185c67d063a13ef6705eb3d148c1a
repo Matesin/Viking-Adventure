@@ -1,0 +1,15 @@
+
+–
+java:S1104	"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8ø‰«¼í1J$4395bd06-351b-42c8-8d03-8d186a348632
+t
+java:S1104
+"WMake worldCoordX a static final constant or non-public and provide accessors if needed.(¾Â«‡8íšò§ï1
+t
+java:S1104"WMake worldCoordY a static final constant or non-public and provide accessors if needed.(³ôÔ¦8íšò§ï1
+œ
+java:S1104"YMake movementSpeed a static final constant or non-public and provide accessors if needed.(Ì‚È©8ø‰«¼í1J$bcd6d1e8-0015-47e1-8289-34a6574b17c5
+—
+java:S1104"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8ø‰«¼í1J$6de01fa9-022e-4f74-8c10-08dfe85d7080
+š
+java:S1104"RMake hitbox a static final constant or non-public and provide accessors if needed.(¯¨ÿ¬üÿÿÿÿ8¸®Øí1J$4f4231fa-cfa8-4a05-84bd-69fe618832cf
+”	java:S116	"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8ú‰«¼í1J$31be00d7-f9cf-457f-a152-f6ff39eda832

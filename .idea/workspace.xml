@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="730aa351-769b-4a93-9244-c4a4c02353ae" name="Changes" comment="implemented entity loading" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2ervAm1zRyL4YfQeVGkbDhxSgZE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.Main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/matymartan/Desktop/Skola/PJV/Viking Adventure/res/defaults",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.scopes",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/defaults" />
+      <recent name="$PROJECT_DIR$/res/maps" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/input_handler" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/res/maps/map01" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="configuration" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Viking Adventure" />
+      <option name="VM_PARAMETERS" value="--module-path ${PATH_TO_FX} --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="730aa351-769b-4a93-9244-c4a4c02353ae" name="Changes" comment="" />
+      <created>1712675372328</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712675372328</updated>
+      <workItem from="1712675373440" duration="9466000" />
+      <workItem from="1712860425115" duration="1212000" />
+      <workItem from="1712862648091" duration="2588000" />
+      <workItem from="1712904195708" duration="27454000" />
+      <workItem from="1713010419344" duration="51000" />
+      <workItem from="1713010476473" duration="117000" />
+      <workItem from="1713010673486" duration="9126000" />
+      <workItem from="1713019814611" duration="36080000" />
+      <workItem from="1713284809497" duration="94392000" />
+      <workItem from="1713893735326" duration="13586000" />
+      <workItem from="1713945823209" duration="3063000" />
+    </task>
+    <task id="LOCAL-00001" summary="accidentally deleted all progress, new initial commit">
+      <option name="closed" value="true" />
+      <created>1713019721929</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713019721930</updated>
+    </task>
+    <task id="LOCAL-00002" summary="main made shorter, started work on main menu">
+      <option name="closed" value="true" />
+      <created>1713022547764</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713022547764</updated>
+    </task>
+    <task id="LOCAL-00003" summary="main made shorter, started work on main menu">
+      <option name="closed" value="true" />
+      <created>1713022699201</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1713022699201</updated>
+    </task>
+    <task id="LOCAL-00004" summary="implemented game menu, started working on game settings">
+      <option name="closed" value="true" />
+      <created>1713039938120</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1713039938120</updated>
+    </task>
+    <task id="LOCAL-00005" summary="implemented game menu, started working on game settings">
+      <option name="closed" value="true" />
+      <created>1713248473729</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1713248473729</updated>
+    </task>
+    <task id="LOCAL-00006" summary="implemented game menu, started working on game settings">
+      <option name="closed" value="true" />
+      <created>1713248775864</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713248775864</updated>
+    </task>
+    <task id="LOCAL-00007" summary="edited MapManager">
+      <option name="closed" value="true" />
+      <created>1713248827282</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713248827282</updated>
+    </task>
+    <task id="LOCAL-00008" summary="edited map functionality, added Logger properties">
+      <option name="closed" value="true" />
+      <created>1713255486742</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1713255486742</updated>
+    </task>
+    <task id="LOCAL-00009" summary="edited map functionality, added Logger properties">
+      <option name="closed" value="true" />
+      <created>1713256054345</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1713256054345</updated>
+    </task>
+    <task id="LOCAL-00010" summary="edited map and tile properties">
+      <option name="closed" value="true" />
+      <created>1713589550203</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1713589550203</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added hitbox">
+      <option name="closed" value="true" />
+      <created>1713603115367</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1713603115367</updated>
+    </task>
+    <task id="LOCAL-00012" summary="added collision check">
+      <option name="closed" value="true" />
+      <created>1713637575815</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1713637575815</updated>
+    </task>
+    <task id="LOCAL-00013" summary="started implementation of objects">
+      <option name="closed" value="true" />
+      <created>1713683616316</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1713683616316</updated>
+    </task>
+    <task id="LOCAL-00014" summary="edited map properties">
+      <option name="closed" value="true" />
+      <created>1713786614283</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1713786614283</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fixed hitbox collisions, started working on ingame menu">
+      <option name="closed" value="true" />
+      <created>1713814156601</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1713814156601</updated>
+    </task>
+    <task id="LOCAL-00016" summary="edited InGameMenu functionality">
+      <option name="closed" value="true" />
+      <created>1713893780709</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1713893780709</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fixed InGameMenu, cleaned code">
+      <option name="closed" value="true" />
+      <created>1713932313874</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1713932313874</updated>
+    </task>
+    <task id="LOCAL-00018" summary="implemented entity loading">
+      <option name="closed" value="true" />
+      <created>1713948226393</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1713948226393</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="24071079-e3c8-48cc-af2e-6e84c303a35b" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="24071079-e3c8-48cc-af2e-6e84c303a35b">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="*" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="accidentally deleted all progress, new initial commit" />
+    <MESSAGE value="moved main func" />
+    <MESSAGE value="main made shorter, started work on main menu" />
+    <MESSAGE value="edited map loading and rendering" />
+    <MESSAGE value="edited MapManager" />
+    <MESSAGE value="edited map loading and rendering" />
+    <MESSAGE value="edited map functionality, added Logger properties" />
+    <MESSAGE value="edited Sprite" />
+    <MESSAGE value="edited map rendering" />
+    <MESSAGE value="edited map and tile properties" />
+    <MESSAGE value="added hitbox" />
+    <MESSAGE value="added collision check" />
+    <MESSAGE value="started implementation of objects" />
+    <MESSAGE value="edited map properties" />
+    <MESSAGE value="fixed hitbox collisions, started working on ingame menu" />
+    <MESSAGE value="edited InGameMenu functionality" />
+    <MESSAGE value="fixed InGameMenu, cleaned code" />
+    <MESSAGE value="implemented entity loading" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented entity loading" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" log-message="true" suspend="NONE" type="java-field">
+          <url>file://$PROJECT_DIR$/src/utils/CollisionChecker.java</url>
+          <line>12</line>
+          <properties field="gamePanel" class="utils.CollisionChecker" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

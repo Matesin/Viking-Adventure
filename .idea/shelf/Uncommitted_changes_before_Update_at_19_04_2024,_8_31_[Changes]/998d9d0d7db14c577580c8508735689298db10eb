@@ -1,0 +1,14 @@
+
+t
+java:S1104"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ýÿÿÿÿ8±¼ê§ï1
+u
+java:S1104!"XMake maxWorldRows a static final constant or non-public and provide accessors if needed.(üæÕô8²¼ê§ï1
+z
+java:S1104""XMake maxWorldCols a static final constant or non-public and provide accessors if needed.(õÌÛ«øÿÿÿÿ8²¼ê§ï1
+x
+java:S1104#"VMake worldWidth a static final constant or non-public and provide accessors if needed.(€ÓÃ‘ûÿÿÿÿ8²¼ê§ï1
+t
+java:S1104$"WMake worldHeight a static final constant or non-public and provide accessors if needed.(‡¼·¦8²¼ê§ï1
+G	java:S1061"+Replace this use of System.out by a logger.(’žÑò8Â¼ê§ï1
+N
+java:S11354"2Complete the task associated to this TODO comment.(¬–¿C8Ã¼ê§ï1
