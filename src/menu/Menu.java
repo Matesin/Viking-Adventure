@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Button.*;
 
 public class Menu extends Application {
 /*
@@ -42,7 +43,7 @@ public class Menu extends Application {
                 StackPane settings = new StackPane();
                 Scene scene = new Scene(settings, SCREEN_WIDTH, SCREEN_HEIGHT);
                 Stage stage = (Stage) this.root.getScene().getWindow();
-                new SettingsGUI();
+                new GameSettings();
                 //***TEMPORARY
                 Text text = new Text("Under Construction");
                 text.setX(SCREEN_MIDDLE_X);
@@ -88,6 +89,7 @@ public class Menu extends Application {
     private void addTitle(){
         final int titleNameFontSize = 70;
         GameTitle title = new GameTitle("Viking Adventure", titleNameFontSize);
+        title.display();
         title.setLayoutX((double) SCREEN_MIDDLE_X / 3); // test value, change to dynamic
         title.setTranslateY((double) SCREEN_HEIGHT / 5);
 
@@ -115,7 +117,7 @@ public class Menu extends Application {
             MenuButton item = new MenuButton(data.getKey());
             item.setOnAction(data.getValue());
             item.setTranslateX(-300);
-            Rectangle clip = new Rectangle(300, 60);
+            Rectangle clip = new Rectangle(BUTTON_WIDTH, BUTTON_HEIGHT);
             clip.translateXProperty().bind(item.translateXProperty().negate());
 
             item.setClip(clip);

@@ -11,23 +11,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import static gameloop.Constants.Button.*;
 
 public class MenuButton extends Pane {
 
     public MenuButton(String name){
-        int buttonWidth = 200;
-        int buttonHeight = 60;
+
         Polygon button = new Polygon(
                 0, 0,
-                buttonWidth, 0,
-                buttonWidth, buttonHeight,
-                0, buttonHeight
+                BUTTON_WIDTH, 0,
+                BUTTON_WIDTH, BUTTON_HEIGHT,
+                0, BUTTON_HEIGHT
         );
         Text text = new Text(name);
         int textSize = 20;
         text.setFont(Font.font("Verdana", FontWeight.BOLD, textSize));
         text.setTranslateX(10);
-        text.setTranslateY((double) buttonHeight / 2 + (double) textSize / 4);
+        text.setTranslateY((double) BUTTON_HEIGHT / 2 + (double) textSize / 4);
         text.setFill(Color.BLACK);
         text.setStroke(Color.WHITE);
         Effect glow = new BoxBlur(1, 1, 3);

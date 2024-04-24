@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +28,6 @@ import static gameloop.GamePanel.*;
 public class GamePanel extends Pane {
 
     public Player player;
-
-    @Getter
-    @Setter
-    private int fps = 60;
     // WORLD SETTINGS
     @Getter
     private int maxWorldRows;
@@ -57,6 +54,7 @@ public class GamePanel extends Pane {
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
     public final AssetSetter assetSetter = new AssetSetter(this);
     public Item[] items;
+    // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root){
         log.info("GamePanel created");
         this.scene = scene;
@@ -104,18 +102,28 @@ public class GamePanel extends Pane {
         this.maxWorldCols = worldWidth * SCREEN_COLS;
         this.chosenMap = mapManager.map;
     }
-    // GAME LOOP
+
+    // REFRESH ENTITY COORDS
     public void update() {
         player.update();
     }
-
+    // DRAW GRAPHICS
     public void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        gc.setFill(Color.CADETBLUE);
-        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        refreshScreen(gc);
         player.hitbox.display(gc);
         player.render(gc);
         mapManager.renderMap(gc);
+        printPlayerStats(gc);
+    }
+    public Stage getStage(){
+        return (Stage) this.root.getScene().getWindow();
+    }
+    private void refreshScreen(GraphicsContext gc){
+        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        gc.setFill(Color.CADETBLUE);
+        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    private void printPlayerStats(GraphicsContext gc){
         gc.setFill(Color.WHITE);
         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
         gc.setFont(statsFont);

@@ -348,3 +348,9 @@ G
 src/utils/ObjUtils.java,9/9/9929f815de1870c3dfa8c2a448ab0ce84dba103c
 K
 src/gameloop/Constants.java,e/0/e0091dfcaebcf316a7ea5c170c8dfb27f2530096
+G
+src/menu/GameLabel.java,4/8/486697cf6b4e8826f363c7b5e8b194f82c815cb3
+J
+src/menu/GameSettings.java,f/3/f385a85df3025556f356ce1b2f43eef5307c66d2
+L
+src/gameloop/PrintStats.java,5/1/51b3cbec9bada5b64006fc684b125126bd8d0fd0

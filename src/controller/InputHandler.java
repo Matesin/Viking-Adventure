@@ -63,4 +63,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
             }
         }
     }
+    public void reset(){
+        upPressed = downPressed = leftPressed = rightPressed = paused = false;
+    }
 }

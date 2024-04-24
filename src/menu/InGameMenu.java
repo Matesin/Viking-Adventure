@@ -22,47 +22,39 @@ import java.util.List;
 
 @Slf4j
 public class InGameMenu {
-    private void setMenu() {
-        menuButtons = Arrays.asList(
-                new Pair<>("Resume", () -> {
-                    //exit the menu and return to the game
-                    this.gamePanel.getInputHandler().setPaused(false);
-                    mainStage.setScene(this.gamePanel.getScene());
-                }),
-                new Pair<>("Save & Exit", () -> {
-                    // Create a new GamePanel
-                }),
-                new Pair<>("Settings", () -> {
-                    StackPane settings = new StackPane();
-                    Scene scene = new Scene(settings, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    Stage stage = (Stage) this.root.getScene().getWindow();
-                    new SettingsGUI();
-                    Text text = new Text("Under Construction");
-                    text.setX(SCREEN_MIDDLE_X);
-                    text.setY(SCREEN_MIDDLE_Y);
-                    text.setFill(Color.BLACK);
-                    text.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-                    this.root.getChildren().add(text);
-                    stage.setScene(scene);
-                })
-        );
-    }
-
     private final Pane root = new Pane();
     private final VBox menuBox = new VBox(-5);
     private final Stage mainStage;
     private final GamePanel gamePanel;
+    private Scene previousScene;
     private List<Pair<String, Runnable>> menuButtons;
     public InGameMenu(Stage mainStage, GamePanel gamePanel) {
         this.mainStage = mainStage;
         this.gamePanel = gamePanel;
         if (mainStage != null){
+            this.previousScene = mainStage.getScene();
             mainStage.setScene(new Scene(createContent(), SCREEN_WIDTH, SCREEN_HEIGHT));
         }
-        createContent();
         log.info("InGameMenu created");
     }
-
+    private void initButtons(){
+        this.menuButtons = Arrays.asList(
+                new Pair<>("Resume", () -> {
+                    //exit the menu and return to the game
+                    log.info("Resuming game");
+                    gamePanel.getInputHandler().reset();
+                    mainStage.setScene(previousScene);
+                }),
+                new Pair<>("Save & Exit", () -> {
+                    //save the game and exit
+                    log.info("Saving game and exiting");
+                    System.exit(0);
+                }),
+                new Pair<>("Settings", () -> {
+                    //this will implement the same settings class as the main menu
+                })
+        );
+    }
     private void setScene() {
         this.root.setStyle("-fx-background-color: white;");
     }
@@ -70,6 +62,8 @@ public class InGameMenu {
         menuButtons.forEach(data -> {
             MenuButton item = new MenuButton(data.getKey());
             item.setOnAction(data.getValue());
+            item.setTranslateX(SCREEN_MIDDLE_X - 100);
+            item.setTranslateY(SCREEN_MIDDLE_Y - 100 + menuButtons.indexOf(data) * 60);
             Rectangle clip = new Rectangle(300, 60);
             item.setClip(clip);
             menuBox.getChildren().addAll(item);
@@ -77,7 +71,7 @@ public class InGameMenu {
         root.getChildren().add(menuBox);
     }
     private Parent createContent(){
-        setMenu();
+        initButtons();
         setScene();
         addMenu();
         return this.root;

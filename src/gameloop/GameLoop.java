@@ -8,19 +8,21 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.extern.slf4j.Slf4j;
 import menu.InGameMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static java.lang.Thread.sleep;
+import static gameloop.Constants.Game.*;
 
+import static java.lang.Thread.sleep;
+@Slf4j
 public class GameLoop extends AnimationTimer {
-    private static final Logger log = LoggerFactory.getLogger(GameLoop.class);
     GamePanel gamePanel;
     Canvas canvas;
     GraphicsContext gc;
     InGameMenu inGameMenu;
-    double durationMillis = 100000000.0;
+
     public GameLoop(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.canvas = gamePanel.canvas;
@@ -30,17 +32,14 @@ public class GameLoop extends AnimationTimer {
     // GAME LOOP
     @Override
     public void handle(long now) {
-        if (!this.gamePanel.inputHandler.isPaused()){
             this.gamePanel.update();
             this.gamePanel.draw(gc);
-        } else {
-            //start new thread for in game menu
-            //pause game loop
+        if (this.gamePanel.inputHandler.isPaused()) {
             this.stop();
-            inGameMenu = new InGameMenu((Stage) this.gamePanel.root.getScene().getWindow(), this.gamePanel);
+            inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isPaused()) this.start();
         }
-        Timeline loop = new Timeline(new KeyFrame(Duration.millis(durationMillis / gamePanel.getFps())));
+        Timeline loop = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME_MILLIS)));
         loop.setCycleCount(Animation.INDEFINITE);
         loop.play();
     }
