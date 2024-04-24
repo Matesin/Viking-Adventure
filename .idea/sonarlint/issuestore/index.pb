@@ -139,10 +139,6 @@ Q.idea/sonarlint/securityhotspotstore/9/f/9fe84ebb15faf917b7def6236dba604453cc61
 Å
 Q.idea/sonarlint/securityhotspotstore/f/1/f12c0d6eb2cba64702506a2f9560b0d3d53fba12,0/2/02178543aca731bf4ad5303f71ee55f799ace59e
 w
-G.idea/sonarlint/issuestore/a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5,7/3/7314ca658587f044f28d84b2f570fa8e85d20064
-Å
-Q.idea/sonarlint/securityhotspotstore/a/7/a7857a4b50509a5bdf0677237dd89a99afdeb0b5,6/9/693c45abed1511009f578f5f9dda00c50ea90ed4
-w
 G.idea/sonarlint/issuestore/2/e/2e746fc19417b9c0a6caff5342319552b0f18200,4/2/422213cbd9774a0e384790d01618051739ac883f
 w
 G.idea/sonarlint/issuestore/2/e/2e570cbba8836f8057d7a75f44998a54fb6873dd,5/4/54077c9330011b0c2fe33a238fc487122084f0b7
@@ -223,8 +219,6 @@ G.idea/sonarlint/issuestore/b/f/bf3a2b2518aa504d83404b6853be94b5ad437d66,b/c/bc
 w
 G.idea/sonarlint/issuestore/d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1,e/0/e0a4bd14d240f7ca90fbed68fae22e4ac82a22fa
 w
-G.idea/sonarlint/issuestore/c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c,1/0/106a7c3e4439121fb4b3ed0f2e87e3d672ebb193
-w
 G.idea/sonarlint/issuestore/e/d/ed67eb178d523a4b3f117dcbe0eda5196367ceec,8/a/8a6dae537be9f47878c6964c6ee40cab0ca75e28
 w
 G.idea/sonarlint/issuestore/e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33,f/d/fde210730b6f02b54d074ba2f4a2dfb4a382b25b
@@ -285,8 +279,6 @@ Q.idea/sonarlint/securityhotspotstore/b/f/bf3a2b2518aa504d83404b6853be94b5ad437d
 Å
 Q.idea/sonarlint/securityhotspotstore/b/b/bbdc060660a1aa75e1165cdb0cf68d0942cfa6f4,e/1/e1a90d500c25c4687904ed7582f6640af7528051
 Å
-Q.idea/sonarlint/securityhotspotstore/c/c/ccd7622a6d49c70af2d1433a8c3ffdaf892b255c,3/f/3f48169d7ff0eb9ddbe96840718b4f427e67db0a
-Å
 Q.idea/sonarlint/securityhotspotstore/e/a/ea689dc950e6ed41b703fa9d630c423edf0eeb33,e/b/eb7a37bb024c760e7bf531ede090d5839ec7e97a
 Å
 Q.idea/sonarlint/securityhotspotstore/d/6/d6db6ab1c1be44229dd9c0747237ea134b16f5e1,f/a/fadacd566e38d856a0481af07fb778a62cdc234e
@@ -334,8 +326,6 @@ J
 src/menu/GameSettings.java,f/3/f385a85df3025556f356ce1b2f43eef5307c66d2
 X
 (src/configuration/JsonEntityHandler.java,5/e/5e862bafa9e30bd868720299a3fa8fbcd332bd37
-R
-"src/configuration/JsonHandler.java,7/3/73bba583739a438a4e1a94f817bc2f8f9f6bcba2
 T
 $src/configuration/EntityHandler.java,5/2/52099298265f1a83cb3c782bb8873a7cc31c1c2f
 ]
