@@ -1,9 +1,9 @@
 package gameloop;
 
 import controller.InputHandler;
+import entity.Character;
 import entity.Player;
 import item.Item;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,11 +18,14 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import map.GameMap;
 import map.MapManager;
+import handling.AssetSetter;
 import utils.CollisionChecker;
 
+import java.util.List;
+import java.util.Optional;
+
 import static gameloop.Constants.Screen.*;
-import static gameloop.Constants.Tile.*;
-import static gameloop.GamePanel.*;
+import static gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
 public class GamePanel extends Pane {
@@ -34,9 +37,7 @@ public class GamePanel extends Pane {
     @Getter
     private int maxWorldCols;
     // PANE INIT
-    @FXML
     Canvas canvas;
-    @FXML
     GraphicsContext gc;
     @Getter
     InputHandler inputHandler;
@@ -54,6 +55,7 @@ public class GamePanel extends Pane {
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
     public final AssetSetter assetSetter = new AssetSetter(this);
     public Item[] items;
+    public Optional<List<Character>> entities;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root){
         log.info("GamePanel created");
@@ -106,13 +108,15 @@ public class GamePanel extends Pane {
     // REFRESH ENTITY COORDS
     public void update() {
         player.update();
+//        updateEntities();
     }
     // DRAW GRAPHICS
     public void draw(GraphicsContext gc) {
         refreshScreen(gc);
-        player.hitbox.display(gc);
+        player.getHitbox().display(gc);
         player.render(gc);
         mapManager.renderMap(gc);
+//        renderEntities(gc);
         printPlayerStats(gc);
     }
     public Stage getStage(){
@@ -130,6 +134,26 @@ public class GamePanel extends Pane {
         gc.fillText("Player X: " + player.getWorldCoordX(), 15, 30);
         gc.fillText("Player Y: " + player.getWorldCoordY(), 15, 60);
         gc.fillText("Current Sprite: " + player.getCurrentSprite(), 15, 90);
-        gc.fillText("Hitbox Coords: " + player.hitbox.getCoordX() + ", " + player.hitbox.getCoordY(), 15, 120);
+        gc.fillText("Hitbox Coords: " + player.getHitbox().getCoordX() + ", " + player.getHitbox().getCoordY(), 15, 120);
+    }
+    private void updateEntities(){
+        if (entities.isPresent()) {
+            for (Character entity : entities.orElseThrow()) {
+                entity.update();
+            }
+        }
+    }
+    public boolean isOnScreen(int x, int y){
+        return x >= player.getWorldCoordX() - SCREEN_MIDDLE_X - TILE_SIZE && x <= player.getWorldCoordX() + SCREEN_MIDDLE_X + TILE_SIZE&&
+                y >= player.getWorldCoordY() - SCREEN_MIDDLE_Y - TILE_SIZE && y <= player.getWorldCoordY() + SCREEN_MIDDLE_Y + TILE_SIZE;
+    }
+    private void renderEntities(GraphicsContext gc){
+        if (entities.isPresent()) {
+            for (Character entity : entities.orElseThrow()) {
+                if (isOnScreen(entity.getWorldCoordX(), entity.getWorldCoordY())) {
+                    entity.render(gc);
+                }
+            }
+        }
     }
 }

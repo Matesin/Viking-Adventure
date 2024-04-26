@@ -47,6 +47,7 @@ public class Player extends Character {
         hitbox.update();
     }
 
+    @Override
     public void update(){
         if(input.isUpPressed()){
             direction = "up";
@@ -118,6 +119,7 @@ public class Player extends Character {
 
     private long lastUpdate = 0;
 
+    @Override
     public void render(GraphicsContext gc) {
         //create movement effect by switching between two sprites
         gc.setFill(RED);

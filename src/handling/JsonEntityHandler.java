@@ -1,4 +1,4 @@
-package configuration;
+package handling;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,14 +15,14 @@ public class JsonEntityHandler implements EntityHandler{
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String OBJ_FILENAME = "/ent.json";
     @Override
-    public void serializeCharactersToFile(Character[] entities, String save) throws IOException {
+    public void serializeCharactersToFile(List<Character> entities, String save) throws IOException {
         String filepath = "saves/" + save + OBJ_FILENAME;
         File entityFile = new File(filepath);
         objectMapper.writeValue(entityFile, entities);
     }
 
     @Override
-    public Optional<Object> deserializeCharactersFromFile(String save, String mapID) {
+    public Optional<List<Character>> deserializeCharactersFromFile(String save, String mapID) {
         String mapFilepath = "res/maps/map" + mapID + OBJ_FILENAME;
         String filepath = save.equals("default") ? mapFilepath : "saves/" + save + OBJ_FILENAME;
         File entityFile = new File(filepath);

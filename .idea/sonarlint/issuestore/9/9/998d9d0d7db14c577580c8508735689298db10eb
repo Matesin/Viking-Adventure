@@ -1,7 +1,15 @@
 
 š
-java:S1104"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ıÿÿÿÿ8ñÜ¡äğ1J$b0f61443-6774-40da-addf-b4163e84a63b
+java:S1104!"RMake player a static final constant or non-public and provide accessors if needed.(†Á‚¹ıÿÿÿÿ8ììÃµñ1J$0a6eb9f3-8905-4b26-aa01-039cd622c99a
 “
-java:S11048"QMake items a static final constant or non-public and provide accessors if needed.(ùŞ£8ñÜ¡äğ1J$144ae6ae-991b-4e70-b715-32b495b82cc9
+java:S11049"QMake items a static final constant or non-public and provide accessors if needed.(ùŞ£8íìÃµñ1J$964af573-6dc3-4494-9b56-312c78061800
+œ
+java:S1104:"TMake entities a static final constant or non-public and provide accessors if needed.(Ÿöëåÿÿÿÿÿ8íìÃµñ1J$ba91add9-792c-44a1-affb-e668c383b9c5
 t
-java:S1135>"2Complete the task associated to this TODO comment.(¬–¿C8ÿÜ¡äğ1J$8256f2b7-7f15-49d3-9e5a-8baff48eb2d2
+java:S1135@"2Complete the task associated to this TODO comment.(¬–¿C8şìÃµñ1J$b4ba87ac-899c-4230-b777-5d37eb58b7ed
+~	java:S125o"<This block of commented-out lines of code should be removed.(©…¡Ÿ8òó¸Æñ1J$5166f3d8-05c7-49c2-8ae4-af1c32213c18
+~	java:S125w"<This block of commented-out lines of code should be removed.(…ö²8”¹Æñ1J$437dd756-a9ae-4d4e-9e43-352b1e6892cf
+w
+java:S1144‹"3Remove this unused private "updateEntities" method.(Œ×™8úó¸Æñ1J$b72ad41e-8fdd-4ba5-b523-a7477b8f92a4
+|
+java:S1144–"3Remove this unused private "renderEntities" method.(á™™Ôûÿÿÿÿ8§”¹Æñ1J$e903b86b-fe5c-4b5a-94dd-402d5fe68b2a

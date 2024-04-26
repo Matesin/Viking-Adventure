@@ -1,6 +1,5 @@
 package map;
 
-import com.sun.media.jfxmedia.events.PlayerEvent;
 import entity.Player;
 import gameloop.GamePanel;
 import item.Item;
@@ -69,7 +68,7 @@ public class MapManager {
         log.info("Loading map {}", mapIndex);
         String mapIndexString = mapIndex < 10 ? "0" + mapIndex : "" + mapIndex;
         String filepath = "res/maps/map" + mapIndexString + "/map.txt";
-        this.map = new GameMap();
+        this.map = new GameMap(mapIndexString);
         try {
             this.map.loadMapFromFile(filepath);
             this.mapWidth = this.map.getMapWidth();

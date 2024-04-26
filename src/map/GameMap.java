@@ -17,6 +17,7 @@ import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Tile.*;
 
 @Slf4j
+@Getter
 public class GameMap implements Serializable {
     /*
     * The GameMap class is responsible for storing the map data and rendering the map to the screen.
@@ -25,27 +26,23 @@ public class GameMap implements Serializable {
     * game - the game panel
      */
     private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*
-    @Getter
     private Tile[] tiles;
-    @Getter
     private int mapWidth;
-    @Getter
     private int mapHeight;
     @Setter
-    @Getter
     private int[][] map;
-    @Getter
     int startX;
-    @Getter
     int startY;
+    private String mapID;
     TileUtils utils;
 
-    public GameMap(){
+    public GameMap(String mapID){
         this.utils = new TileUtils(this);
         tiles = new Tile[NUM_TILE_TYPES];
         startX = SCREEN_MIDDLE_X;
         startY = SCREEN_MIDDLE_Y;
         getTileImages();
+        this.mapID = mapID;
     }
     public void getTileImages(){
         // Load the tile images

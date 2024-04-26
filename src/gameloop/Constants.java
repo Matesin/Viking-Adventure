@@ -51,8 +51,8 @@ public class Constants {
             log.error(CONSTANT_CREATION, "Utility MenuLayout class created");
         }
         public static final int MENU_BUTTONS_X = SCREEN_MIDDLE_X - Button.BUTTON_WIDTH / 2;
-        public static final int MENU_BUTTONS_Y = SCREEN_MIDDLE_Y - Button.BUTTON_HEIGHT / 2;
-        public static final int MENU_BUTTONS_SPACING = 50;
+        public static final int MENU_BUTTONS_Y = SCREEN_MIDDLE_Y / 2;
+        public static final int MENU_BUTTONS_SPACING = 30;
         public static final int MENU_TITLE_X = SCREEN_MIDDLE_X / 3;
         public static final int MENU_TITLE_Y = SCREEN_HEIGHT / 4;
     }

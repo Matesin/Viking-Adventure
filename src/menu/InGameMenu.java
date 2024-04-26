@@ -5,8 +5,11 @@ import static gameloop.Constants.Screen.*;
 import gameloop.GamePanel;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -34,7 +37,6 @@ public class InGameMenu {
             this.previousScene = mainStage.getScene();
             mainStage.setScene(new Scene(createContent(), SCREEN_WIDTH, SCREEN_HEIGHT));
         }
-        log.info("InGameMenu created");
     }
     private void initButtons(){
         this.menuButtons = Arrays.asList(
@@ -55,7 +57,13 @@ public class InGameMenu {
         );
     }
     private void setScene() {
-        this.root.setStyle("-fx-background-color: white;");
+        WritableImage snapshot = new WritableImage(SCREEN_WIDTH, SCREEN_HEIGHT);
+        previousScene.getRoot().snapshot(null, snapshot);
+        ImageView imageView = new ImageView(snapshot);
+        imageView.setEffect(new GaussianBlur());
+        Image blurredImage = imageView.snapshot(null, null);
+        BackgroundImage background = new BackgroundImage(blurredImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        this.root.setBackground(new Background(background));
     }
     private void addMenu(){
         menuButtons.forEach(data -> {
