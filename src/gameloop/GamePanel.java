@@ -29,8 +29,6 @@ import static gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
 public class GamePanel extends Pane {
-
-    public Player player;
     // WORLD SETTINGS
     @Getter
     private int maxWorldRows;
@@ -40,7 +38,8 @@ public class GamePanel extends Pane {
     Canvas canvas;
     GraphicsContext gc;
     @Getter
-    InputHandler inputHandler;
+    InputHandler inputHandler = new InputHandler();
+    public Player player = new Player(this, this.inputHandler);
     Scene scene;
     GameLoop gameLoop;
     @Getter
@@ -54,8 +53,8 @@ public class GamePanel extends Pane {
     private int chosenMapIndex;
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
     public final AssetSetter assetSetter = new AssetSetter(this);
-    public Item[] items;
     public Optional<List<Character>> entities;
+    public Camera camera;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root){
         log.info("GamePanel created");
@@ -63,7 +62,8 @@ public class GamePanel extends Pane {
         this.root = root;
         //TODO: Add a map selector
         log.info("Setting up game panel");
-        setMap(2);
+        setMap(1);
+        this.camera = new Camera(this);
         log.info("Initializing player");
         initPlayer();
         initCanvas();
@@ -81,8 +81,6 @@ public class GamePanel extends Pane {
     }
     // PLAYER INIT
     private void initPlayer(){
-        this.inputHandler = new InputHandler();
-        this.player = new Player(this, this.inputHandler);
         int playerStartX = mapManager.map.getStartX();
         int playerStartY = mapManager.map.getStartY();
         player.getPlayerImage();
@@ -104,10 +102,10 @@ public class GamePanel extends Pane {
         this.maxWorldCols = worldWidth * SCREEN_COLS;
         this.chosenMap = mapManager.map;
     }
-
     // REFRESH ENTITY COORDS
     public void update() {
-        player.update();
+        this.player.update();
+        camera.update();
 //        updateEntities();
     }
     // DRAW GRAPHICS
@@ -128,13 +126,13 @@ public class GamePanel extends Pane {
         gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     private void printPlayerStats(GraphicsContext gc){
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.BLACK);
         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
         gc.setFont(statsFont);
-        gc.fillText("Player X: " + player.getWorldCoordX(), 15, 30);
-        gc.fillText("Player Y: " + player.getWorldCoordY(), 15, 60);
-        gc.fillText("Current Sprite: " + player.getCurrentSprite(), 15, 90);
-        gc.fillText("Hitbox Coords: " + player.getHitbox().getCoordX() + ", " + player.getHitbox().getCoordY(), 15, 120);
+        gc.fillText("Player Coords: " + player.getWorldCoordX() + ", " + player.getWorldCoordY(), 15, 30);
+        gc.fillText("Hitbox Coords: " + player.getHitbox().getCoordX() + ", " + player.getHitbox().getCoordY(), 15, 60);
+        gc.fillText("Camera Coords: " + camera.getCameraX() + ", " + camera.getCameraY(), 15, 90);
+        gc.fillText("Max Camera X: " + (mapManager.getMapWidth() * TILE_SIZE - 2 * SCREEN_MIDDLE_X), 15, 120);
     }
     private void updateEntities(){
         if (entities.isPresent()) {

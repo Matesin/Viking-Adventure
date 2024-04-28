@@ -1,0 +1,30 @@
+[
+  {
+    "type": "mob",
+    "HP": 100,
+    "worldCoordX": 10,
+    "worldCoordY": 20,
+    "screenCoordX": 30,
+    "screenCoordY": 40,
+    "direction": "up",
+    "speed": 5,
+    "width": 50,
+    "height": 60,
+    "spriteID": 1,
+    "collision": false
+  },
+  {
+    "type": "warden",
+    "HP": 200,
+    "worldCoordX": 15,
+    "worldCoordY": 25,
+    "screenCoordX": 35,
+    "screenCoordY": 45,
+    "direction": "down",
+    "speed": 10,
+    "width": 55,
+    "height": 65,
+    "spriteID": 2,
+    "collision": true
+  }
+]

@@ -402,3 +402,11 @@ G.idea/sonarlint/issuestore/9/7/97590f2321ea70edd24608e6bba958850a55a74d,3/e/3e
 Q.idea/sonarlint/securityhotspotstore/d/0/d070e9cb377b53a9ccd07a5fe7d7f78eeea743b7,6/9/69b34467031a2b9e61b14857e4068054c81ea07e
 w
 G.idea/sonarlint/issuestore/d/0/d070e9cb377b53a9ccd07a5fe7d7f78eeea743b7,f/1/f1ec8faafa6794071714d91c57dfe38513cc98e6
+M
+src/handling/ItemHandler.java,0/c/0c7479abeaed4b5813e2fb0b93487f3c740567e9
+Q
+!src/handling/JsonItemHandler.java,5/b/5bfa6d81c7e37e52d5c8110220db5bbce34e6851
+S
+#src/handling/JsonObjectHandler.java,4/2/423e6487d1b880512436bc453a3f8da9cd2378ad
+G
+src/menu/MapPicker.java,7/d/7ddb0c7ed5a3937486aa8594ebca80a489c4fccf

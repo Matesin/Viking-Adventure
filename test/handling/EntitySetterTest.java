@@ -1,6 +1,7 @@
 package handling;
 
 import entity.Character;
+import gameloop.GamePanel;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,9 +14,8 @@ class EntitySetterTest {
     @Test
     void setEntities() {
         // Arrange
-        String save = "save.json";
-        String mapID = "02";
-        EntitySetter entitySetter = new EntitySetter(save, mapID);
+
+        EntitySetter entitySetter = new EntitySetter(new GamePanel().getSave(), new GamePanel().getMapID());
 
         // Act
         Optional<List<Character>> result = entitySetter.setEntities();

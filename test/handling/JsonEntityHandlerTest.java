@@ -37,13 +37,13 @@ class JsonEntityHandlerTest {
     void deserializeCharactersFromFile() {
         // Arrange
         JsonEntityHandler jsonEntityHandler = new JsonEntityHandler();
-        String save = "save.json";
-        String mapID = "02";
+        String save = "save";
+        String mapID = ".json";
 
         // Act
         Optional<List<Character>> result = Optional.empty();
         try {
-            result = jsonEntityHandler.deserializeCharactersFromFile(save, mapID);
+            result = jsonEntityHandler.deserializeCharactersFromFile(save + mapID);
         } catch (Exception e) {
             fail("Exception should not be thrown");
         }

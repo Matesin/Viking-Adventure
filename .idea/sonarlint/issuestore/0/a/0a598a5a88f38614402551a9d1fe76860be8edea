@@ -1,6 +1,10 @@
 
-ƒ	java:S125<"<This block of commented-out lines of code should be removed.(Ä¦ˆÎÿÿÿÿÿ8Ê³ï·ğ1J$a2c6ef55-25a0-4ff8-8636-f0896cdcffbf
-w
-java:S1128"/Remove this unused import 'gameloop.GamePanel'.(¸”œìúÿÿÿÿ8Ë³ï·ğ1J$3807e0ba-2c48-4e66-b78e-64ca5b549e3e
-ƒ
-java:S1128	"@Remove this unused import 'javax.swing.text.html.parser.Entity'.(Û‡Ğ‘8Ë³ï·ğ1J$dd54f0ea-4d28-43a5-9bcc-a5c84f9bd27a
+ƒ	java:S125@"<This block of commented-out lines of code should be removed.(Ä¦ˆÎÿÿÿÿÿ8‡é•«ò1J$747d26da-c13e-4625-8f8c-21f0228391fa
+Q
+java:S1128"/Remove this unused import 'gameloop.GamePanel'.(¸”œìúÿÿÿÿ8Æ™Ö°ò1
+]
+java:S1128	"@Remove this unused import 'javax.swing.text.html.parser.Entity'.(Û‡Ğ‘8Æ™Ö°ò1
+c
+java:S1128"FRemove this unused import 'gameloop.Constants.Screen.SCREEN_MIDDLE_X'.(½®ª”8Æ™Ö°ò1
+c
+java:S1128"FRemove this unused import 'gameloop.Constants.Screen.SCREEN_MIDDLE_Y'.(íĞ’œ8Æ™Ö°ò1

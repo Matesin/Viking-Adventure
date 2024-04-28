@@ -4,9 +4,7 @@ import controller.InputHandler;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -32,15 +30,15 @@ public class Player extends Character {
         this.input = input;
         this.height = TILE_SIZE;
         this.width = TILE_SIZE;
-        this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /2);
+        this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /3);
         getPlayerImage();
     }
 
     public void setDefaultValues(int beginX, int beginY){
         this.worldCoordX = beginX;
         this.worldCoordY = beginY;
-        this.screenCoordX = SCREEN_MIDDLE_X;
-        this.screenCoordY = SCREEN_MIDDLE_Y;
+        this.setScreenCoordX(SCREEN_MIDDLE_X);
+        this.setScreenCoordY(SCREEN_MIDDLE_Y);
         currentSprite = down1;
         this.speed = 5; // Adjust this value as needed
         direction = "down";
@@ -64,11 +62,10 @@ public class Player extends Character {
         isMoving = input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed();
 
         if (isMoving) {
-            log.debug("Player is moving");
+            hitbox.update();
             //check for collision
             collision = false; //reset collision
             gamePanel.collisionChecker.checkTile(this);
-            log.debug("Collision: {}", collision);
             //if there is no collision, move the player
             if (!collision) {
                 switch (direction) {
@@ -87,7 +84,6 @@ public class Player extends Character {
                     default:
                         break;
                 }
-                hitbox.update();
             }
         }
     }
@@ -137,10 +133,6 @@ public class Player extends Character {
             oddIteration = !oddIteration;
             lastUpdate = now;
         }
-        assert currentSprite != null;
-
-        //preventing different sprite dimensions by scaling the sprite to the size of the tile
-        gc.drawImage(currentSprite, SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
-
+        gc.drawImage(currentSprite, getScreenCoordX(), getScreenCoordY());
     }
 }

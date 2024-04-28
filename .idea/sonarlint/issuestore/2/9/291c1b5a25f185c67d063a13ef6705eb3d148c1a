@@ -1,10 +1,10 @@
 
 –
-java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8²â‹ñ1J$a4f91f02-7f76-411b-a192-13c47a8f0bc2
+java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8²â‹ñ1J$88610afa-c3ef-4bfb-9ba0-fa83617ebdef
 —
-java:S1104)"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8²â‹ñ1J$4f4534e8-b770-4767-a1b7-45461db4705b
-”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8´â‹ñ1J$89685b73-89bb-4029-8b13-aef885bd5b92
+java:S1104)"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8²â‹ñ1J$f32eea7f-3d03-414d-b54e-26fa9906718c
+”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8´â‹ñ1J$a117ae11-96f2-4eaf-926d-6b6d95fc1e9c
 
-java:S1128"9Remove this unused import 'javafx.scene.shape.Rectangle'.(ÖÉ­Œşÿÿÿÿ8´Ù‘‹ñ1J$55f4e3d9-0921-4dbb-952d-cd570784ff39
+java:S1128"9Remove this unused import 'javafx.scene.shape.Rectangle'.(ÖÉ­Œşÿÿÿÿ8´Ù‘‹ñ1J$6e40ab26-d052-4ed2-8300-a2609a447908
 x
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8´Ù‘‹ñ1J$b933de6e-0f47-42ae-adf5-7e0ee378d0f2
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8´Ù‘‹ñ1J$3315744b-b1a3-4359-800b-3ed5e3e15019

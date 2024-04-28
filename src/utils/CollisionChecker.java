@@ -49,6 +49,7 @@ public class CollisionChecker {
             case "down":
                 entityBottomRow = (entityBottomY + entity.getSpeed()) / TILE_SIZE;
                 log.debug("entityBottomRow: {}", entityBottomRow);
+                log.debug("map height: {}", gamePanel.getChosenMap().getMapHeight());
                 if (entityBottomRow >= gamePanel.getChosenMap().getMapHeight()){
                     entity.setCollision(true);
                     break;

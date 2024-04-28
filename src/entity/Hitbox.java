@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.text.html.parser.Entity;
+
+import static gameloop.Constants.Screen.SCREEN_MIDDLE_X;
+import static gameloop.Constants.Screen.SCREEN_MIDDLE_Y;
+
 @Slf4j
 public class Hitbox {
     @Getter
@@ -62,8 +66,8 @@ public class Hitbox {
         this.hitArea.setY(coordY);
     }
     public void display(GraphicsContext gc){
-        int displayX = this.entity.getScreenCoordX();
-        int displayY = this.entity.getScreenCoordY();
+        int displayX = entity.getScreenCoordX();
+        int displayY = entity.getScreenCoordY();
         if (offset) {
             displayX += this.xOffset;
             displayY += this.yOffset;

@@ -1,10 +1,12 @@
 package map;
 
 import entity.Player;
+import gameloop.Camera;
 import gameloop.GamePanel;
 import item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,23 +19,21 @@ import java.util.Scanner;
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Tile.*;
 
+@Slf4j
 public class MapManager {
-    private static final Logger log = LoggerFactory.getLogger(MapManager.class);
-    /*
-    * The map manager class is responsible for managing the game map.
-    * */
     public GameMap map;
     @Getter
     private int mapWidth;
     @Getter
     private int mapHeight;
     GamePanel gamePanel;
+    private final Camera camera;
+
     public MapManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        this.camera = gamePanel.camera;
     }
-    public void generateMap() {
-        // Generate the map - feature to be implemented later
-    }
+
     public void renderMap(GraphicsContext gc) {
         int worldCol = 0;
         int worldRow = 0;
@@ -47,6 +47,18 @@ public class MapManager {
             worldY = worldRow * TILE_SIZE;
             screenX = worldX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
             screenY = worldY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
+            if(gamePanel.player.getWorldCoordX() < SCREEN_MIDDLE_X) {
+                screenX = worldX;
+            }
+            if (gamePanel.player.getWorldCoordY() < SCREEN_MIDDLE_Y) {
+                screenY = worldY;
+            }
+            if (gamePanel.player.getWorldCoordX() > mapWidth * TILE_SIZE - SCREEN_MIDDLE_X) {
+                screenX = worldX - (mapWidth * TILE_SIZE - SCREEN_WIDTH);
+            }
+            if (gamePanel.player.getWorldCoordY() > mapHeight * TILE_SIZE - SCREEN_MIDDLE_Y) {
+                screenY = worldY - (mapHeight * TILE_SIZE - SCREEN_HEIGHT);
+            }
             if (screenX >= - TILE_SIZE &&
                 screenX <= SCREEN_WIDTH &&
                 screenY >= - TILE_SIZE &&

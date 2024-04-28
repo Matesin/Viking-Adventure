@@ -13,18 +13,14 @@ import java.util.Optional;
 @Slf4j
 public class JsonEntityHandler implements EntityHandler{
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String OBJ_FILENAME = "/ent.json";
     @Override
-    public void serializeCharactersToFile(List<Character> entities, String save) throws IOException {
-        String filepath = "saves/" + save + OBJ_FILENAME;
+    public void serializeCharactersToFile(List<Character> entities, String filepath) throws IOException {
         File entityFile = new File(filepath);
         objectMapper.writeValue(entityFile, entities);
     }
 
     @Override
-    public Optional<List<Character>> deserializeCharactersFromFile(String save, String mapID) {
-        String mapFilepath = "res/maps/map" + mapID + OBJ_FILENAME;
-        String filepath = save.equals("default") ? mapFilepath : "saves/" + save + OBJ_FILENAME;
+    public Optional<List<Character>> deserializeCharactersFromFile(String filepath) {
         File entityFile = new File(filepath);
         TypeReference<List<Character>> characterList = new TypeReference<>() {};
         try {

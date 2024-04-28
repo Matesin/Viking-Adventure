@@ -28,10 +28,10 @@ public abstract class Character {
     int worldCoordY;
     @Getter
     @Setter
-    int screenCoordX;
+    private int screenCoordX;
     @Getter
     @Setter
-    int screenCoordY;
+    private int screenCoordY;
     @Getter
     String direction;
     @Getter

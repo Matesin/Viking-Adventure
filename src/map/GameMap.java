@@ -1,5 +1,6 @@
 package map;
 
+import gameloop.Camera;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -26,7 +27,7 @@ public class GameMap implements Serializable {
     * game - the game panel
      */
     private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*
-    private Tile[] tiles;
+    private Tile[] tiles = new Tile[NUM_TILE_TYPES];
     private int mapWidth;
     private int mapHeight;
     @Setter
@@ -48,7 +49,7 @@ public class GameMap implements Serializable {
         // Load the tile images
         utils.initTile("path", 0);
         utils.initTile("grass", 1);
-        utils.initTile("water", 2, true, true);
+        utils.initTile("water", 2,true, true);
     }
 
 
