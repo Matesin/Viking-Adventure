@@ -56,7 +56,7 @@ public class InGameMenu {
                 })
         );
     }
-    private void setScene() {
+    private void setBackground() {
         WritableImage snapshot = new WritableImage(SCREEN_WIDTH, SCREEN_HEIGHT);
         previousScene.getRoot().snapshot(null, snapshot);
         ImageView imageView = new ImageView(snapshot);
@@ -79,7 +79,7 @@ public class InGameMenu {
     }
     private Parent createContent(){
         initButtons();
-        setScene();
+        setBackground();
         addMenu();
         return this.root;
     }

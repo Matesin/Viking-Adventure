@@ -45,7 +45,11 @@ public class GamePanel extends Pane {
     @Getter
     StackPane root;
     MapManager mapManager;
-
+    @Getter
+    @Setter
+    private int mapID = 2;
+    @Getter
+    private final String mapIDString = mapID < 9 ? "0" + mapID : String.valueOf(mapID);
     @Getter
     GameMap chosenMap;
     @Getter
@@ -53,16 +57,18 @@ public class GamePanel extends Pane {
     private int chosenMapIndex;
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
     public final AssetSetter assetSetter = new AssetSetter(this);
-    public Optional<List<Character>> entities;
+    public static Optional<List<Character>> entities;
     public Camera camera;
+    public boolean loadSaved;
     // CONSTRUCT GAME PANEL
-    public GamePanel(Scene scene, StackPane root){
+    public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");
         this.scene = scene;
         this.root = root;
+        this.loadSaved = loadSaved;
         //TODO: Add a map selector
         log.info("Setting up game panel");
-        setMap(1);
+        setMap(mapID);
         this.camera = new Camera(this);
         log.info("Initializing player");
         initPlayer();
@@ -83,7 +89,7 @@ public class GamePanel extends Pane {
     private void initPlayer(){
         int playerStartX = mapManager.map.getStartX();
         int playerStartY = mapManager.map.getStartY();
-        player.getPlayerImage();
+        player.getImage();
         player.setDefaultValues(playerStartX, playerStartY);
     }
     // GAME LOOP INIT
@@ -95,7 +101,7 @@ public class GamePanel extends Pane {
     public void setMap(int mapIndex){
         this.mapManager = new MapManager(this);
         this.chosenMapIndex = mapIndex;
-        mapManager.loadMap(chosenMapIndex);
+        mapManager.loadMap();
         int worldHeight = mapManager.getMapHeight();
         int worldWidth = mapManager.getMapWidth();
         this.maxWorldRows = worldHeight * SCREEN_ROWS;
@@ -142,8 +148,22 @@ public class GamePanel extends Pane {
         }
     }
     public boolean isOnScreen(int x, int y){
-        return x >= player.getWorldCoordX() - SCREEN_MIDDLE_X - TILE_SIZE && x <= player.getWorldCoordX() + SCREEN_MIDDLE_X + TILE_SIZE&&
-                y >= player.getWorldCoordY() - SCREEN_MIDDLE_Y - TILE_SIZE && y <= player.getWorldCoordY() + SCREEN_MIDDLE_Y + TILE_SIZE;
+        boolean isOnScreen = false;
+        int playerX = player.getWorldCoordX();
+        int playerY = player.getWorldCoordY();
+        int mapWidth = mapManager.getMapWidth();
+        int mapHeight = mapManager.getMapHeight();
+        if ((playerX - SCREEN_MIDDLE_X  - TILE_SIZE < 0 && x <= SCREEN_WIDTH) ||
+            (playerY - SCREEN_MIDDLE_Y - TILE_SIZE < 0 && y <= SCREEN_WIDTH) ||
+            (playerX + SCREEN_MIDDLE_X > mapWidth && x > mapWidth - SCREEN_WIDTH) ||
+            (playerY + SCREEN_MIDDLE_Y > mapHeight && y >= mapHeight - SCREEN_WIDTH)) {
+            isOnScreen = true;
+        }
+        else {
+            isOnScreen = x >= playerX - SCREEN_MIDDLE_X - TILE_SIZE && x <= playerX + SCREEN_MIDDLE_X + TILE_SIZE &&
+                    y >= playerY - SCREEN_MIDDLE_Y - TILE_SIZE && y <= playerY + SCREEN_MIDDLE_Y + TILE_SIZE;
+        }
+        return isOnScreen;
     }
     private void renderEntities(GraphicsContext gc){
         if (entities.isPresent()) {

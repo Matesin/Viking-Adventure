@@ -14,7 +14,7 @@ public class GameState {
     public GameState(int save, String mapID, GamePanel gamePanel){
         this.save = save;
         this.mapID = mapID;
-        this.entitySetter = new EntitySetter(gamePanel, save);
+        this.entitySetter = new EntitySetter(gamePanel, gamePanel.loadSaved);
         this.assetSetter = new AssetSetter(gamePanel);
         this.saveUtility = new SaveUtility();
     }

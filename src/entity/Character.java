@@ -22,6 +22,7 @@ import java.io.IOException;
 })
 public abstract class Character {
     public int HP;
+    private boolean isMoving;
     @Getter
     int worldCoordX;
     @Getter
@@ -54,8 +55,29 @@ public abstract class Character {
     Image right2;
     public void update(){
         // Update the character's position
+        if (isMoving) move();
     }
     public void render(GraphicsContext gc){
         // Render the character
+
+    }
+    private void move(){
+        // Move the character
+        switch (direction){
+            case "up":
+                worldCoordY -= speed;
+                break;
+            case "down":
+                worldCoordY += speed;
+                break;
+            case "left":
+                worldCoordX -= speed;
+                break;
+            case "right":
+                worldCoordX += speed;
+                break;
+            default:
+                break;
+        }
     }
 }

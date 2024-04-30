@@ -31,7 +31,7 @@ public class Player extends Character {
         this.height = TILE_SIZE;
         this.width = TILE_SIZE;
         this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /3);
-        getPlayerImage();
+        getImage();
     }
 
     public void setDefaultValues(int beginX, int beginY){
@@ -87,7 +87,7 @@ public class Player extends Character {
             }
         }
     }
-    public void getPlayerImage() {
+    public void getImage() {
         // Load the sprites
         try {
             up1 = setSprite(1, "up");

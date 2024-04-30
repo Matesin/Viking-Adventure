@@ -16,7 +16,6 @@ import static gameloop.Constants.Button.*;
 public class MenuButton extends Pane {
 
     public MenuButton(String name){
-
         Polygon button = new Polygon(
                 0, 0,
                 BUTTON_WIDTH, 0,

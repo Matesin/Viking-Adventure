@@ -27,15 +27,15 @@ public class GameMap implements Serializable {
     * game - the game panel
      */
     private static final int NUM_TILE_TYPES = 3; //*SUBJECT TO CHANGE*
-    private Tile[] tiles = new Tile[NUM_TILE_TYPES];
+    private final transient Tile[] tiles;
     private int mapWidth;
     private int mapHeight;
     @Setter
     private int[][] map;
     int startX;
     int startY;
-    private String mapID;
-    TileUtils utils;
+    private final String mapID;
+    transient TileUtils utils;
 
     public GameMap(String mapID){
         this.utils = new TileUtils(this);

@@ -14,12 +14,13 @@ public abstract class Item {
      */
     String name;
     String description;
+    public boolean collision = false;
     @Getter
     @Setter
-    private int worldCoordX;
+    int worldCoordX;
     @Getter
     @Setter
-    private int worldCoordY;
+    int worldCoordY;
     Image placementImage = new Image("res/defaults/default_tile.png"); //Image used when the object is placed on the map
     Image inventoryImage; //Image used when the object is in the player's inventory
     public void loadImage(String itemID) throws FileNotFoundException {
@@ -28,5 +29,4 @@ public abstract class Item {
         placementImage = new Image(fis);
         inventoryImage = new Image(fis, 50, 50, false, false); // TODO: Resize the image to fit in the inventory
     }
-
 }

@@ -1,3 +1,15 @@
 
-t
-java:S1068	"1Remove this unused "previousScene" private field.(Ÿèı8ŠÑôğ1J$2abb2139-7e2d-43eb-afeb-921f8ae0bb49
+Ä
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(è¨¾Û8£ˆòÄò1J$1413e780-d759-4f2c-b342-80390f3cb24c
+Ä
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(˜®È8£ˆòÄò1J$61d3fec9-ac39-4e20-aad8-8251edd1379c
+É
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(˜ÖŒ°ÿÿÿÿÿ8£ˆòÄò1J$35905207-edba-4384-ad02-8af922c45422
+Ä
+java:S1186""€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ıÏ­ö8¤ˆòÄò1J$6c42cc0a-ea37-4999-8d62-f5d8fccca9e0
+Ä
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ü¿±ß8¤ˆòÄò1J$a36e2699-6070-4fcc-bd57-09f6c00df7fd
+w
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8¨ˆòÄò1J$bdd0ee41-3caa-4c02-ab2e-45d619e0c311
+w
+java:S1068"/Remove this unused "menuButtons" private field.(„ÊÎ®úÿÿÿÿ8©ˆòÄò1J$5331d20a-75f9-4ba1-ba1a-a4e095918b02

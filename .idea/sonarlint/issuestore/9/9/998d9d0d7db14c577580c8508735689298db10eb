@@ -1,15 +1,19 @@
 
 •
-java:S1104*"RMake player a static final constant or non-public and provide accessors if needed.(Ã‘öê8óçç¬ò1J$eaae15db-e99e-42c1-bfa1-3575ed4844f4
-œ
-java:S11048"TMake entities a static final constant or non-public and provide accessors if needed.(Ÿöëåÿÿÿÿÿ8ôçç¬ò1J$77ad39cb-fd6b-418b-9a51-933d28b26072
+java:S1104*"RMake player a static final constant or non-public and provide accessors if needed.(Ã‘öê8ÂÀ¬Ûò1J$ab57079c-434e-4663-ac4b-f85d1ad76140
+—
+java:S1104<"TMake entities a static final constant or non-public and provide accessors if needed.(ôƒ‚8ÒÀíğò1J$dd16d37c-86a4-4c5a-9045-0f1b2eb6c5df
 š
-java:S11049"RMake camera a static final constant or non-public and provide accessors if needed.(Û¾ÅÛÿÿÿÿÿ8ôçç¬ò1J$c90ccb80-6b7f-44dd-8ed3-b2dae62fef19
+java:S1104="RMake camera a static final constant or non-public and provide accessors if needed.(Û¾ÅÛÿÿÿÿÿ8ÃÀ¬Ûò1J$532d5ec7-cc14-408c-8968-460e4314219a
+˜
+java:S1104>"UMake loadSaved a static final constant or non-public and provide accessors if needed.(ÂÚŞâ8·«çğò1J$6c215307-8d9a-4781-a90c-af581efd517a
+q
+java:S1444<".Make this "public static entities" field final(ôƒ‚8ÒÀíğò1J$32b54516-dea8-456d-b298-31c77a43ef5e
 t
-java:S1135?"2Complete the task associated to this TODO comment.(¬–¿C8‹èç¬ò1J$428c645b-e48d-4713-bb1b-eeb5289d73a7
-~	java:S125m"<This block of commented-out lines of code should be removed.(©…¡Ÿ8èç¬ò1J$64a2ff20-66a6-4437-a8ba-b505e21fca74
-~	java:S125u"<This block of commented-out lines of code should be removed.(…ö²8‘èç¬ò1J$a6f85f25-4a87-4d3b-98a3-c6efa418579d
+java:S1135E"2Complete the task associated to this TODO comment.(¬–¿C8òÔæğò1J$49a89a16-2243-4f93-9e8a-a134dca37038
+~	java:S125s"<This block of commented-out lines of code should be removed.(©…¡Ÿ8øÔæğò1J$b30fdf6a-916f-49d1-9f40-e1acdfd05cc3
+~	java:S125{"<This block of commented-out lines of code should be removed.(…ö²8ùÔæğò1J$6e870f65-7314-466e-9932-ede715653cb7
 w
-java:S1144‰"3Remove this unused private "updateEntities" method.(Œ×™8–èç¬ò1J$269a59c5-266d-4457-96af-987408c2c894
+java:S1144"3Remove this unused private "updateEntities" method.(Œ×™8€Õæğò1J$57dabeef-5568-4c7f-a22d-4df1fff65726
 |
-java:S1144”"3Remove this unused private "renderEntities" method.(á™™Ôûÿÿÿÿ8–èç¬ò1J$ee1b6a5c-a3ee-4145-a3fe-e91f3d2739fb
+java:S1144¨"3Remove this unused private "renderEntities" method.(á™™Ôûÿÿÿÿ8€Õæğò1J$c5acce67-f54d-4372-878e-79add13e5c10

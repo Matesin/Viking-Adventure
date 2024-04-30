@@ -1,20 +1,18 @@
 package map;
 
-import entity.Player;
+import entity.Character;
 import gameloop.Camera;
 import gameloop.GamePanel;
+import handling.JsonEntityHandler;
+import handling.JsonItemHandler;
 import item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Optional;
 
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Tile.*;
@@ -28,6 +26,10 @@ public class MapManager {
     private int mapHeight;
     GamePanel gamePanel;
     private final Camera camera;
+    Optional<List<Item>> items = Optional.empty();
+    Optional<List<Character>> entities = Optional.empty();
+    JsonItemHandler itemHandler = new JsonItemHandler();
+    JsonEntityHandler entityHandler = new JsonEntityHandler();
 
     public MapManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -75,10 +77,10 @@ public class MapManager {
     public void updateMap() {
         // Update the map
     }
-    public void loadMap(int mapIndex) {
+    public void loadMap() {
         // Load the map
-        log.info("Loading map {}", mapIndex);
-        String mapIndexString = mapIndex < 10 ? "0" + mapIndex : "" + mapIndex;
+        String mapIndexString = gamePanel.getMapIDString();
+        log.info("Loading map {}", mapIndexString);
         String filepath = "res/maps/map" + mapIndexString + "/map.txt";
         this.map = new GameMap(mapIndexString);
         try {
@@ -90,15 +92,18 @@ public class MapManager {
         }
         log.info("Map loaded");
     }
-    public void loadObjects(String mapIndex) {
-//        // Load objects - feature to be implemented later
-//        log.info("Loading objects for map {}", mapIndex);
-//        String filepath = "res/maps/map" + mapIndex + "/obj.json";
-//        try{
-//
-//        } catch (FileNotFoundException e) {
-//            log.error("Object file not found {}", e.getMessage());
-//        }
+    public void loadObjects(int save) {
+        log.info("Loading objects for map {}", gamePanel.getMapIDString());
+        String filepath = "res/maps/map" + gamePanel.getMapID() + "/items.json";
+        items = itemHandler.deserializeItemsFromFile(filepath);
+        log.info("Items loaded");
+    }
+    public void loadEntities() {
+        // Load entities - feature to be implemented later
+        log.info("Loading entities");
+        String filepath = "res/maps/map" + gamePanel.getMapIDString() + "/ent.json";
+        entities = entityHandler.deserializeCharactersFromFile(filepath);
+        log.info("Entities loaded");
     }
     void setType(String type) {
 
