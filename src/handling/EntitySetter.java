@@ -12,8 +12,8 @@ public class EntitySetter {
     private final JsonEntityHandler jsonEntityHandler = new JsonEntityHandler();
     private final String filepath;
 
-    public EntitySetter(GamePanel gamePanel, boolean loadSaved){
-    this.filepath = loadSaved ? "res/save/ent.json" : "res/maps/map" + gamePanel.getMapID() + "/ent.json";
+    public EntitySetter(String mapID, boolean loadSaved){
+    this.filepath = loadSaved ? "res/save/ent.json" : "res/maps/map" + mapID + "/ent.json";
     }
 
     public Optional<List<Character>> setEntities(){

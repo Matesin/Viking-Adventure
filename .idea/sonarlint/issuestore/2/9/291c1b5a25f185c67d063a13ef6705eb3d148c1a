@@ -1,10 +1,5 @@
 
-–
-java:S1104"NMake HP a static final constant or non-public and provide accessors if needed.(±öšëúÿÿÿÿ8”–‚ñò1J$4c235527-f5f5-45ff-b936-bd5b4ea35912
-—
-java:S1104*"TMake spriteID a static final constant or non-public and provide accessors if needed.(´Äñ8”–‚ñò1J$4a594fdd-9407-462f-8663-5038633b5f9a
-”	java:S116"MRename this field "HP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±öšëúÿÿÿÿ8–‚ñò1J$5c9188a7-bf2a-4a64-9de3-d35677147aef
-
-java:S1128"9Remove this unused import 'javafx.scene.shape.Rectangle'.(ÖÉ­Œşÿÿÿÿ8§–‚ñò1J$677e8574-b328-43c3-b6b6-042ed80bd033
-x
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8§–‚ñò1J$595ecc24-1f02-4a5d-b210-0eec6c4ddb54
+‘
+java:S1128"IRemove this unused import 'com.fasterxml.jackson.annotation.JsonCreator'.(Ã¸‚×ùÿÿÿÿ8ÔÉ´›ó1J$717a04a0-adba-489b-bfea-a97c4c14518d
+
+java:S1128"JRemove this unused import 'com.fasterxml.jackson.annotation.JsonProperty'.(ËÃ§Ï8¿ê´›ó1J$6087286f-e343-4491-99d7-70aacc91cbcd

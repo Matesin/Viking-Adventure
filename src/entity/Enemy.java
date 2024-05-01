@@ -2,10 +2,16 @@ package entity;
 
 public abstract class Enemy extends RespondingNPC{
     int attackDamage;
-    private boolean isTriggered;
-    private boolean isInAttackRange;
-    public int reactionRange;
-    public int attackRange;
+    boolean isTriggered;
+    boolean isInAttackRange;
+    int reactionRange;
+    int attackRange;
+
+    protected Enemy(int worldCoordX, int worldCoordY) {
+        super(worldCoordX, worldCoordY);
+    }
+
+
     public void attack() {
         // Attack the res.player if they are in range
     }

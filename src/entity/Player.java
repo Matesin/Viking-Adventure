@@ -25,18 +25,18 @@ public class Player extends Character {
     @Getter
     private Image currentSprite;
 
-    public Player(GamePanel gamePanel, InputHandler input) {
+    public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
+        super(worldCoordX, worldCoordY);
         this.gamePanel = gamePanel;
         this.input = input;
         this.height = TILE_SIZE;
         this.width = TILE_SIZE;
         this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /3);
+        setDefaultValues();
         getImage();
     }
 
-    public void setDefaultValues(int beginX, int beginY){
-        this.worldCoordX = beginX;
-        this.worldCoordY = beginY;
+    public void setDefaultValues(){
         this.setScreenCoordX(SCREEN_MIDDLE_X);
         this.setScreenCoordY(SCREEN_MIDDLE_Y);
         currentSprite = down1;

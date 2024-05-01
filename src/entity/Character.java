@@ -1,19 +1,17 @@
 package entity;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 
-
-import java.io.IOException;
-
 //DECLARE JSON SUBTYPES
 @JsonTypeInfo(  use = JsonTypeInfo.Id.NAME,
-                include = JsonTypeInfo.As.PROPERTY,
-                property = "type")
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
 
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TaskVillager.class, name = "task_villager"),
@@ -21,8 +19,9 @@ import java.io.IOException;
         @JsonSubTypes.Type(value = Warden.class, name = "warden"),
 })
 public abstract class Character {
-    public int HP;
-    private boolean isMoving;
+    @Getter
+    @Setter
+    int hp; // will differ by character type
     @Getter
     int worldCoordX;
     @Getter
@@ -34,17 +33,20 @@ public abstract class Character {
     @Setter
     private int screenCoordY;
     @Getter
-    String direction;
+    String direction = "down";
     @Getter
+    @Setter
     int speed;
     int width;
     int height;
-    public int spriteID;
     @Getter
     Hitbox hitbox;
     @Getter
     @Setter
-    boolean collision;
+    boolean collision = false;
+    @Getter
+    @Setter
+    private boolean isMoving = false;
     Image up1;
     Image up2;
     Image down1;
@@ -53,6 +55,11 @@ public abstract class Character {
     Image left2;
     Image right1;
     Image right2;
+    protected Character(int worldCoordX, int worldCoordY) {
+        this.worldCoordX = worldCoordX;
+        this.worldCoordY = worldCoordY;
+    }
+
     public void update(){
         // Update the character's position
         if (isMoving) move();

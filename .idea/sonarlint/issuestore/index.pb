@@ -412,3 +412,9 @@ G
 src/menu/MapPicker.java,7/d/7ddb0c7ed5a3937486aa8594ebca80a489c4fccf
 F
 src/menu/GameMenu.java,8/1/81354c8e8f5d42cf34520689475a01cac8fdbeef
+L
+src/handling/ItemSetter.java,5/e/5e31fe58d6f47d54bd2bbcac9d3c3211b72475d4
+Q
+!test/handling/ItemSetterTest.java,0/a/0a0f5aefc4c284bd42441f3a7623611859d74310
+C
+src/item/Chest.java,d/7/d76536cf37a263a9d5a5286cc5280dbe1e3bbf2f

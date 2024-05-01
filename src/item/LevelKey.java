@@ -1,6 +1,7 @@
 package item;
 
-import javafx.util.Pair;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,18 +11,14 @@ import java.io.FileNotFoundException;
 @Setter
 public class LevelKey extends Item{
     private int level;
-    private int ID;
-
-    public LevelKey(String name, int level, int ID, int worldCoordX, int worldCoordY) throws FileNotFoundException {
+    private int id;
+    @JsonCreator
+    public LevelKey(@JsonProperty("name") String name, @JsonProperty("level") int level, @JsonProperty("key_id") int id, @JsonProperty("x") int worldCoordX, @JsonProperty("y") int worldCoordY) throws FileNotFoundException {
         this.name = name;
         this.level = level;
-        this.ID = ID;
+        this.id = id;
         this.worldCoordX = worldCoordX;
         this.worldCoordY = worldCoordY;
-        loadImage(level + "_key_" + ID);
+        loadImage(level + "_key_" + this.id);
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-
 }

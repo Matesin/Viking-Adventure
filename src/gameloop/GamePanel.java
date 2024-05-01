@@ -3,7 +3,6 @@ package gameloop;
 import controller.InputHandler;
 import entity.Character;
 import entity.Player;
-import item.Item;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,7 +17,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import map.GameMap;
 import map.MapManager;
-import handling.AssetSetter;
 import utils.CollisionChecker;
 
 import java.util.List;
@@ -39,7 +37,7 @@ public class GamePanel extends Pane {
     GraphicsContext gc;
     @Getter
     InputHandler inputHandler = new InputHandler();
-    public Player player = new Player(this, this.inputHandler);
+    public final Player player;
     Scene scene;
     GameLoop gameLoop;
     @Getter
@@ -47,7 +45,7 @@ public class GamePanel extends Pane {
     MapManager mapManager;
     @Getter
     @Setter
-    private int mapID = 2;
+    private int mapID = 2; //will be inherited from the map selector
     @Getter
     private final String mapIDString = mapID < 9 ? "0" + mapID : String.valueOf(mapID);
     @Getter
@@ -56,9 +54,8 @@ public class GamePanel extends Pane {
     @Setter
     private int chosenMapIndex;
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
-    public final AssetSetter assetSetter = new AssetSetter(this);
-    public static Optional<List<Character>> entities;
-    public Camera camera;
+    private static Optional<List<Character>> entities;
+    private final Camera camera;
     public boolean loadSaved;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
@@ -66,12 +63,11 @@ public class GamePanel extends Pane {
         this.scene = scene;
         this.root = root;
         this.loadSaved = loadSaved;
-        //TODO: Add a map selector
         log.info("Setting up game panel");
         setMap(mapID);
-        this.camera = new Camera(this);
         log.info("Initializing player");
-        initPlayer();
+        this.player = initPlayer();
+        this.camera = new Camera(this);
         initCanvas();
         log.info("Starting game loop");
         startGameLoop();
@@ -86,11 +82,10 @@ public class GamePanel extends Pane {
         this.root.getChildren().add(canvas);
     }
     // PLAYER INIT
-    private void initPlayer(){
-        int playerStartX = mapManager.map.getStartX();
-        int playerStartY = mapManager.map.getStartY();
-        player.getImage();
-        player.setDefaultValues(playerStartX, playerStartY);
+    private Player initPlayer(){
+        int playerStartX = mapManager.getMap().getStartX();
+        int playerStartY = mapManager.getMap().getStartY();
+        return new Player(playerStartX, playerStartY, this, inputHandler);
     }
     // GAME LOOP INIT
     public void startGameLoop(){
@@ -106,7 +101,7 @@ public class GamePanel extends Pane {
         int worldWidth = mapManager.getMapWidth();
         this.maxWorldRows = worldHeight * SCREEN_ROWS;
         this.maxWorldCols = worldWidth * SCREEN_COLS;
-        this.chosenMap = mapManager.map;
+        this.chosenMap = mapManager.getMap();
     }
     // REFRESH ENTITY COORDS
     public void update() {

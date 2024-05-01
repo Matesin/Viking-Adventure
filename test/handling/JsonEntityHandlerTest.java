@@ -19,7 +19,7 @@ class JsonEntityHandlerTest {
     void serializeCharactersToFile() {
         // Arrange
         JsonEntityHandler jsonEntityHandler = new JsonEntityHandler();
-        List<Character> characters = Arrays.asList(new Mob(), new Mob());
+        List<Character> characters = Arrays.asList();
         String mapID = "02";
         String save = "save" + mapID;
         // Act

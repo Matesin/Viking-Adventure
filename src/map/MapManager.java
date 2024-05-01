@@ -1,7 +1,6 @@
 package map;
 
 import entity.Character;
-import gameloop.Camera;
 import gameloop.GamePanel;
 import handling.JsonEntityHandler;
 import handling.JsonItemHandler;
@@ -19,13 +18,14 @@ import static gameloop.Constants.Tile.*;
 
 @Slf4j
 public class MapManager {
-    public GameMap map;
+    private static final String MAP_PATH = "res/maps/map";
+    @Getter
+    private GameMap map;
     @Getter
     private int mapWidth;
     @Getter
     private int mapHeight;
     GamePanel gamePanel;
-    private final Camera camera;
     Optional<List<Item>> items = Optional.empty();
     Optional<List<Character>> entities = Optional.empty();
     JsonItemHandler itemHandler = new JsonItemHandler();
@@ -33,7 +33,6 @@ public class MapManager {
 
     public MapManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.camera = gamePanel.camera;
     }
 
     public void renderMap(GraphicsContext gc) {
@@ -62,9 +61,9 @@ public class MapManager {
                 screenY = worldY - (mapHeight * TILE_SIZE - SCREEN_HEIGHT);
             }
             if (screenX >= - TILE_SIZE &&
-                screenX <= SCREEN_WIDTH &&
-                screenY >= - TILE_SIZE &&
-                screenY <= SCREEN_HEIGHT) {
+                    screenX <= SCREEN_WIDTH &&
+                    screenY >= - TILE_SIZE &&
+                    screenY <= SCREEN_HEIGHT) {
                 gc.drawImage(map.getTiles()[tileID].getImage(), screenX, screenY);
             }
             worldCol++;
@@ -74,14 +73,12 @@ public class MapManager {
             }
         }
     }
-    public void updateMap() {
-        // Update the map
-    }
+
     public void loadMap() {
         // Load the map
         String mapIndexString = gamePanel.getMapIDString();
         log.info("Loading map {}", mapIndexString);
-        String filepath = "res/maps/map" + mapIndexString + "/map.txt";
+        String filepath = MAP_PATH + mapIndexString + "/map.txt";
         this.map = new GameMap(mapIndexString);
         try {
             this.map.loadMapFromFile(filepath);
@@ -92,23 +89,19 @@ public class MapManager {
         }
         log.info("Map loaded");
     }
-    public void loadObjects(int save) {
+
+    public void loadObjects() {
         log.info("Loading objects for map {}", gamePanel.getMapIDString());
-        String filepath = "res/maps/map" + gamePanel.getMapID() + "/items.json";
+        String filepath = gamePanel.loadSaved ? "res/save/items.json" : MAP_PATH + gamePanel.getMapID() + "/items.json";
         items = itemHandler.deserializeItemsFromFile(filepath);
         log.info("Items loaded");
     }
+
     public void loadEntities() {
         // Load entities - feature to be implemented later
         log.info("Loading entities");
-        String filepath = "res/maps/map" + gamePanel.getMapIDString() + "/ent.json";
+        String filepath = gamePanel.loadSaved ? "res/save/ent.json" : MAP_PATH + gamePanel.getMapIDString() + "/ent.json";
         entities = entityHandler.deserializeCharactersFromFile(filepath);
         log.info("Entities loaded");
-    }
-    void setType(String type) {
-
-    }
-    public void saveMap() {
-        // Save the map - feature to be implemented later
     }
 }

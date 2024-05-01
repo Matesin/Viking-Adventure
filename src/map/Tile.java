@@ -15,3 +15,4 @@ public class Tile {
     String type;
 
 }
+
