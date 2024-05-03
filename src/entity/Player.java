@@ -20,6 +20,8 @@ public class Player extends Character {
     @Getter
     private Image currentSprite;
     private Item[] inventory;
+    @Getter
+    private boolean inventoryFull;
 
     public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
@@ -103,5 +105,22 @@ public class Player extends Character {
             lastUpdate = now;
         }
         gc.drawImage(currentSprite, getScreenCoordX(), getScreenCoordY());
+    }
+    public boolean pickUpItem(Item item){
+        boolean pickedUpItem = false;
+        if (input.isPickUp()){
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i] == null) {
+                    inventory[i] = item;
+                    log.info("Picked up {}", item.getName());
+                    input.setPickUp(false);
+                    pickedUpItem = true;
+                    break;
+                }
+            }
+            input.setPickUp(false);
+            inventoryFull = !pickedUpItem;
+        }
+        return pickedUpItem;
     }
 }

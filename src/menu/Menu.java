@@ -97,7 +97,7 @@ public class Menu extends Application implements GameMenu{
          * TODO: ADD TRANSITIONS between menu and nodes
          */
         menuBox.setTranslateX(MENU_TRANSLATE_X);
-        menuBox.setTranslateY(MENU_TRANSLATE_Y);
+        menuBox.setTranslateY(MENU_TRANSLATE_Y + 30);
         menuButtons.forEach(data -> {
             MenuButton item = new MenuButton(data.getKey());
             item.setOnAction(data.getValue());
@@ -110,7 +110,6 @@ public class Menu extends Application implements GameMenu{
             menuBox.getChildren().addAll(item);
         });
         root.getChildren().add(menuBox);
-
     }
 
     @Override
@@ -122,7 +121,8 @@ public class Menu extends Application implements GameMenu{
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         List<String> listOfFiles = reader.lines().toList();
         String file = listOfFiles.get(ThreadLocalRandom.current().nextInt(0, listOfFiles.size()));
-        this.root.setStyle("-fx-background-image: url('/menu_backgrounds/" + file + "')");
+        this.root.setStyle("-fx-background-image: url('/menu_backgrounds/" + file + "');" +
+                            "-fx-background-size: contain;");
     }
     public void addTitle(){
         final int titleNameFontSize = 70;

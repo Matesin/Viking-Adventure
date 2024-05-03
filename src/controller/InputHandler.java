@@ -6,6 +6,8 @@ import javafx.scene.input.KeyEvent;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 public class InputHandler implements EventHandler<KeyEvent> {
     boolean upPressed;
@@ -14,6 +16,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
     boolean rightPressed;
     @Setter
     boolean paused = false;
+    @Setter
+    boolean pickUp = false;
+    boolean inventory = false;
 
     public InputHandler() {
         upPressed = downPressed = leftPressed = rightPressed = false;
@@ -37,14 +42,24 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     rightPressed = true;
                     break;
                 case ESCAPE:
-                    paused = !paused;
+                    if (inventory){
+                        inventory = false;
+                    } else{
+                        paused = !paused;
+                    }
+                    break;
+                case E:
+                    pickUp = true;
+                    break;
+                case I:
+                    inventory = !inventory;
                     break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;
                     break;
             }
         } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
-            switch (keyCode){
+            switch (keyCode) {
                 case W, UP:
                     upPressed = false;
                     break;
@@ -56,6 +71,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     break;
                 case D, RIGHT:
                     rightPressed = false;
+                    break;
+                case E:
+                    pickUp = false;
                     break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;

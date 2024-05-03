@@ -6,9 +6,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import static gameloop.Constants.Button.*;
@@ -16,17 +15,19 @@ import static gameloop.Constants.Button.*;
 public class MenuButton extends Pane {
 
     public MenuButton(String name){
-        Polygon button = new Polygon(
-                0, 0,
-                BUTTON_WIDTH, 0,
-                BUTTON_WIDTH, BUTTON_HEIGHT,
-                0, BUTTON_HEIGHT
+        Rectangle button = new Rectangle(
+                BUTTON_WIDTH,
+                BUTTON_HEIGHT
         );
+        button.setOpacity(0.8);
+        button.setArcWidth(20.0);
+        button.setArcHeight(20.0);
         Text text = new Text(name);
         int textSize = 20;
-        text.setFont(Font.font("Verdana", FontWeight.BOLD, textSize));
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fonts/rubber-biscuit/RUBBBB__.TTF"), textSize);
+        text.setFont(font);
         text.setTranslateX(10);
-        text.setTranslateY((double) BUTTON_HEIGHT / 2 + (double) textSize / 4);
+        text.setTranslateY((double) BUTTON_HEIGHT / 2 + (double) textSize / 3);
         text.setFill(Color.BLACK);
         text.setStroke(Color.WHITE);
         Effect glow = new BoxBlur(1, 1, 3);

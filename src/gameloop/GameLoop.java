@@ -34,6 +34,11 @@ public class GameLoop extends AnimationTimer {
             inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isPaused()) this.start();
         }
+//        else if (this.gamePanel.inputHandler.isInventory()){
+//            this.stop();
+//            inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);
+//            if (this.gamePanel.inputHandler.isInventory()) this.start();
+//        }
         Timeline loop = new Timeline(new KeyFrame(Duration.millis(FRAME_TIME_MILLIS)));
         loop.setCycleCount(Animation.INDEFINITE);
         loop.play();
