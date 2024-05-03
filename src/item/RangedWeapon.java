@@ -17,7 +17,6 @@ public class RangedWeapon extends Weapon{
         this.damage = damage;
         this.range = range;
         this.description = description;
-        loadImage(name);
     }
 
 }

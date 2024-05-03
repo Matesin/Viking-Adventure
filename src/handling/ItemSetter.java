@@ -25,6 +25,7 @@ public class ItemSetter {
             log.error("Error setting entities", e);
         }
         log.info("{} items set", items.isPresent() ? items.get().size() : "No");
+        log.info("{} item images loaded successfully", Item.getImagesLoaded());
         return items;
     }
 

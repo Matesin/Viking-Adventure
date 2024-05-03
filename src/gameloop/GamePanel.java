@@ -106,7 +106,7 @@ public class GamePanel extends Pane {
     public void setMap(int mapIndex){
         this.mapManager = new MapManager(this);
         this.chosenMapIndex = mapIndex;
-        mapManager.loadMap();
+        this.mapManager.loadMap();
         int worldHeight = mapManager.getMapHeight();
         int worldWidth = mapManager.getMapWidth();
         this.maxWorldRows = worldHeight * SCREEN_ROWS;
@@ -116,17 +116,17 @@ public class GamePanel extends Pane {
     // REFRESH ENTITY COORDS
     public void update() {
         this.player.update();
-        camera.update();
-        entityManager.updateEntities();
+        this.camera.update();
+        this.entityManager.updateEntities();
     }
     // DRAW GRAPHICS
     public void draw(GraphicsContext gc) {
         refreshScreen(gc);
-        itemManager.renderItems(gc);
-        player.getHitbox().display(gc);
-        player.render(gc);
-        entityManager.renderEntities(gc);
-        mapManager.renderMap(gc);
+        this.player.getHitbox().display(gc);
+        this.player.render(gc);
+        this.itemManager.renderItems(gc);
+        this.entityManager.renderEntities(gc);
+        this.mapManager.renderMap(gc);
         printPlayerStats(gc);
     }
     public Stage getStage(){
@@ -144,6 +144,5 @@ public class GamePanel extends Pane {
         gc.fillText("Player Coords: " + player.getWorldCoordX() + ", " + player.getWorldCoordY(), 15, 30);
         gc.fillText("Hitbox Coords: " + player.getHitbox().getCoordX() + ", " + player.getHitbox().getCoordY(), 15, 60);
         gc.fillText("Camera Coords: " + camera.getCameraX() + ", " + camera.getCameraY(), 15, 90);
-        gc.fillText("Max Camera X: " + (mapManager.getMapWidth() * TILE_SIZE - 2 * SCREEN_MIDDLE_X), 15, 120);
     }
 }

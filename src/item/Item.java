@@ -44,13 +44,14 @@ public abstract class Item {
     @Setter
     int worldCoordY;
     String pictureID;
+    @Getter
+    static int imagesLoaded = 0;
     @JsonCreator
     protected Item(@JsonProperty("x") int worldCoordX,
                    @JsonProperty("y") int worldCoordY,
                    @JsonProperty("picture") String pictureID) {
         //default constructor - load the image of the respective item
         this.pictureID = pictureID;
-        log.debug("picture Id: {}", pictureID);
         String itemName = this.getClass().getSimpleName();
         log.info("Loading image for item: {}", itemName);
         loadImage(pictureID);
@@ -61,19 +62,21 @@ public abstract class Item {
 
     Image placementImage; //Image used when the object is placed on the map
     Image inventoryImage; //Image used when the object is in the player's inventory
-    public void loadImage(String itemName) {
-        String filepath = "res/items/" + itemName + ".png";
+    public void loadImage(String pictureID) {
+        String filepath = "res/items/" + pictureID;
         String defaultFilepath = "res/defaults/default_tile.png";
         try {
             FileInputStream fis = new FileInputStream(filepath);
             placementImage = new Image(fis);
             inventoryImage = new Image(fis, 50, 50, false, false);
+            imagesLoaded++;
         } catch (FileNotFoundException e) {
-            log.error("Error loading the image {}, loading default tile", itemName, e);
+            log.error("Error loading the image {}, loading default tile", pictureID);
             try {
                 FileInputStream fis = new FileInputStream(defaultFilepath);
                 placementImage = new Image(fis);
                 inventoryImage = new Image(fis, 50, 50, false, false);
+                log.info("Default tile loaded successfully");
             } catch (FileNotFoundException ex) {
                 log.error("Error loading default tile", ex);
             }

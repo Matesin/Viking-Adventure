@@ -107,8 +107,8 @@ public class GameMap implements Serializable {
                 case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
                 case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
                 case "start:" -> {
-                    startX = Integer.parseInt(values[1]) * TILE_SIZE;
-                    startY = Integer.parseInt(values[2]) * TILE_SIZE;
+                    startX = Integer.parseInt(values[1]);
+                    startY = Integer.parseInt(values[2]);
                 }
                 default -> log.info((Marker) Level.SEVERE, "Map {} has invalid data: {}", filepath, line);
             }

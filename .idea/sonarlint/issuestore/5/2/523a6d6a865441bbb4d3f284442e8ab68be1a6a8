@@ -1,13 +1,13 @@
 
 
-java:S11926"FDefine a constant instead of duplicating this literal "right" 3 times.(ç¥‹’ıÿÿÿÿ8ŞÔ±Äó1J$dec4ee28-f1cc-42c6-b4b1-6b6702ffbe51
+java:S11926"FDefine a constant instead of duplicating this literal "right" 3 times.(ç¥‹’ıÿÿÿÿ8¾Òéó1J$ff80ddb1-8f05-4307-9808-b8280de32c9c
 ~
-java:S2387"6"currentSprite" is the name of a field in "Character".(úÆÁüÿÿÿÿÿ8Õ±Äó1J$9be827f6-8bdb-44ae-b1d5-942cf577bd18
+java:S2387"6"currentSprite" is the name of a field in "Character".(úÆÁüÿÿÿÿÿ8ÚÒéó1J$fc0fc88f-8e88-4d55-acf1-c8fedfbb4e69
 Œ
-java:S3358]"DExtract this nested ternary operation into an independent statement.(£’—±ùÿÿÿÿ8ˆÕ±Äó1J$3d53a72b-46f9-47d3-981f-091ca38182d0
+java:S3358]"DExtract this nested ternary operation into an independent statement.(£’—±ùÿÿÿÿ8áÒéó1J$734b5879-a99c-4679-9fca-6bb19bd23054
 ‡
-java:S3358^"DExtract this nested ternary operation into an independent statement.(å×¦´8ˆÕ±Äó1J$4f675847-7cc2-4ee7-8efc-4f970b4eddf2
+java:S3358^"DExtract this nested ternary operation into an independent statement.(å×¦´8âÒéó1J$5f4d5f97-572a-40ca-a05d-ac8da34150a2
 ‡
-java:S3358_"DExtract this nested ternary operation into an independent statement.(Âó±8ˆÕ±Äó1J$7d7e15fa-4a29-43d2-83a7-e9eccef987fd
+java:S3358_"DExtract this nested ternary operation into an independent statement.(Âó±8âÒéó1J$80aef220-6732-4475-a4e1-9561bb48f914
 ‡
-java:S3358`"DExtract this nested ternary operation into an independent statement.(Â«äû8ˆÕ±Äó1J$21363418-2394-4558-afcc-f404dbcf78e8
+java:S3358`"DExtract this nested ternary operation into an independent statement.(Â«äû8âÒéó1J$b701bbf0-3897-4e98-a72b-44b3d6cade5c

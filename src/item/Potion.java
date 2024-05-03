@@ -21,5 +21,4 @@ public class Potion extends Item{
         this.effectType = effectType;
         this.effectValue = effectValue;
         this.description = description;
-        loadImage(name);
     }}

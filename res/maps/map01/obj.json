@@ -1,40 +1,36 @@
 [
   {
-    "type": "weapon_upgrade",
-    "name": "Sword Upgrade",
-    "description": "Increases sword damage",
-    "upgrade_type": "damage",
-    "upgrade_value": 10,
+    "type": "melee_weapon",
+    "name": "Swordus maximus",
+    "description": "Huuge sword",
     "x": 2,
     "y": 3,
-    "picture": "sword_upgrade.png"
+    "picture": "large_sword1.png"
   },
 
   {
     "type": "melee_weapon",
-    "name": "Sword",
+    "name": "Swordus minimus",
     "description": "A basic sword",
     "damage": 15,
     "range": 1,
     "x": 10,
     "y": 15,
-    "picture": "short_sword.png"
-  },
-
-  {
-    "type": "weapon_upgrade",
-    "name": "Shield Upgrade",
-    "description": "Increases shield defense",
-    "upgrade_type": "defense",
-    "upgrade_value": 5,
-    "x": 5,
-    "y": 6,
-    "picture": "shield_upgrade.png"
+    "picture": "small_sword.png"
   },
 
   {
     "type": "melee_weapon",
-    "name": "Hammer",
+    "name": "Axeus vikingus",
+    "description": "A large axe",
+    "x": 5,
+    "y": 6,
+    "picture": "large_axe.png"
+  },
+
+  {
+    "type": "melee_weapon",
+    "name": "Hammerus basicus",
     "description": "A basic hammer",
     "damage": 10,
     "range": 3,

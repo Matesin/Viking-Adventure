@@ -19,7 +19,6 @@ public class MeleeWeapon extends Weapon{
         this.description = description;
         this.worldCoordX = worldCoordX;
         this.worldCoordY = worldCoordY;
-        loadImage(name);
     }
 
 }
