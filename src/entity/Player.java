@@ -7,12 +7,6 @@ import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import static javafx.scene.paint.Color.RED;
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Tile.*;
 
@@ -33,7 +27,7 @@ public class Player extends Character {
         this.width = TILE_SIZE;
         this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /3);
         setDefaultValues();
-        getImage();
+        update();
     }
 
     public void setDefaultValues(){
@@ -87,38 +81,10 @@ public class Player extends Character {
             }
         }
     }
-    public void getImage() {
-        // Load the sprites
-        try {
-            up1 = setSprite(1, "up");
-            up2 = setSprite(2, "up");
-            down1 = setSprite(1, "down");
-            down2 = setSprite(2, "down");
-            left1 = setSprite(1, "left");
-            left2 = setSprite(2, "left");
-            right1 = setSprite(1, "right");
-            right2 = setSprite(2, "right");
-        } catch (IOException e) {
-            log.error("Error loading player sprites: {}", e.getMessage());
-        }
-    }
-    private Image setSprite(int spriteNum, String direction) throws FileNotFoundException {
-        // Load the sprite
-        if (!direction.isEmpty()){
-            // Capitalize the first letter of the direction
-            direction = direction.substring(0, 1).toUpperCase() + direction.substring(1);
-        }
-        String filepath = "res/player/player" + direction + spriteNum + ".png";
-        FileInputStream fis = new FileInputStream(filepath);
-        return new Image(fis, TILE_SIZE, TILE_SIZE, false, false);
-    }
 
     private long lastUpdate = 0;
-
-    @Override
     public void render(GraphicsContext gc) {
         //create movement effect by switching between two sprites
-        gc.setFill(RED);
         long now = System.currentTimeMillis();
         // update the sprite relatively to speed
         int speedConst = 1000;

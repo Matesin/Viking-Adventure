@@ -3,6 +3,8 @@ package gameloop;
 import controller.InputHandler;
 import entity.Character;
 import entity.Player;
+import handling.EntityManager;
+import handling.ItemManager;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +21,7 @@ import map.GameMap;
 import map.MapManager;
 import utils.CollisionChecker;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,10 +45,11 @@ public class GamePanel extends Pane {
     GameLoop gameLoop;
     @Getter
     StackPane root;
+    @Getter
     MapManager mapManager;
     @Getter
     @Setter
-    private int mapID = 2; //will be inherited from the map selector
+    private int mapID = 1; //will be inherited from the map selector
     @Getter
     private final String mapIDString = mapID < 9 ? "0" + mapID : String.valueOf(mapID);
     @Getter
@@ -55,21 +59,26 @@ public class GamePanel extends Pane {
     private int chosenMapIndex;
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
     private static Optional<List<Character>> entities;
+    @Getter
     private final Camera camera;
     public boolean loadSaved;
+    private final EntityManager entityManager;
+    private final ItemManager itemManager;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");
+        log.info("Setting up game panel");
         this.scene = scene;
         this.root = root;
         this.loadSaved = loadSaved;
-        log.info("Setting up game panel");
         setMap(mapID);
         log.info("Initializing player");
         this.player = initPlayer();
         this.camera = new Camera(this);
+        this.entityManager = new EntityManager(this);
+        this.itemManager = new ItemManager(this);
         initCanvas();
-        log.info("Starting game loop");
+        log.info("GamePanel created. Starting game loop");
         startGameLoop();
     }
     // CANVAS INIT
@@ -85,6 +94,7 @@ public class GamePanel extends Pane {
     private Player initPlayer(){
         int playerStartX = mapManager.getMap().getStartX();
         int playerStartY = mapManager.getMap().getStartY();
+        log.info("Player initialized at {}, {}", playerStartX, playerStartY);
         return new Player(playerStartX, playerStartY, this, inputHandler);
     }
     // GAME LOOP INIT
@@ -107,15 +117,16 @@ public class GamePanel extends Pane {
     public void update() {
         this.player.update();
         camera.update();
-//        updateEntities();
+        entityManager.updateEntities();
     }
     // DRAW GRAPHICS
     public void draw(GraphicsContext gc) {
         refreshScreen(gc);
+        itemManager.renderItems(gc);
         player.getHitbox().display(gc);
         player.render(gc);
+        entityManager.renderEntities(gc);
         mapManager.renderMap(gc);
-//        renderEntities(gc);
         printPlayerStats(gc);
     }
     public Stage getStage(){
@@ -134,39 +145,5 @@ public class GamePanel extends Pane {
         gc.fillText("Hitbox Coords: " + player.getHitbox().getCoordX() + ", " + player.getHitbox().getCoordY(), 15, 60);
         gc.fillText("Camera Coords: " + camera.getCameraX() + ", " + camera.getCameraY(), 15, 90);
         gc.fillText("Max Camera X: " + (mapManager.getMapWidth() * TILE_SIZE - 2 * SCREEN_MIDDLE_X), 15, 120);
-    }
-    private void updateEntities(){
-        if (entities.isPresent()) {
-            for (Character entity : entities.orElseThrow()) {
-                entity.update();
-            }
-        }
-    }
-    public boolean isOnScreen(int x, int y){
-        boolean isOnScreen = false;
-        int playerX = player.getWorldCoordX();
-        int playerY = player.getWorldCoordY();
-        int mapWidth = mapManager.getMapWidth();
-        int mapHeight = mapManager.getMapHeight();
-        if ((playerX - SCREEN_MIDDLE_X  - TILE_SIZE < 0 && x <= SCREEN_WIDTH) ||
-            (playerY - SCREEN_MIDDLE_Y - TILE_SIZE < 0 && y <= SCREEN_WIDTH) ||
-            (playerX + SCREEN_MIDDLE_X > mapWidth && x > mapWidth - SCREEN_WIDTH) ||
-            (playerY + SCREEN_MIDDLE_Y > mapHeight && y >= mapHeight - SCREEN_WIDTH)) {
-            isOnScreen = true;
-        }
-        else {
-            isOnScreen = x >= playerX - SCREEN_MIDDLE_X - TILE_SIZE && x <= playerX + SCREEN_MIDDLE_X + TILE_SIZE &&
-                    y >= playerY - SCREEN_MIDDLE_Y - TILE_SIZE && y <= playerY + SCREEN_MIDDLE_Y + TILE_SIZE;
-        }
-        return isOnScreen;
-    }
-    private void renderEntities(GraphicsContext gc){
-        if (entities.isPresent()) {
-            for (Character entity : entities.orElseThrow()) {
-                if (isOnScreen(entity.getWorldCoordX(), entity.getWorldCoordY())) {
-                    entity.render(gc);
-                }
-            }
-        }
     }
 }

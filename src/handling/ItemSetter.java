@@ -18,11 +18,13 @@ public class ItemSetter {
 
     public Optional<List<Item>> setItems(){
         Optional<List<Item>> items = Optional.empty();
+        log.info("Setting items");
         try {
             items = jsonItemHandler.deserializeItemsFromFile(filepath);
         } catch (Exception e) {
             log.error("Error setting entities", e);
         }
+        log.info("{} items set", items.isPresent() ? items.get().size() : "No");
         return items;
     }
 

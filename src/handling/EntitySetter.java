@@ -18,11 +18,13 @@ public class EntitySetter {
 
     public Optional<List<Character>> setEntities(){
         Optional<List<Character>> characters = Optional.empty();
+        log.info("Setting entities");
         try {
              characters = jsonEntityHandler.deserializeCharactersFromFile(filepath);
         } catch (Exception e) {
             log.error("Error setting entities", e);
         }
+        log.info("{} entities set", characters.isPresent() ? characters.get().size() : "No");
         return characters;
     }
 

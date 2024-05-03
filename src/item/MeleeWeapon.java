@@ -7,7 +7,13 @@ import java.io.FileNotFoundException;
 
 public class MeleeWeapon extends Weapon{
     @JsonCreator
-    public MeleeWeapon(@JsonProperty("name") String name,@JsonProperty("damage") int damage,@JsonProperty("description") String description, @JsonProperty("x")int worldCoordX, @JsonProperty("y")int worldCoordY) throws FileNotFoundException {
+    public MeleeWeapon(@JsonProperty("name") String name,
+                       @JsonProperty("damage") int damage,
+                       @JsonProperty("description") String description,
+                       @JsonProperty("x")int worldCoordX,
+                       @JsonProperty("y")int worldCoordY,
+                       @JsonProperty("picture") String pictureID) {
+        super(worldCoordX, worldCoordY, pictureID);
         this.name = name;
         this.damage = damage;
         this.description = description;

@@ -418,3 +418,9 @@ Q
 !test/handling/ItemSetterTest.java,0/a/0a0f5aefc4c284bd42441f3a7623611859d74310
 C
 src/item/Chest.java,d/7/d76536cf37a263a9d5a5286cc5280dbe1e3bbf2f
+O
+src/handling/EntityManager.java,f/1/f140c411784bf414be2c9ca2fc7834943b2ca9c4
+M
+src/handling/ItemManager.java,9/1/91bb3108b5d3e4272b71f13e195b7f3a2e847c26
+S
+#src/handling/ScreenCoordSetter.java,f/6/f6ff0c9a4fb78216b609489e557cfbd9e1f6f9bd

@@ -14,6 +14,8 @@ public class CollisionChecker {
     public CollisionChecker(GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
+    int tileNum1;
+    int tileNum2;
     public void checkTile(Character entity){
         // Check if the entity is colliding with a tile
         int entityLeftX = entity.getHitbox().getCoordX();
@@ -26,9 +28,6 @@ public class CollisionChecker {
         int entityTopRow = entityTopY / TILE_SIZE;
         int entityBottomRow = entityBottomY / TILE_SIZE;
 
-        int tileNum1;
-        int tileNum2;
-
         switch (entity.getDirection()){
             case "up":
                 entityTopRow = (entityTopY - entity.getSpeed()) / TILE_SIZE;
@@ -36,20 +35,14 @@ public class CollisionChecker {
                     entity.setCollision(true);
                     return;
                 }
-                log.debug("entityTopY: {}", entityTopY);
-                log.debug("entityTopRow: {}", entityTopRow);
                 tileNum1 = gamePanel.getChosenMap().getMap()[entityLeftCol][entityTopRow];
                 tileNum2 = gamePanel.getChosenMap().getMap()[entityRightCol][entityTopRow];
                 if (gamePanel.getChosenMap().getTiles()[tileNum1].isCollision() ||
                     gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
-                    entity.setCollision(true);
-                    log.debug("Collision detected with tile type: {}", gamePanel.getChosenMap().getTiles()[tileNum1].getType());
-                }
+                    entity.setCollision(true);}
                 break;
             case "down":
                 entityBottomRow = (entityBottomY + entity.getSpeed()) / TILE_SIZE;
-                log.debug("entityBottomRow: {}", entityBottomRow);
-                log.debug("map height: {}", gamePanel.getChosenMap().getMapHeight());
                 if (entityBottomRow >= gamePanel.getChosenMap().getMapHeight()){
                     entity.setCollision(true);
                     break;
@@ -59,12 +52,10 @@ public class CollisionChecker {
                 if (gamePanel.getChosenMap().getTiles()[tileNum1].isCollision() ||
                     gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
                     entity.setCollision(true);
-                    log.debug("Collision detected with tile type: {}", gamePanel.getChosenMap().getTiles()[tileNum1].getType());
                 }
                 break;
             case "left":
                 entityLeftCol = (entityLeftX - entity.getSpeed()) / TILE_SIZE;
-                log.debug("entityLeftCol: {}", entityLeftCol);
                 if (entityLeftX - entity.getSpeed() < 0 ){
                     entity.setCollision(true);
                     break;
@@ -73,13 +64,11 @@ public class CollisionChecker {
                 tileNum2 = gamePanel.getChosenMap().getMap()[entityLeftCol][entityBottomRow];
                 if (gamePanel.getChosenMap().getTiles()[tileNum1].isCollision() || gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
                     entity.setCollision(true);
-                    log.debug("Collision detected with tile type: {}", gamePanel.getChosenMap().getTiles()[tileNum1].getType());
                 }
 
                 break;
             case "right":
                 entityRightCol = (entityRightX + entity.getSpeed()) / TILE_SIZE;
-                log.debug("entityRightCol: {}", entityRightCol);
                 if (entityRightCol >= gamePanel.getChosenMap().getMapWidth() ){
                     entity.setCollision(true);
                     break;
@@ -88,9 +77,6 @@ public class CollisionChecker {
                 tileNum2 = gamePanel.getChosenMap().getMap()[entityRightCol][entityBottomRow];
                 if (gamePanel.getChosenMap().getTiles()[tileNum1].isCollision() || gamePanel.getChosenMap().getTiles()[tileNum2].isCollision()){
                     entity.setCollision(true);
-
-                    log.debug("Collision detected with tile type: {}", gamePanel.getChosenMap().getTiles()[tileNum1].getType());
-                    log.debug("Player position in map array: x: {}, y: {}", (entity.getWorldCoordX() / TILE_SIZE) - 1, (TILE_SIZE/entity.getWorldCoordY()) -1 );
                 }
                 break;
             default:

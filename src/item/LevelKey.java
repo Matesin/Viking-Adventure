@@ -13,12 +13,16 @@ public class LevelKey extends Item{
     private int level;
     private int id;
     @JsonCreator
-    public LevelKey(@JsonProperty("name") String name, @JsonProperty("level") int level, @JsonProperty("key_id") int id, @JsonProperty("x") int worldCoordX, @JsonProperty("y") int worldCoordY) throws FileNotFoundException {
+    public LevelKey(@JsonProperty("name") String name,
+                    @JsonProperty("level") int level,
+                    @JsonProperty("key_id") int id,
+                    @JsonProperty("x") int worldCoordX,
+                    @JsonProperty("y") int worldCoordY,
+                    @JsonProperty("picture") String pictureID) throws FileNotFoundException {
+        super(worldCoordX, worldCoordY, pictureID);
         this.name = name;
         this.level = level;
         this.id = id;
-        this.worldCoordX = worldCoordX;
-        this.worldCoordY = worldCoordY;
         loadImage(level + "_key_" + this.id);
     }
 }

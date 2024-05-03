@@ -61,7 +61,7 @@ public class MapManager {
                 screenY = worldY - (mapHeight * TILE_SIZE - SCREEN_HEIGHT);
             }
             if (screenX >= - TILE_SIZE &&
-                    screenX <= SCREEN_WIDTH &&
+                    screenX <= SCREEN_WIDTH &&  
                     screenY >= - TILE_SIZE &&
                     screenY <= SCREEN_HEIGHT) {
                 gc.drawImage(map.getTiles()[tileID].getImage(), screenX, screenY);

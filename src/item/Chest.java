@@ -7,13 +7,16 @@ import java.util.Optional;
 
 public class Chest extends Item{
     Optional<List<Item>> items = Optional.empty();
-    public Chest(@JsonProperty("x")int worldCoordX, @JsonProperty("y")int worldCoordY) {
-        this.worldCoordX = worldCoordX;
-        this.worldCoordY = worldCoordY;
+    public Chest(@JsonProperty("x")int worldCoordX,
+                 @JsonProperty("y")int worldCoordY,
+                 @JsonProperty("picture") String pictureID) {
+        super(worldCoordX, worldCoordY, pictureID);
     }
-    public Chest(@JsonProperty("x")int worldCoordX, @JsonProperty("y")int worldCoordY, @JsonProperty("items")List<Item> items) {
-        this.worldCoordX = worldCoordX;
-        this.worldCoordY = worldCoordY;
+    public Chest(@JsonProperty("x")int worldCoordX,
+                 @JsonProperty("y")int worldCoordY,
+                 @JsonProperty("items")List<Item> items,
+                 @JsonProperty("picture") String pictureID) {
+        super(worldCoordX, worldCoordY, pictureID);
         this.items = Optional.of(items);
     }
     public Optional<List<Item>> getItems() {

@@ -1,9 +1,5 @@
 
 ˜
-java:S1104;"UMake loadSaved a static final constant or non-public and provide accessors if needed.(ÂÚÞâ8·«çðò1J$f1964c75-c67c-4fee-b1f6-457688538443
-~	java:S125n"<This block of commented-out lines of code should be removed.(©…¡Ÿ8øÔæðò1J$b20bc96f-c0db-44d1-b544-23901fc88cc6
-~	java:S125v"<This block of commented-out lines of code should be removed.(…ö²8ùÔæðò1J$5e33ddb3-af72-48d3-9fa7-450b85def021
-w
-java:S1144Š"3Remove this unused private "updateEntities" method.(Œ×™8€Õæðò1J$46dcae15-50dd-4a57-a315-5605f9340f16
-|
-java:S1144£"3Remove this unused private "renderEntities" method.(á™™Ôûÿÿÿÿ8€Õæðò1J$315136c3-027f-49f9-9b2d-3992d9fea0f0
+java:S1104@"UMake loadSaved a static final constant or non-public and provide accessors if needed.(ÂÚÞâ8ˆŸÜÂó1J$2e7918ee-45d2-4220-ae8f-378af0c8558a
+o
+java:S1068=",Remove this unused "entities" private field.(šÿÀ§8²ŸÜÂó1J$3edf7163-ed87-4038-bff8-18e7bbe371b2

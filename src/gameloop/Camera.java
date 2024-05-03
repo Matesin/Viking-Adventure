@@ -28,19 +28,23 @@ public class Camera {
         cameraX = player.getWorldCoordX() - SCREEN_MIDDLE_X;
         cameraY = player.getWorldCoordY() - SCREEN_MIDDLE_Y;
         //if the player is at the edge of the map, adjust the camera accordingly
-        if (cameraX < 0) {
+        if (cameraX <= 0) {
             player.setScreenCoordX(player.getWorldCoordX());
+            cameraX = 0;
         }
-        if (cameraY < 0) {
+        if (cameraY <= 0) {
             player.setScreenCoordY(player.getWorldCoordY());
+            cameraY = 0;
         }
-        if (cameraX > gameMap.getMapWidth() * TILE_SIZE - 2 * SCREEN_MIDDLE_X) {
+        if (cameraX >= gameMap.getMapWidth() * TILE_SIZE - 2 * SCREEN_MIDDLE_X) {
             cameraX = player.getWorldCoordX() - gameMap.getMapWidth() * TILE_SIZE + 2 * SCREEN_MIDDLE_X;
             player.setScreenCoordX(cameraX);
+            cameraX = gameMap.getMapWidth() * TILE_SIZE - 2 * SCREEN_MIDDLE_X;
         }
-        if (cameraY > gameMap.getMapHeight() * TILE_SIZE - 2 * SCREEN_MIDDLE_Y) {
+        if (cameraY >= gameMap.getMapHeight() * TILE_SIZE - 2 * SCREEN_MIDDLE_Y) {
             cameraY = player.getWorldCoordY() - gameMap.getMapHeight() * TILE_SIZE + 2 * SCREEN_MIDDLE_Y;
             player.setScreenCoordY(cameraY);
+            cameraY = gameMap.getMapHeight() * TILE_SIZE - 2 * SCREEN_MIDDLE_Y;
         }
     }
 }

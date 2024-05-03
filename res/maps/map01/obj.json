@@ -6,8 +6,10 @@
     "upgrade_type": "damage",
     "upgrade_value": 10,
     "x": 2,
-    "y": 10
+    "y": 3,
+    "picture": "sword_upgrade.png"
   },
+
   {
     "type": "melee_weapon",
     "name": "Sword",
@@ -15,8 +17,10 @@
     "damage": 15,
     "range": 1,
     "x": 10,
-    "y": 15
+    "y": 15,
+    "picture": "short_sword.png"
   },
+
   {
     "type": "weapon_upgrade",
     "name": "Shield Upgrade",
@@ -24,15 +28,18 @@
     "upgrade_type": "defense",
     "upgrade_value": 5,
     "x": 5,
-    "y": 6
+    "y": 6,
+    "picture": "shield_upgrade.png"
   },
+
   {
-    "type": "ranged_weapon",
-    "name": "Bow",
-    "description": "A basic bow",
+    "type": "melee_weapon",
+    "name": "Hammer",
+    "description": "A basic hammer",
     "damage": 10,
     "range": 3,
     "x": 6,
-    "y": 7
+    "y": 7,
+    "picture": "hammer.png"
   }
 ]

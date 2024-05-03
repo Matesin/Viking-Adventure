@@ -1,5 +1,5 @@
 
-‘
-java:S1128"IRemove this unused import 'com.fasterxml.jackson.annotation.JsonCreator'.(Ã¸‚×ùÿÿÿÿ8ÔÉ´›ó1J$717a04a0-adba-489b-bfea-a97c4c14518d
-
-java:S1128"JRemove this unused import 'com.fasterxml.jackson.annotation.JsonProperty'.(ËÃ§Ï8¿ê´›ó1J$6087286f-e343-4491-99d7-70aacc91cbcd
+‰
+java:S1192W"FDefine a constant instead of duplicating this literal "right" 3 times.(ó¿Ş8£‘Öó1J$907aa15d-1202-44bd-9659-04c93d2c87e4
+i
+java:S1075e"&Remove this hard-coded path-delimiter.(³µó8³‘Öó1J$ff3bf7df-e7d8-412c-a972-426a037449e1
