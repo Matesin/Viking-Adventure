@@ -120,13 +120,13 @@ public class GamePanel extends Pane {
         this.entityManager.updateEntities();
     }
     // DRAW GRAPHICS
-    public void draw(GraphicsContext gc) {
+    public void render(GraphicsContext gc) {
         refreshScreen(gc);
+        this.mapManager.renderMap(gc);
         this.player.getHitbox().display(gc);
         this.player.render(gc);
         this.itemManager.renderItems(gc);
         this.entityManager.renderEntities(gc);
-        this.mapManager.renderMap(gc);
         printPlayerStats(gc);
     }
     public Stage getStage(){

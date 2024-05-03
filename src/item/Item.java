@@ -1,7 +1,8 @@
 package item;
 
 import com.fasterxml.jackson.annotation.*;
-import entity.Player;
+import entity.Hitbox;
+import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -10,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.concurrent.ThreadLocalRandom;
 
+import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Tile.TILE_SIZE;
 
 @JsonTypeInfo(
@@ -43,9 +46,15 @@ public abstract class Item {
     @Getter
     @Setter
     int worldCoordY;
-    String pictureID;
     @Getter
-    static int imagesLoaded = 0;
+    int screenCoordX;
+    @Getter
+    int screenCoordY;
+    String pictureID;
+    public Hitbox hitbox;
+    Image placementImage; //Image used when the object is placed on the map
+    Image inventoryImage; //Image used when the object is in the player's inventory
+
     @JsonCreator
     protected Item(@JsonProperty("x") int worldCoordX,
                    @JsonProperty("y") int worldCoordY,
@@ -56,12 +65,11 @@ public abstract class Item {
         log.info("Loading image for item: {}", itemName);
         loadImage(pictureID);
         log.info("Image loaded for item: {}", itemName);
-        this.worldCoordX = worldCoordX * TILE_SIZE;
-        this.worldCoordY = worldCoordY * TILE_SIZE;
+        //set the world coordinates of the item, do not place it in the top left corner of the tile
+        this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getWidth());
+        this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getHeight());
+        this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
     }
-
-    Image placementImage; //Image used when the object is placed on the map
-    Image inventoryImage; //Image used when the object is in the player's inventory
     public void loadImage(String pictureID) {
         String filepath = "res/items/" + pictureID;
         String defaultFilepath = "res/defaults/default_tile.png";
@@ -69,7 +77,6 @@ public abstract class Item {
             FileInputStream fis = new FileInputStream(filepath);
             placementImage = new Image(fis);
             inventoryImage = new Image(fis, 50, 50, false, false);
-            imagesLoaded++;
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
@@ -82,9 +89,29 @@ public abstract class Item {
             }
         }
     }
-    public void render(GraphicsContext gc){
-        int screenX = this.worldCoordX;
-        int screenY = this.worldCoordY;
-        gc.drawImage(placementImage, screenX, screenY);
+    public void render(GraphicsContext gc, GamePanel gamePanel){
+        screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
+        screenCoordY = this.worldCoordY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
+        int mapWidth = gamePanel.getChosenMap().getMapWidth();
+        int mapHeight = gamePanel.getChosenMap().getMapHeight();
+        if(gamePanel.player.getWorldCoordX() < SCREEN_MIDDLE_X) {
+            screenCoordX = this.worldCoordX;
+        }
+        if (gamePanel.player.getWorldCoordY() < SCREEN_MIDDLE_Y) {
+            screenCoordY = this.worldCoordY;
+        }
+        if (gamePanel.player.getWorldCoordX() > mapWidth * TILE_SIZE - SCREEN_MIDDLE_X) {
+            screenCoordX = this.worldCoordX - (mapWidth * TILE_SIZE - SCREEN_WIDTH);
+        }
+        if (gamePanel.player.getWorldCoordY() > mapHeight * TILE_SIZE - SCREEN_MIDDLE_Y) {
+            screenCoordY = this.worldCoordY - (mapHeight * TILE_SIZE - SCREEN_HEIGHT);
+        }
+        if (screenCoordX >= - TILE_SIZE &&
+            screenCoordX <= SCREEN_WIDTH &&
+            screenCoordY >= - TILE_SIZE &&
+            screenCoordY <= SCREEN_HEIGHT) {
+            gc.drawImage(placementImage, screenCoordX, screenCoordY);
+        }
     }
+
 }

@@ -1,13 +1,17 @@
 
 
-java:S11926"FDefine a constant instead of duplicating this literal "right" 3 times.(ç¥‹’ıÿÿÿÿ8¾Òéó1J$ff80ddb1-8f05-4307-9808-b8280de32c9c
+java:S11929"FDefine a constant instead of duplicating this literal "right" 3 times.(ç¥‹’ıÿÿÿÿ8¾Òéó1J$02e964dc-f852-4e04-b959-38e4e3aa5380
 ~
-java:S2387"6"currentSprite" is the name of a field in "Character".(úÆÁüÿÿÿÿÿ8ÚÒéó1J$fc0fc88f-8e88-4d55-acf1-c8fedfbb4e69
+java:S2387"6"currentSprite" is the name of a field in "Character".(úÆÁüÿÿÿÿÿ8ÚÒéó1J$3faa3fda-2814-4cb6-95cc-82e2fb6ba52f
+š
+java:S1450"XRemove the "inventory" field and declare it as a local variable in the relevant methods.(â¨:8ïïùéó1J$25843a1c-0ac6-49b9-8fb5-2456b7c0f0a6
 Œ
-java:S3358]"DExtract this nested ternary operation into an independent statement.(£’—±ùÿÿÿÿ8áÒéó1J$734b5879-a99c-4679-9fca-6bb19bd23054
+java:S3358`"DExtract this nested ternary operation into an independent statement.(£’—±ùÿÿÿÿ8áÒéó1J$881eb849-7a0b-47d8-921d-23fe9912f38f
 ‡
-java:S3358^"DExtract this nested ternary operation into an independent statement.(å×¦´8âÒéó1J$5f4d5f97-572a-40ca-a05d-ac8da34150a2
+java:S3358a"DExtract this nested ternary operation into an independent statement.(å×¦´8âÒéó1J$28f6a730-99eb-469e-befd-b49015db5480
 ‡
-java:S3358_"DExtract this nested ternary operation into an independent statement.(Âó±8âÒéó1J$80aef220-6732-4475-a4e1-9561bb48f914
+java:S3358b"DExtract this nested ternary operation into an independent statement.(Âó±8âÒéó1J$f86d37d7-c187-4044-834c-2e011eea46c7
 ‡
-java:S3358`"DExtract this nested ternary operation into an independent statement.(Â«äû8âÒéó1J$b701bbf0-3897-4e98-a72b-44b3d6cade5c
+java:S3358c"DExtract this nested ternary operation into an independent statement.(Â«äû8âÒéó1J$a70fee6f-2979-450c-a7d6-fea98ba26253
+o
+java:S1068"-Remove this unused "inventory" private field.(â¨:8äèøéó1J$4117931c-0201-423b-a132-c8a08d4c3f73

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import gameloop.Camera;
+import gameloop.GamePanel;
 import item.WeaponUpgrade;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -14,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import static gameloop.Constants.Screen.SCREEN_MIDDLE_X;
-import static gameloop.Constants.Screen.SCREEN_MIDDLE_Y;
+import static gameloop.Constants.Screen.*;
+import static gameloop.Constants.Screen.SCREEN_HEIGHT;
 import static gameloop.Constants.Tile.TILE_SIZE;
 
 //DECLARE JSON SUBTYPES
@@ -67,6 +68,7 @@ public abstract class Character {
     Image right1;
     Image right2;
     Image currentSprite;
+    String name;
 
     protected Character(int worldCoordX, int worldCoordY) {
         this.worldCoordX = worldCoordX * TILE_SIZE;
@@ -118,11 +120,30 @@ public abstract class Character {
         // Update the character's position
         if (isMoving) move();
     }
-    public void render(GraphicsContext gc, Camera camera){
+    public void render(GraphicsContext gc, GamePanel gamePanel){
         // Render the character
-        screenCoordX = worldCoordX - camera.getCameraX() + SCREEN_MIDDLE_X;
-        screenCoordY = worldCoordY - camera.getCameraY() + SCREEN_MIDDLE_Y;
-        gc.drawImage(currentSprite, screenCoordX, screenCoordY);
+        screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
+        screenCoordY = this.worldCoordY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
+        int mapWidth = gamePanel.getChosenMap().getMapWidth();
+        int mapHeight = gamePanel.getChosenMap().getMapHeight();
+        if(gamePanel.player.getWorldCoordX() < SCREEN_MIDDLE_X) {
+            screenCoordX = this.worldCoordX;
+        }
+        if (gamePanel.player.getWorldCoordY() < SCREEN_MIDDLE_Y) {
+            screenCoordY = this.worldCoordY;
+        }
+        if (gamePanel.player.getWorldCoordX() > mapWidth * TILE_SIZE - SCREEN_MIDDLE_X) {
+            screenCoordX = this.worldCoordX - (mapWidth * TILE_SIZE - SCREEN_WIDTH);
+        }
+        if (gamePanel.player.getWorldCoordY() > mapHeight * TILE_SIZE - SCREEN_MIDDLE_Y) {
+            screenCoordY = this.worldCoordY - (mapHeight * TILE_SIZE - SCREEN_HEIGHT);
+        }
+        if (screenCoordX >= - TILE_SIZE &&
+                screenCoordX <= SCREEN_WIDTH &&
+                screenCoordY >= - TILE_SIZE &&
+                screenCoordY <= SCREEN_HEIGHT) {
+            gc.drawImage(this.currentSprite, screenCoordX, screenCoordY);
+        }
     }
     private void move(){
         // Move the character

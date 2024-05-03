@@ -17,8 +17,6 @@ public class MeleeWeapon extends Weapon{
         this.name = name;
         this.damage = damage;
         this.description = description;
-        this.worldCoordX = worldCoordX;
-        this.worldCoordY = worldCoordY;
     }
 
 }

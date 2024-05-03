@@ -14,8 +14,8 @@
     "description": "A basic sword",
     "damage": 15,
     "range": 1,
-    "x": 10,
-    "y": 15,
+    "x": 20,
+    "y": 10,
     "picture": "small_sword.png"
   },
 
@@ -23,8 +23,8 @@
     "type": "melee_weapon",
     "name": "Axeus vikingus",
     "description": "A large axe",
-    "x": 5,
-    "y": 6,
+    "x": 300,
+    "y": 300,
     "picture": "large_axe.png"
   },
 

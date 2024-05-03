@@ -6,7 +6,6 @@ import gameloop.Camera;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.extern.slf4j.Slf4j;
-import map.MapManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +18,10 @@ import static gameloop.Constants.Tile.TILE_SIZE;
 public class EntityManager {
     Optional<List<Character>> entities;
     private final Camera camera;
+    private final GamePanel gamePanel;
     public EntityManager(GamePanel gamePanel){
         // Set the entities for the game
+        this.gamePanel = gamePanel;
         EntitySetter entitySetter = new EntitySetter(gamePanel.getMapIDString(), gamePanel.loadSaved);
         this.entities = entitySetter.setEntities();
         this.camera = gamePanel.getCamera();
@@ -38,7 +39,8 @@ public class EntityManager {
         if (entities.isPresent()) {
             for (Character entity : entities.orElseThrow()) {
                 if (isOnScreen(entity)) {
-                    entity.render(gc, camera);
+                    log.info("Rendering entity {}", entity.getClass().getSimpleName());
+                    entity.render(gc, gamePanel);
                 }
             }
         }

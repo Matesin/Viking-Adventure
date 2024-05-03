@@ -2,6 +2,7 @@ package entity;
 
 import controller.InputHandler;
 import gameloop.GamePanel;
+import item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Player extends Character {
     private boolean oddIteration = false;
     @Getter
     private Image currentSprite;
+    private Item[] inventory;
 
     public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
@@ -35,6 +37,7 @@ public class Player extends Character {
         this.setScreenCoordY(SCREEN_MIDDLE_Y);
         currentSprite = down1;
         this.speed = 5; // Adjust this value as needed
+        this.inventory = new Item[10];
         direction = "down";
         hitbox.update();
     }

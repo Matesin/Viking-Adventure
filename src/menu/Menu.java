@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -19,8 +20,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.*;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Button.*;
@@ -75,7 +82,7 @@ public class Menu extends Application implements GameMenu{
     }
 
 
-    private Parent createContent(){
+    private Parent createContent() throws FileNotFoundException {
         setBackGround();
         addTitle();
         initButtons();
@@ -106,10 +113,16 @@ public class Menu extends Application implements GameMenu{
 
     }
 
-    //TODO: CREATE BACKGROUND IMAGE
     @Override
-    public void setBackGround(){
-        this.root.setStyle("-fx-background-color: white;");
+    public void setBackGround() throws FileNotFoundException {
+        InputStream stream = getClass().getResourceAsStream("/menu_backgrounds");
+        if (stream == null) {
+            throw new FileNotFoundException("Resource not found: res/menu_backgrounds");
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        List<String> listOfFiles = reader.lines().toList();
+        String file = listOfFiles.get(ThreadLocalRandom.current().nextInt(0, listOfFiles.size()));
+        this.root.setStyle("-fx-background-image: url('/menu_backgrounds/" + file + "')");
     }
     public void addTitle(){
         final int titleNameFontSize = 70;
@@ -135,7 +148,7 @@ public class Menu extends Application implements GameMenu{
     }
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) throws FileNotFoundException {
         Scene scene = new Scene(createContent(), SCREEN_WIDTH, SCREEN_HEIGHT);
         stage.setTitle("Viking Adventure");
         stage.setScene(scene);

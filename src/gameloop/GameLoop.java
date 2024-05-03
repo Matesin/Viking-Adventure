@@ -28,7 +28,7 @@ public class GameLoop extends AnimationTimer {
     @Override
     public void handle(long now) {
             this.gamePanel.update();
-            this.gamePanel.draw(gc);
+            this.gamePanel.render(gc);
         if (this.gamePanel.inputHandler.isPaused()) {
             this.stop();
             inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);

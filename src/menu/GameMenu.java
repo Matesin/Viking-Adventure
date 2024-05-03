@@ -2,9 +2,12 @@ package menu;
 
 import javafx.scene.Parent;
 
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+
 public interface GameMenu {
     void initButtons();
     void addMenu();
-    void setBackGround();
+    void setBackGround() throws URISyntaxException, FileNotFoundException;
     void addTitle();
 }
