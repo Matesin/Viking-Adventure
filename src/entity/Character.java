@@ -1,27 +1,25 @@
 package entity;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import gameloop.Camera;
 import gameloop.GamePanel;
-import item.WeaponUpgrade;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Screen.SCREEN_HEIGHT;
 import static gameloop.Constants.Tile.TILE_SIZE;
+import static gameloop.Constants.Directions.*;
+import static gameloop.Constants.GraphicsDefaults.*;
 
 //DECLARE JSON SUBTYPES
 @JsonTypeInfo(  use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 
 @JsonSubTypes({
@@ -80,14 +78,14 @@ public abstract class Character {
         // Load the character's sprites
          log.info("Loading sprites for: {}", type);
         try {
-            up1 = setSprite(1, "up", type);
-            up2 = setSprite(2, "up", type);
-            down1 = setSprite(1, "down", type);
-            down2 = setSprite(2, "down", type);
-            left1 = setSprite(1, "left", type);
-            left2 = setSprite(2, "left", type);
-            right1 = setSprite(1, "right", type);
-            right2 = setSprite(2, "right", type);
+            up1 = setSprite(1, DIR_UP, type);
+            up2 = setSprite(2, DIR_UP, type);
+            down1 = setSprite(1, DIR_DOWN, type);
+            down2 = setSprite(2, DIR_DOWN, type);
+            left1 = setSprite(1, DIR_LEFT, type);
+            left2 = setSprite(2, DIR_LEFT, type);
+            right1 = setSprite(1, DIR_RIGHT, type);
+            right2 = setSprite(2, DIR_RIGHT, type);
             log.info("Sprites loaded successfully");
         } catch (FileNotFoundException e) {
             log.error("Error loading entity sprites: {}", e.getMessage());
@@ -100,14 +98,13 @@ public abstract class Character {
             // Capitalize the first letter of the direction
             direction = direction.substring(0, 1).toUpperCase() + direction.substring(1);
         }
-        String filepath = "res/entities/" + type + "/" + type + direction + spriteNum + ".png";
-        try {
+         String filepath = "res" + File.separator + "entities" + File.separator + type + File.separator + type + direction + spriteNum + ".png";        try {
             FileInputStream fis = new FileInputStream(filepath);
             sprite = new Image(fis, TILE_SIZE, TILE_SIZE, false, false);
         } catch (FileNotFoundException e) {
             log.error("Error loading entity sprites: {}, loading default instead", e.getMessage());
             try{
-                FileInputStream fis = new FileInputStream("res/defaults/default_tile.png");
+                FileInputStream fis = new FileInputStream(DEFAULT_TILE_FILEPATH);
                 sprite = new Image(fis);
             } catch (FileNotFoundException ex){
                 throw new FileNotFoundException("Error loading default sprite");
@@ -149,16 +146,16 @@ public abstract class Character {
     private void move(){
         // Move the character
         switch (direction){
-            case "up":
+            case DIR_UP:
                 worldCoordY -= speed;
                 break;
-            case "down":
+            case DIR_DOWN:
                 worldCoordY += speed;
                 break;
-            case "left":
+            case DIR_LEFT:
                 worldCoordX -= speed;
                 break;
-            case "right":
+            case DIR_RIGHT:
                 worldCoordX += speed;
                 break;
             default:

@@ -13,12 +13,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static gameloop.Constants.GraphicsDefaults.DEFAULT_TILE_FILEPATH;
 import static gameloop.Constants.Screen.*;
 import static gameloop.Constants.Tile.TILE_SIZE;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type"
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -72,7 +72,6 @@ public abstract class Item {
     }
     public void loadImage(String pictureID) {
         String filepath = "res/items/" + pictureID;
-        String defaultFilepath = "res/defaults/default_tile.png";
         try {
             FileInputStream fis = new FileInputStream(filepath);
             placementImage = new Image(fis);
@@ -80,7 +79,7 @@ public abstract class Item {
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
-                FileInputStream fis = new FileInputStream(defaultFilepath);
+                FileInputStream fis = new FileInputStream(DEFAULT_TILE_FILEPATH);
                 placementImage = new Image(fis);
                 inventoryImage = new Image(fis, 50, 50, false, false);
                 log.info("Default tile loaded successfully");

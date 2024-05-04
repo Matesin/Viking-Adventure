@@ -58,5 +58,21 @@ public class Constants {
         public static final int MENU_TRANSLATE_X = SCREEN_MIDDLE_X - Button.BUTTON_WIDTH / 2;
         public static final int MENU_TRANSLATE_Y = SCREEN_MIDDLE_Y / 2;
     }
-
+    public static class Directions {
+        private Directions() {
+            log.error(CONSTANT_CREATION, "Utility Directions class created");
+        }
+        public static final String DIR_UP = "up";
+        public static final String DIR_DOWN = "down";
+        public static final String DIR_LEFT = "left";
+        public static final String DIR_RIGHT = "right";
+    }
+    public static class GraphicsDefaults {
+        private GraphicsDefaults() {
+            log.error(CONSTANT_CREATION, "Utility GraphicsDefaults class created");
+        }
+        public static final String DEFAULT_TILE_FILEPATH = "res/defaults/default_tile.png";
+        public static final String DEFAULT_ITEM_FILEPATH = "res/defaults/default_item.png";
+        public static final String DEFAULT_ENTITY_FILEPATH = "res/defaults/default_entity.png";
+    }
 }
