@@ -122,6 +122,7 @@ public abstract class Character {
     }
     public void render(GraphicsContext gc, GamePanel gamePanel){
         // Render the character
+        this.currentSprite = down1;
         screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
         screenCoordY = this.worldCoordY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
         int mapWidth = gamePanel.getChosenMap().getMapWidth();

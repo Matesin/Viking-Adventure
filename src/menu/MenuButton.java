@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -30,7 +31,7 @@ public class MenuButton extends Pane {
         text.setTranslateY((double) BUTTON_HEIGHT / 2 + (double) textSize / 3);
         text.setFill(Color.BLACK);
         text.setStroke(Color.WHITE);
-        Effect glow = new BoxBlur(1, 1, 3);
+        Glow glow = new Glow(0.8);
         Effect shadow = new DropShadow(5, Color.BLACK);
         text.effectProperty().bind(
                 Bindings.when(hoverProperty())

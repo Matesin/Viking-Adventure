@@ -1,6 +1,7 @@
 package menu;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -14,7 +15,18 @@ public class GameSettings extends Pane implements GameMenu {
     public GameSettings() {
 
     }
-
+    private Slider createSlider() {
+        Slider slider = new Slider();
+        slider.setMin(0);
+        slider.setMax(100);
+        slider.setValue(50); // default value
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setMinorTickCount(5);
+        slider.setBlockIncrement(10);
+        return slider;
+    }
     @Override
     public void initButtons() {
 

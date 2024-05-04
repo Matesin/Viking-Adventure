@@ -19,12 +19,14 @@ public class EntityManager {
     Optional<List<Character>> entities;
     private final Camera camera;
     private final GamePanel gamePanel;
+    private final Player player;
     public EntityManager(GamePanel gamePanel){
         // Set the entities for the game
         this.gamePanel = gamePanel;
         EntitySetter entitySetter = new EntitySetter(gamePanel.getMapIDString(), gamePanel.loadSaved);
         this.entities = entitySetter.setEntities();
         this.camera = gamePanel.getCamera();
+        this.player = gamePanel.player;
     }
 
     public boolean isOnScreen(Character entity){
@@ -38,9 +40,12 @@ public class EntityManager {
     public void renderEntities(GraphicsContext gc){
         if (entities.isPresent()) {
             for (Character entity : entities.orElseThrow()) {
-                if (isOnScreen(entity)) {
-                    log.info("Rendering entity {}", entity.getClass().getSimpleName());
+                if(isOnScreen(entity)) {
                     entity.render(gc, gamePanel);
+                    if(player.getHitbox().intersects(entity.getHitbox())){
+                        player.setCollision(true);
+                        log.info("Player collided with entity {}", entity.getClass().getSimpleName());
+                    }
                 }
             }
         }

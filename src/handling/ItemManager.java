@@ -49,7 +49,7 @@ public class ItemManager {
                     item.render(gc, this.gamePanel);
                     if(player.getHitbox().intersects(item.hitbox)){
                         gc.setFill(Color.BLACK);
-                        Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 10);
+                        Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 15);
                         gc.setFont(statsFont);
                         gc.fillText("Press 'E' to pick up this " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
                         if(player.isInventoryFull()){
