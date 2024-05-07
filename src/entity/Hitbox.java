@@ -98,10 +98,10 @@ public class Hitbox {
     }
     public boolean intersects(Hitbox other) {
         //if the other hitbox is an item, check if any of the corners of the item hitbox are inside this hitbox
-        //NOTE: had to hardcode this for entities, because the other method was not working
+        //NOTE: had to hardcode this for entities, because the rectangle.intersects method was not working
         if (other.item == null) {
-            double[] otherIntersectPointsX = {other.coordX, other.coordX + other.width / 4.0, (other.coordX + other.width) * 0.75, other.coordX + other.width};
-            double[] otherIntersectPointsY = {other.coordY, other.coordY + other.height / 4.0, (other.coordY + other.height) * 0.75, other.coordY + other.height};        //detect if any of the corners of the other hitbox are inside this hitbox
+            double[] otherIntersectPointsX = {other.coordX, other.coordX + (other.width / 4.0),  other.coordX + (other.width / 2.0), other.coordX + (other.width * 0.75), other.coordX + other.width};
+            double[] otherIntersectPointsY = {other.coordY, other.coordY + (other.height / 4.0), other.coordY + (other.height / 2.0), other.coordY + (other.height * 0.75), other.coordY + other.height};        //detect if any of the corners of the other hitbox are inside this hitbox
             for (double i : otherIntersectPointsX) {
                 for (double j : otherIntersectPointsY) {
                     if (this.hitArea.contains(i, j)) {

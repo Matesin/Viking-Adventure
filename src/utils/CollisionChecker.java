@@ -94,25 +94,25 @@ public class CollisionChecker {
             if (!otherEntity.equals(entity) && entity.hitbox.intersects(otherEntity.hitbox)) {
                 switch (entity.getDirection()) {
                     case DIR_UP:
-                        if (entity.getWorldCoordY() > otherEntity.getWorldCoordY()) {
+                        if (entity.hitbox.getCoordX() > otherEntity.hitbox.getCoordY()) {
                             entity.setCollision(true);
                             logCollision(otherEntity, DIR_UP);
                         }
                         break;
                     case DIR_DOWN:
-                        if (entity.getWorldCoordY() < otherEntity.getWorldCoordY()) {
+                        if (entity.hitbox.getCoordY() < otherEntity.hitbox.getCoordY()) {
                             entity.setCollision(true);
                             logCollision(otherEntity, DIR_DOWN);
                         }
                         break;
                     case DIR_LEFT:
-                        if (entity.getWorldCoordX() > otherEntity.getWorldCoordX()) {
+                        if (entity.hitbox.getCoordX() > otherEntity.hitbox.getCoordX()) {
                             entity.setCollision(true);
                             logCollision(otherEntity, DIR_LEFT);
                         }
                         break;
                     case DIR_RIGHT:
-                        if (entity.getWorldCoordX() < otherEntity.getWorldCoordX()) {
+                        if (entity.hitbox.getCoordX() < otherEntity.hitbox.getCoordX()) {
                             entity.setCollision(true);
                             logCollision(otherEntity, DIR_RIGHT);
                         }
