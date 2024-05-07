@@ -49,8 +49,7 @@ public abstract class Character {
     int speed;
     int width;
     int height;
-    @Getter
-    Hitbox hitbox;
+    public Hitbox hitbox;
     @Getter
     @Setter
     boolean collision = false;
@@ -73,6 +72,12 @@ public abstract class Character {
         this.worldCoordY = worldCoordY * TILE_SIZE;
         String type = this.getClass().getSimpleName().toLowerCase();
         getSprites(type);
+        currentSprite = down1;
+        if (!(this instanceof Player)){
+            this.hitbox = new Hitbox(this);
+            log.debug("Hitbox created with dimensions: {} x {}", hitbox.getWidth(), hitbox.getHeight());
+            log.debug("Hitbox of {} covers area from x: {}, y: {} to x: {}, y: {}", this.getClass().getSimpleName(), hitbox.getCoordX(), hitbox.getCoordY(), hitbox.getCoordX() + hitbox.getWidth(), hitbox.getCoordY() + hitbox.getHeight());
+        }
     }
      void getSprites(String type){
         // Load the character's sprites
@@ -116,6 +121,7 @@ public abstract class Character {
     public void update(){
         // Update the character's position
         if (isMoving) move();
+        hitbox.update();
     }
     public void render(GraphicsContext gc, GamePanel gamePanel){
         // Render the character
@@ -141,6 +147,7 @@ public abstract class Character {
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
             gc.drawImage(this.currentSprite, screenCoordX, screenCoordY);
+            hitbox.display(gc);
         }
     }
     private void move(){

@@ -12,6 +12,5 @@ public class Mob extends Enemy{
         this.hp = 100;
         this.reactionRange = 50;
         this.attackRange = 10;
-        this.hitbox = new Hitbox(this, this.width, this.height, 0, 0);
     }
 }

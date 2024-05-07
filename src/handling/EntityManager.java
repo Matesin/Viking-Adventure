@@ -5,8 +5,14 @@ import entity.Player;
 import gameloop.Camera;
 import gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +22,7 @@ import static gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
 public class EntityManager {
+    @Getter
     Optional<List<Character>> entities;
     private final Camera camera;
     private final GamePanel gamePanel;
@@ -39,13 +46,10 @@ public class EntityManager {
     }
     public void renderEntities(GraphicsContext gc){
         if (entities.isPresent()) {
-            for (Character entity : entities.orElseThrow()) {
-                if(isOnScreen(entity)) {
-                    entity.render(gc, gamePanel);
-                    if(player.getHitbox().intersects(entity.getHitbox())){
-                        player.setCollision(true);
-                        log.info("Player collided with entity {}", entity.getClass().getSimpleName());
-                    }
+            //use iterator for future implementation of entity removal
+            for (Character entity : entities.get()) {
+                if (isOnScreen(entity)) {
+                    entity.render(gc, this.gamePanel);
                 }
             }
         }

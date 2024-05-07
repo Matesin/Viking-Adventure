@@ -96,12 +96,8 @@ w
 G.idea/sonarlint/issuestore/5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75,f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7
 Å
 Q.idea/sonarlint/securityhotspotstore/b/9/b91651470c5cdf9e8896a3be25008eee1e70165f,4/d/4d4cc98c28e4ae8358b017b02f9e4b7cf0bd252e
-I
-.idea/libraries/javaf.xml,9/1/91f4c3450bf175df1ee970eb776dd85fbaf425d2
 Å
 Q.idea/sonarlint/securityhotspotstore/5/c/5c49252a5ec80b9e7f3aaacf9c47f05e0609df75,f/5/f54eb3589a1617b84e4fae26ce078ac750b44099
-J
-.idea/libraries/lombok.xml,2/e/2e746fc19417b9c0a6caff5342319552b0f18200
 Å
 Q.idea/sonarlint/securityhotspotstore/5/d/5d6cb45bc6260cc8bf80c9f3a882752f984e4647,9/a/9a904db6c30ab5669ef41717d5164d7b44636542
 Å
@@ -302,8 +298,6 @@ H
 src/utils/TileUtils.java,c/4/c4b91a463ece9d528b91cf09b94c52238d13954d
 O
 src/utils/CollisionChecker.java,6/7/67d77b91f7c2b0d7158487f1fdc14f1906326663
-M
-src/gameloop/AssetSetter.java,4/9/495fa840e0056f554489c8ad1fccc8dd224fef04
 Å
 Q.idea/sonarlint/securityhotspotstore/3/d/3d87d1172af91c565b276b1a58d84a16100886d6,1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c
 Å
@@ -324,38 +318,20 @@ K
 src/gameloop/Constants.java,e/0/e0091dfcaebcf316a7ea5c170c8dfb27f2530096
 J
 src/menu/GameSettings.java,f/3/f385a85df3025556f356ce1b2f43eef5307c66d2
-X
-(src/configuration/JsonEntityHandler.java,5/e/5e862bafa9e30bd868720299a3fa8fbcd332bd37
-T
-$src/configuration/EntityHandler.java,5/2/52099298265f1a83cb3c782bb8873a7cc31c1c2f
-]
--test/configuration/JsonEntityHandlerTest.java,b/b/bb1cb7d0f254742e2e7d2fce435fd86053233eae
-N
-src/gameloop/EntitySetter.java,3/9/3937d30138ab20528676e81d0aa6d7309abfd47d
-G
-src/utils/SaveGame.java,1/a/1af42a1d4d4cf860060be573624e0cf1aaeb10c1
 J
 src/utils/SaveUtility.java,e/2/e20b3bcc2d44669253ef35d565f0af166aefdd25
-K
-src/utils/EntitySetter.java,f/e/fe55e37baed79742370ff0cc1a57c2f69dcb9f9b
-J
-src/utils/AssetSetter.java,b/f/bff6729b156df61d137b0abb4396c80f41a1b25b
 K
 src/gameloop/GameState.java,c/7/c7471143828eec356c9530119321bd592c9093f8
 O
 src/handling/EntityHandler.java,d/4/d4f710e5bc454605ccc9271f4fc972be21599050
 S
 #src/handling/JsonEntityHandler.java,c/7/c79ce05875d440bf54b023a75c942dd553d89695
-M
-src/handling/AssetSetter.java,f/1/f160de85f6f1e61d0bf9fc89e2bb928d1eee6cf5
 N
 src/handling/EntitySetter.java,a/0/a0e13cf7ac4cae7a17e1ab05eb2ee28a4274b9c6
 S
 #test/handling/EntitySetterTest.java,6/e/6ed5c22ebbf01f819052a1e819263843e20328db
 X
 (test/handling/JsonEntityHandlerTest.java,4/7/47d53c432b4e9b4dc54edc34e4efdcd5edd3e0b8
-E
-src/utils/Camera.java,9/3/93985189164a346be9ff955df28be6e075c765f8
 H
 src/gameloop/Camera.java,b/e/be8420d75f91d5c11b24e7bd47f7c03605793464
 Å
@@ -406,10 +382,6 @@ M
 src/handling/ItemHandler.java,0/c/0c7479abeaed4b5813e2fb0b93487f3c740567e9
 Q
 !src/handling/JsonItemHandler.java,5/b/5bfa6d81c7e37e52d5c8110220db5bbce34e6851
-S
-#src/handling/JsonObjectHandler.java,4/2/423e6487d1b880512436bc453a3f8da9cd2378ad
-G
-src/menu/MapPicker.java,7/d/7ddb0c7ed5a3937486aa8594ebca80a489c4fccf
 F
 src/menu/GameMenu.java,8/1/81354c8e8f5d42cf34520689475a01cac8fdbeef
 L
@@ -422,8 +394,6 @@ O
 src/handling/EntityManager.java,f/1/f140c411784bf414be2c9ca2fc7834943b2ca9c4
 M
 src/handling/ItemManager.java,9/1/91bb3108b5d3e4272b71f13e195b7f3a2e847c26
-S
-#src/handling/ScreenCoordSetter.java,f/6/f6ff0c9a4fb78216b609489e557cfbd9e1f6f9bd
 Å
 Q.idea/sonarlint/securityhotspotstore/d/7/d76536cf37a263a9d5a5286cc5280dbe1e3bbf2f,9/0/900a448ca8a31ed9bbf6e3a3283173da5771e110
 Å

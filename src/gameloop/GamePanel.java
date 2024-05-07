@@ -58,10 +58,11 @@ public class GamePanel extends Pane {
     @Setter
     private int chosenMapIndex;
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
-    private static Optional<List<Character>> entities;
+    private Optional<List<Character>> entities;
     @Getter
     private final Camera camera;
     public boolean loadSaved;
+    @Getter
     private final EntityManager entityManager;
     private final ItemManager itemManager;
     // CONSTRUCT GAME PANEL
@@ -77,6 +78,7 @@ public class GamePanel extends Pane {
         this.camera = new Camera(this);
         this.entityManager = new EntityManager(this);
         this.itemManager = new ItemManager(this);
+        entities = entityManager.getEntities();
         initCanvas();
         log.info("GamePanel created. Starting game loop");
         startGameLoop();
@@ -123,11 +125,11 @@ public class GamePanel extends Pane {
     public void render(GraphicsContext gc) {
         refreshScreen(gc);
         this.mapManager.renderMap(gc);
-        this.player.getHitbox().display(gc);
+        this.player.hitbox.display(gc);
         this.player.render(gc);
         this.itemManager.renderItems(gc);
         this.entityManager.renderEntities(gc);
-        printPlayerStats(gc);
+//        printPlayerStats(gc);
     }
     public Stage getStage(){
         return (Stage) this.root.getScene().getWindow();
@@ -142,7 +144,17 @@ public class GamePanel extends Pane {
         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
         gc.setFont(statsFont);
         gc.fillText("Player Coords: " + player.getWorldCoordX() + ", " + player.getWorldCoordY(), 15, 30);
-        gc.fillText("Hitbox Coords: " + player.getHitbox().getCoordX() + ", " + player.getHitbox().getCoordY(), 15, 60);
+        gc.fillText("Hitbox Coords: " + player.hitbox.getCoordX() + ", " + player.hitbox.getCoordY(), 15, 60);
         gc.fillText("Camera Coords: " + camera.getCameraX() + ", " + camera.getCameraY(), 15, 90);
+        if(entities.isPresent()){
+            for (int i = 0; i < entities.get().size(); i++) {
+                gc.fillText("Entity " + (i + 1) +
+                            " Coords: " + entities.get().get(i).getWorldCoordX() + ", " +
+                            entities.get().get(i).getWorldCoordY() + " Hitbox coords: " +
+                            entities.get().get(i).hitbox.getCoordX() + ", " +
+                            entities.get().get(i).hitbox.getCoordY(), 15, 120 + 30 * i);
+            }
+
+        }
     }
 }

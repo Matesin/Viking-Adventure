@@ -47,7 +47,7 @@ public class ItemManager {
                 Item item = iterator.next();
                 if (isOnScreen(item)) {
                     item.render(gc, this.gamePanel);
-                    if(player.getHitbox().intersects(item.hitbox)){
+                    if(player.hitbox.intersects(item.hitbox)){
                         gc.setFill(Color.BLACK);
                         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 15);
                         gc.setFont(statsFont);

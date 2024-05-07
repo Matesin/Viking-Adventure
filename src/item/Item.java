@@ -51,7 +51,7 @@ public abstract class Item {
     @Getter
     int screenCoordY;
     String pictureID;
-    public Hitbox hitbox;
+    public final Hitbox hitbox;
     Image placementImage; //Image used when the object is placed on the map
     Image inventoryImage; //Image used when the object is in the player's inventory
 

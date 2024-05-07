@@ -1,16 +1,10 @@
 package entity;
 
-import gameloop.GamePanel;
 import item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.swing.text.html.parser.Entity;
-
-import static gameloop.Constants.Screen.SCREEN_MIDDLE_X;
-import static gameloop.Constants.Screen.SCREEN_MIDDLE_Y;
 
 @Slf4j
 public class Hitbox {
@@ -24,15 +18,15 @@ public class Hitbox {
     private int coordY;
     private Rectangle hitArea;
     private boolean offset = false;
-    private Character entity;
     private int xOffset;
     private int yOffset;
     private Item item;
+    private Character entity;
 
     public Hitbox(Character entity) {
         this.entity = entity;
-        this.width = this.entity.width;
-        this.height = this.entity.height;
+        this.width = (int) this.entity.currentSprite.getWidth();
+        this.height = (int) this.entity.currentSprite.getHeight();
         this.coordX = this.entity.worldCoordX;
         this.coordY = this.entity.worldCoordY;
         this.hitArea = new Rectangle(width, height, coordX, coordY);
@@ -93,6 +87,7 @@ public class Hitbox {
     }
 
     public void display(GraphicsContext gc){
+        //display the hitbox
         int displayX = entity != null ? entity.getScreenCoordX() : item.getScreenCoordX();
         int displayY = entity != null ? entity.getScreenCoordY() : item.getScreenCoordY();
         if (offset) {
@@ -102,6 +97,19 @@ public class Hitbox {
         gc.strokeRect(displayX, displayY, this.width, this.height);
     }
     public boolean intersects(Hitbox other) {
-        return this.hitArea.intersects(other.hitArea.getBoundsInLocal());
+        //if the other hitbox is an item, check if any of the corners of the item hitbox are inside this hitbox
+        //NOTE: had to hardcode this for entities, because the other method was not working
+        if (other.item == null) {
+            double[] otherIntersectPointsX = {other.coordX, other.coordX + other.width / 4.0, (other.coordX + other.width) * 0.75, other.coordX + other.width};
+            double[] otherIntersectPointsY = {other.coordY, other.coordY + other.height / 4.0, (other.coordY + other.height) * 0.75, other.coordY + other.height};        //detect if any of the corners of the other hitbox are inside this hitbox
+            for (double i : otherIntersectPointsX) {
+                for (double j : otherIntersectPointsY) {
+                    if (this.hitArea.contains(i, j)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } else return this.hitArea.intersects(other.hitArea.getBoundsInLocal());
     }
 }

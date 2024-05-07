@@ -114,6 +114,7 @@ public class Menu extends Application implements GameMenu{
 
     @Override
     public void setBackGround() throws FileNotFoundException {
+
         InputStream stream = getClass().getResourceAsStream("/menu_backgrounds");
         if (stream == null) {
             throw new FileNotFoundException("Resource not found: res/menu_backgrounds");
