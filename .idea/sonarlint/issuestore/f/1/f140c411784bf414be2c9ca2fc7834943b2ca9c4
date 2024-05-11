@@ -1,16 +1,0 @@
-
-x
-java:S1128"5Remove this unused import 'javafx.scene.paint.Color'.(Ïî£à8ÚÅ®Íô1J$5999dc8c-4062-487b-801e-2ddf702f054d
-v
-java:S1128	"3Remove this unused import 'javafx.scene.text.Font'.(¾¼¡Ê8ÛÅ®Íô1J$4a49ebda-d6a6-47a6-ad60-3a36caccdb16
-
-java:S1128
-"9Remove this unused import 'javafx.scene.text.FontWeight'.(„­Şşÿÿÿÿ8ÛÅ®Íô1J$3960fd28-88df-47bd-b180-ff3d8e99a1e4
-ƒ
-java:S1128"@Remove this unused import 'javax.swing.text.html.parser.Entity'.(Û‡Ğ‘8ÛÅ®Íô1J$82ab0085-bd2a-4b1b-9fb0-7015ba2c04ea
-r
-java:S1128"/Remove this unused import 'java.util.Iterator'.(¥ÍòÕ8ÛÅ®Íô1J$95c93fc8-d174-4528-a870-034f77769dd0
-‰
-java:S1128"FRemove this unused import 'gameloop.Constants.Screen.SCREEN_MIDDLE_Y'.(íĞ’œ8ÛÅ®Íô1J$29d3addc-ee17-4ca7-9e32-001da83f9aa4
-r
-java:S1068"*Remove this unused "player" private field.(™Ô‡ßûÿÿÿÿ8ÜÅ®Íô1J$a6ec161d-72d2-4276-b836-c8e335c971aa

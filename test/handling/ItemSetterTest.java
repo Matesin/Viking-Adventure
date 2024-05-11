@@ -1,7 +1,7 @@
 package handling;
 
-import gameloop.GamePanel;
-import item.Item;
+import cz.cvut.fel.pjv.handling.ItemSetter;
+import cz.cvut.fel.pjv.item.Item;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

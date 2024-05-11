@@ -1,11 +1,11 @@
 package handling;
 
-import gameloop.GamePanel;
+import cz.cvut.fel.pjv.handling.EntitySetter;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.List;
-import entity.Character;
+import cz.cvut.fel.pjv.entity.Character;
 
 import static org.junit.jupiter.api.Assertions.*;
 
