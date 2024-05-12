@@ -5,6 +5,7 @@ import cz.cvut.fel.pjv.entity.Character;
 import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.handling.EntityManager;
 import cz.cvut.fel.pjv.handling.ItemManager;
+import cz.cvut.fel.pjv.handling.MapObjectManager;
 import cz.cvut.fel.pjv.map.GameMap;
 import cz.cvut.fel.pjv.map.MapManager;
 import cz.cvut.fel.pjv.utils.CollisionChecker;
@@ -61,6 +62,8 @@ public class GamePanel extends Pane {
     @Getter
     private final EntityManager entityManager;
     private final ItemManager itemManager;
+    @Getter
+    private final MapObjectManager mapObjectManager;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");
@@ -74,6 +77,7 @@ public class GamePanel extends Pane {
         this.camera = new Camera(this);
         this.entityManager = new EntityManager(this);
         this.itemManager = new ItemManager(this);
+        this.mapObjectManager = new MapObjectManager(this);
         entities = entityManager.getEntities();
         initCanvas();
         log.info("GamePanel created. Starting game loop");
@@ -125,6 +129,7 @@ public class GamePanel extends Pane {
         this.player.render(gc);
         this.itemManager.renderItems(gc);
         this.entityManager.renderEntities(gc);
+        this.mapObjectManager.renderMapObjects(gc);
 //        printPlayerStats(gc);
     }
     public Stage getStage(){
@@ -152,5 +157,11 @@ public class GamePanel extends Pane {
             }
 
         }
+    }
+    public void saveGame(){
+        // Save the game
+        this.itemManager.saveItems();
+        this.entityManager.saveEntities();
+        this.mapObjectManager.saveItems();
     }
 }

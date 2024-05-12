@@ -15,4 +15,5 @@ public class Inventory {
         this.capacity = capacity;
         this.items = new Item[capacity];
     }
+
 }

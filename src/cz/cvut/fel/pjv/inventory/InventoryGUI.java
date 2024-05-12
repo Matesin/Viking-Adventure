@@ -2,6 +2,7 @@ package cz.cvut.fel.pjv.inventory;
 
 import cz.cvut.fel.pjv.gameloop.Constants;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
+import cz.cvut.fel.pjv.item.Item;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
@@ -12,9 +13,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
+import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 import static javafx.scene.paint.Color.BLACK;
-
+@Slf4j
 public class InventoryGUI {
     private int capacity;
     private final Pane root = new Pane();
@@ -44,33 +50,37 @@ public class InventoryGUI {
     }
 
     private void initInventory() {
-        Rectangle inventoryBase = initInventoryBase();
         inventory = gamePanel.player.getInventory();
         capacity = inventory.getCapacity();
         for (int i = 0; i < capacity; i++) {
-            Rectangle slot = new Rectangle(Constants.Inventory.SLOT_SIZE, Constants.Inventory.SLOT_SIZE);
-            slot.setFill(Color.WHITE);
-            slot.setOpacity(0.5);
-            slot.setArcWidth(20);
-            slot.setArcHeight(20);
-            slot.setLayoutX(Constants.Inventory.INVENTORY_X + (i % 5) * (Constants.Inventory.SLOT_SIZE + Constants.Inventory.SLOT_PADDING));
-            slot.setLayoutY(Constants.Inventory.INVENTORY_Y + ((double) i / 5) * (Constants.Inventory.SLOT_SIZE + Constants.Inventory.SLOT_PADDING));
-            this.root.getChildren().add(slot);
+            ItemSlot itemSlot = new ItemSlot(Optional.ofNullable(inventory.getItems()[i]), i);
+            this.root.getChildren().add(itemSlot.getSlot());
+
+            // If the item slot has an item, create an ImageView for the item's image and add it to the root
+            itemSlot.getItem().ifPresent(item -> {
+                ImageView imageView = new ImageView(item.getInventoryImage());
+                imageView.setLayoutX(itemSlot.getSlot().getLayoutX());
+                imageView.setLayoutY(itemSlot.getSlot().getLayoutY());
+                log.debug("layoutX: {}, layoutY: {}", itemSlot.getSlot().getLayoutX(), itemSlot.getSlot().getLayoutY());
+                log.debug("image set to coords: {}, {}", imageView.getLayoutX(), imageView.getLayoutY());
+                this.root.getChildren().add(imageView);
+            });
         }
     }
     private Parent createContent(){
         setBackground();
+        initInventoryBase();
+        initInventory();
         return this.root;
     }
-    private Rectangle initInventoryBase() {
-        Rectangle inventoryBase = new Rectangle(Constants.Inventory.INVENTORY_WIDTH, Constants.Inventory.INVENTORY_HEIGHT);
+    private void initInventoryBase() {
+        Rectangle inventoryBase = new Rectangle(INVENTORY_WIDTH, INVENTORY_HEIGHT);
         inventoryBase.setFill(BLACK); // Black background
         inventoryBase.setOpacity(0.5); // 50% opacity
         inventoryBase.setArcWidth(20); // Rounded corners
         inventoryBase.setArcHeight(20); // Rounded corners
-        inventoryBase.setLayoutX(Constants.Inventory.INVENTORY_X); // Positioning the rectangle
-        inventoryBase.setLayoutY(Constants.Inventory.INVENTORY_Y);
+        inventoryBase.setLayoutX(INVENTORY_X); // Positioning the rectangle
+        inventoryBase.setLayoutY(INVENTORY_Y);
         this.root.getChildren().add(inventoryBase);
-        return inventoryBase;
     }
 }

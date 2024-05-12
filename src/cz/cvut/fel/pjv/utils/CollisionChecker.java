@@ -1,8 +1,10 @@
 package cz.cvut.fel.pjv.utils;
 
 import cz.cvut.fel.pjv.entity.Character;
+import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import lombok.extern.slf4j.Slf4j;
+import map_object.MapObject;
 
 import java.util.Collections;
 
@@ -86,13 +88,14 @@ public class CollisionChecker {
                 break;
         }
         checkEntity(entity);
+        checkObject(entity);
     }
     public void checkEntity(Character entity){
         for (Character otherEntity : gamePanel.getEntityManager().getEntities().orElse(Collections.emptyList())) {
             if (!otherEntity.equals(entity) && entity.hitbox.intersects(otherEntity.hitbox)) {
                 switch (entity.getDirection()) {
                     case DIR_UP:
-                        if (entity.hitbox.getCoordX() > otherEntity.hitbox.getCoordY()) {
+                        if (entity.hitbox.getCoordY() > otherEntity.hitbox.getCoordY()) {
                             entity.setCollision(true);
                             logCollision(otherEntity, DIR_UP);
                         }
@@ -122,7 +125,45 @@ public class CollisionChecker {
             }
         }
     }
+    public void checkObject(Character player){
+        for (MapObject mapObject : gamePanel.getMapObjectManager().getMapObjects().orElseThrow()){
+            if (player.hitbox.intersects(mapObject.hitbox)) {
+                switch (player.getDirection()) {
+                    case DIR_UP:
+                        if (player.hitbox.getCoordY() > mapObject.hitbox.getCoordY()) {
+                            player.setCollision(true);
+                            logCollision(mapObject, DIR_UP);
+                        }
+                        break;
+                    case DIR_DOWN:
+                        if (player.hitbox.getCoordY() < mapObject.hitbox.getCoordY()) {
+                            player.setCollision(true);
+                            logCollision(mapObject, DIR_DOWN);
+                        }
+                        break;
+                    case DIR_LEFT:
+                        if (player.hitbox.getCoordX() > mapObject.hitbox.getCoordX()) {
+                            player.setCollision(true);
+                            logCollision(mapObject, DIR_LEFT);
+                        }
+                        break;
+                    case DIR_RIGHT:
+                        if (player.hitbox.getCoordX() < mapObject.hitbox.getCoordX()) {
+                            player.setCollision(true);
+                            logCollision(mapObject, DIR_RIGHT);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return;
+            }
+        }
+    }
     private void logCollision(Character entity, String direction){
         log.debug("Other entity hitbox dimensions:\n x: {}, y: {}, width: {}, height: {}\n Direction: {}", entity.hitbox.getCoordX(), entity.hitbox.getCoordY(), entity.hitbox.getWidth(), entity.hitbox.getHeight(), direction);
+    }
+    private void logCollision(MapObject mapObject, String direction){
+        log.debug("Map object hitbox dimensions:\n x: {}, y: {}, width: {}, height: {}\n Direction: {}", mapObject.hitbox.getCoordX(), mapObject.hitbox.getCoordY(), mapObject.hitbox.getWidth(), mapObject.hitbox.getHeight(), direction);
     }
 }

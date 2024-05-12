@@ -1,8 +1,9 @@
-package cz.cvut.fel.pjv.item;
+package map_object;
 
 import com.fasterxml.jackson.annotation.*;
 import cz.cvut.fel.pjv.entity.Hitbox;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
+import cz.cvut.fel.pjv.item.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -14,9 +15,9 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.GraphicsDefaults.DEFAULT_TILE_FILEPATH;
+import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.SLOT_SIZE;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
-import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -24,23 +25,13 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = LevelKey.class, name = "level_key"),
-        @JsonSubTypes.Type(value = MeleeWeapon.class, name = "melee_weapon"),
-        @JsonSubTypes.Type(value = RangedWeapon.class, name = "ranged_weapon"),
-        @JsonSubTypes.Type(value = Potion.class, name = "potion"),
-        @JsonSubTypes.Type(value = WeaponUpgrade.class, name = "weapon_upgrade")
+        @JsonSubTypes.Type(value = Bush.class, name = "bush"),
 })
 
 @Slf4j
-public abstract class Item {
-    /*
-     * This class is the parent class for all items in the game. It contains the basic attributes that all items have.
-     */
-    @Getter
+public abstract class MapObject {
     String name;
-    @Getter
-    String description;
-    public boolean collision = false;
+    String pictureID;
     @Getter
     @Setter
     int worldCoordX;
@@ -51,17 +42,12 @@ public abstract class Item {
     int screenCoordX;
     @Getter
     int screenCoordY;
-    String pictureID;
+    Image image;
     public final Hitbox hitbox;
-    @Getter
-    Image placementImage; //Image used when the object is placed on the map
-    @Getter
-    Image inventoryImage; //Image used when the object is in the player's inventory
-
     @JsonCreator
-    protected Item(@JsonProperty("x") int worldCoordX,
-                   @JsonProperty("y") int worldCoordY,
-                   @JsonProperty("picture") String pictureID) {
+    protected MapObject(@JsonProperty("x") int worldCoordX,
+                        @JsonProperty("y") int worldCoordY,
+                        @JsonProperty("picture") String pictureID) {
         //default constructor - load the image of the respective item
         this.pictureID = pictureID;
         String itemName = this.getClass().getSimpleName();
@@ -69,22 +55,20 @@ public abstract class Item {
         loadImage(pictureID);
         log.info("Image loaded for item: {}", itemName);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
-        this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getWidth());
-        this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getHeight());
-        this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
+        this.worldCoordX = worldCoordX * TILE_SIZE;
+        this.worldCoordY = worldCoordY * TILE_SIZE;
+        this.hitbox = new Hitbox(this, (int) this.image.getWidth(), (int) this.image.getHeight());
     }
     public void loadImage(String pictureID) {
-        String filepath = "res/items/" + pictureID;
+        String filepath = "res/map_objects/" + pictureID;
         try {
             FileInputStream fis = new FileInputStream(filepath);
-            placementImage = new Image(fis);
-            inventoryImage = new Image(fis, 50, 50, false, false);
+            image = new Image(fis, TILE_SIZE/2, TILE_SIZE/2, false, false);
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
                 FileInputStream fis = new FileInputStream(DEFAULT_TILE_FILEPATH);
-                placementImage = new Image(fis);
-                inventoryImage = new Image(fis, SLOT_SIZE, SLOT_SIZE, false, false);
+                image = new Image(fis);
                 log.info("Default tile loaded successfully");
             } catch (FileNotFoundException ex) {
                 log.error("Error loading default tile", ex);
@@ -109,11 +93,10 @@ public abstract class Item {
             screenCoordY = this.worldCoordY - (mapHeight * TILE_SIZE - SCREEN_HEIGHT);
         }
         if (screenCoordX >= - TILE_SIZE &&
-            screenCoordX <= SCREEN_WIDTH &&
-            screenCoordY >= - TILE_SIZE &&
-            screenCoordY <= SCREEN_HEIGHT) {
-            gc.drawImage(placementImage, screenCoordX, screenCoordY);
+                screenCoordX <= SCREEN_WIDTH &&
+                screenCoordY >= - TILE_SIZE &&
+                screenCoordY <= SCREEN_HEIGHT) {
+            gc.drawImage(image, screenCoordX, screenCoordY);
         }
     }
-
 }

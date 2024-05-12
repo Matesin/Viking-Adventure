@@ -10,6 +10,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +66,37 @@ public class ItemManager {
                         }
                     }
                 }
+            }
+        }
+    }
+    public void saveItems(){
+        // Save the items
+        log.info("Saving items...");
+        Path path = Paths.get("res/save/obj.json");
+        if (Files.exists(path)) {
+            try {
+                Files.delete(path);
+            } catch (IOException e) {
+                log.error("Error deleting the file", e);
+            }
+        }
+        JsonItemHandler jsonItemHandler = new JsonItemHandler();
+        if (items.isPresent()){
+            try {
+                jsonItemHandler.serializeItemsToFile(items.get(), "res/save/obj.json");
+            } catch (Exception e) {
+                log.error("Error saving items", e);
+            }
+            log.info("Items saved successfully");
+        } else {
+            //create an empty file
+            try {
+                if (!Files.createFile(path).toFile().createNewFile()){
+                    log.error("Error creating empty file");
+                }
+                log.info("Empty items file created");
+            } catch (Exception e) {
+                log.error("Error creating empty file", e);
             }
         }
     }

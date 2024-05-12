@@ -45,7 +45,8 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 case ESCAPE:
                     if (inventory){
                         inventory = false;
-                    } else{
+                    }
+                    else{
                         paused = !paused;
                     }
                     break;

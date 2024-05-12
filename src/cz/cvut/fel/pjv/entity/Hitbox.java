@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import map_object.MapObject;
 
 @Slf4j
 public class Hitbox {
@@ -22,6 +23,7 @@ public class Hitbox {
     private int yOffset;
     private Item item;
     private Character entity;
+    private MapObject mapObject;
 
     public Hitbox(Character entity) {
         this.entity = entity;
@@ -62,6 +64,20 @@ public class Hitbox {
         this.hitArea.setX(coordX);
         this.hitArea.setY(coordY);
         this.offset = true;
+    }
+
+    public Hitbox(MapObject mapObject, int width, int height) {
+        this.mapObject = mapObject;
+        this.width = width;
+        this.height = height;
+        this.coordX = this.mapObject.getWorldCoordX();
+        this.coordY = this.mapObject.getWorldCoordY();
+        this.hitArea = new Rectangle();
+        this.hitArea.setWidth(width);
+        this.hitArea.setHeight(height);
+        this.hitArea.setX(coordX);
+        this.hitArea.setY(coordY);
+        this.offset = false;
     }
 
     public void update(){

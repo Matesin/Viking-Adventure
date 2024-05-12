@@ -4,10 +4,12 @@ import cz.cvut.fel.pjv.entity.Character;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import cz.cvut.fel.pjv.handling.JsonEntityHandler;
 import cz.cvut.fel.pjv.handling.JsonItemHandler;
+import cz.cvut.fel.pjv.handling.JsonMapObjectHandler;
 import cz.cvut.fel.pjv.item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import map_object.MapObject;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -28,8 +30,10 @@ public class MapManager {
     GamePanel gamePanel;
     Optional<List<Item>> items = Optional.empty();
     Optional<List<Character>> entities = Optional.empty();
+    Optional<List<MapObject>> mapObjects = Optional.empty();
     JsonItemHandler itemHandler = new JsonItemHandler();
     JsonEntityHandler entityHandler = new JsonEntityHandler();
+    JsonMapObjectHandler mapObjectHandler = new JsonMapObjectHandler();
 
     public MapManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -90,7 +94,7 @@ public class MapManager {
         log.info("Map loaded");
     }
 
-    public void loadObjects() {
+    public void loadItems() {
         log.info("Loading objects for map {}", gamePanel.getMapIDString());
         String filepath = gamePanel.loadSaved ? "res/save/items.json" : MAP_PATH + gamePanel.getMapID() + "/items.json";
         items = itemHandler.deserializeItemsFromFile(filepath);
@@ -103,5 +107,12 @@ public class MapManager {
         String filepath = gamePanel.loadSaved ? "res/save/ent.json" : MAP_PATH + gamePanel.getMapIDString() + "/ent.json";
         entities = entityHandler.deserializeCharactersFromFile(filepath);
         log.info("Entities loaded");
+    }
+    public void loadMapObjects(){
+        // Load map objects - feature to be implemented later
+        log.info("Loading map objects");
+        String filepath = gamePanel.loadSaved ? "res/save/map_objects.json" : MAP_PATH + gamePanel.getMapIDString() + "/map_objects.json";
+        mapObjects = mapObjectHandler.deserializeObjectsFromFile(filepath);
+        log.info("Map objects loaded");
     }
 }

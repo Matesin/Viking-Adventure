@@ -1,5 +1,7 @@
 package cz.cvut.fel.pjv.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import cz.cvut.fel.pjv.controller.InputHandler;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import cz.cvut.fel.pjv.inventory.Inventory;
@@ -21,12 +23,10 @@ public class Player extends Character {
     private boolean isMoving = false;
     private boolean oddIteration = false;
     @Getter
-    private Image currentSprite;
-    @Getter
     @Setter
     private Inventory inventory;
 
-    public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
+    public Player( int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
         this.gamePanel = gamePanel;
         this.input = input;
@@ -37,7 +37,6 @@ public class Player extends Character {
         setDefaultValues();
         update();
     }
-
     public void setDefaultValues(){
         this.setScreenCoordX(SCREEN_MIDDLE_X);
         this.setScreenCoordY(SCREEN_MIDDLE_Y);

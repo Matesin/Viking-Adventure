@@ -38,7 +38,6 @@ public class GameLoop extends AnimationTimer {
             this.stop();
             inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isInventory()) this.start();
-
         }
 //        else if (this.gamePanel.inputHandler.isInventory() && (inventoryThread == null || !inventoryThread.isAlive())) {
 //                inventoryThread = new Thread(() -> {

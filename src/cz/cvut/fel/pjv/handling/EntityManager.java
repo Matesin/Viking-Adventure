@@ -8,6 +8,10 @@ import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +56,37 @@ public class EntityManager {
         if (entities.isPresent()) {
             for (Character entity : entities.orElseThrow()) {
                 entity.update();
+            }
+        }
+    }
+    public void saveEntities(){
+        // Save the items
+        log.info("Saving entities...");
+        Path path = Paths.get("res/save/ent.json");
+        if (Files.exists(path)) {
+            try {
+                Files.delete(path);
+            } catch (IOException e) {
+                log.error("Error deleting the file", e);
+            }
+        }
+        JsonEntityHandler jsonItemHandler = new JsonEntityHandler();
+        if (entities.isPresent()){
+            try {
+                jsonItemHandler.serializeCharactersToFile(entities.get(), "res/save/ent.json");
+            } catch (Exception e) {
+                log.error("Error saving entities", e);
+            }
+            log.info("Items saved successfully");
+        } else {
+            //create an empty file
+            try {
+                if (!Files.createFile(path).toFile().createNewFile()){
+                    log.error("Error creating empty file");
+                }
+                log.info("Empty entities file created");
+            } catch (Exception e) {
+                log.error("Error creating empty file", e);
             }
         }
     }

@@ -49,6 +49,7 @@ public class InGameMenu {
                 new Pair<>("Save & Exit", () -> {
                     //save the game and exit
                     log.info("Saving game and exiting");
+                    gamePanel.saveGame();
                     System.exit(0);
                 }),
                 new Pair<>("Settings", () -> {

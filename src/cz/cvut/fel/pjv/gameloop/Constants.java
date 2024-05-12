@@ -79,13 +79,15 @@ public class Constants {
         private Inventory() {
             log.error(CONSTANT_CREATION, "Utility Inventory class created");
         }
+        //TEMPORARY FX
         public static final int INITIAL_INVENTORY_CAPACITY = 5;
-        public static final double INVENTORY_WIDTH = SCREEN_WIDTH * 0.8;
-        public static final double INVENTORY_HEIGHT = SCREEN_HEIGHT * 0.8;
+        public static final double SLOT_SIZE = SCREEN_WIDTH / 10.0;
+        public static final double SLOT_PADDING = SLOT_SIZE / 5;
+        public static final double INVENTORY_WIDTH = (SLOT_SIZE + SLOT_PADDING) * INITIAL_INVENTORY_CAPACITY + SLOT_PADDING;
+        public static final double INVENTORY_HEIGHT = SLOT_SIZE + 2 * SLOT_PADDING;
         public static final double INVENTORY_X = (SCREEN_WIDTH - INVENTORY_WIDTH) / 2;
         public static final double INVENTORY_Y = (SCREEN_HEIGHT - INVENTORY_HEIGHT) / 2;
-        //TEMPORARY VALUES
-        public static final double SLOT_SIZE = INVENTORY_WIDTH / 10;
-        public static final double SLOT_PADDING = SLOT_SIZE / 5;
+        public static final double FIRST_SLOT_X = INVENTORY_X + SLOT_PADDING;
+        public static final double FIRST_SLOT_Y = INVENTORY_Y + SLOT_PADDING;
     }
 }
