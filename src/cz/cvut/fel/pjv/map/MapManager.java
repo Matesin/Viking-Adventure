@@ -82,7 +82,7 @@ public class MapManager {
         // Load the map
         String mapIndexString = gamePanel.getMapIDString();
         log.info("Loading map {}", mapIndexString);
-        String filepath = MAP_PATH + mapIndexString + "/map.txt";
+        String filepath = gamePanel.isLoadSaved() ? "res/save/map.txt" : MAP_PATH + mapIndexString + "/map.txt";
         this.map = new GameMap(mapIndexString);
         try {
             this.map.loadMapFromFile(filepath);
@@ -93,10 +93,16 @@ public class MapManager {
         }
         log.info("Map loaded");
     }
+    public void saveMap(){
+        log.info("Saving map");
+        String filepath = "res/save/map.txt";
+        this.map.save(filepath, gamePanel.player);
+        log.info("Map saved");
+    }
 
     public void loadItems() {
         log.info("Loading objects for map {}", gamePanel.getMapIDString());
-        String filepath = gamePanel.loadSaved ? "res/save/items.json" : MAP_PATH + gamePanel.getMapID() + "/items.json";
+        String filepath = gamePanel.isLoadSaved() ? "res/save/items.json" : MAP_PATH + gamePanel.getMapID() + "/items.json";
         items = itemHandler.deserializeItemsFromFile(filepath);
         log.info("Items loaded");
     }
@@ -104,14 +110,14 @@ public class MapManager {
     public void loadEntities() {
         // Load entities - feature to be implemented later
         log.info("Loading entities");
-        String filepath = gamePanel.loadSaved ? "res/save/ent.json" : MAP_PATH + gamePanel.getMapIDString() + "/ent.json";
+        String filepath = gamePanel.isLoadSaved() ? "res/save/ent.json" : MAP_PATH + gamePanel.getMapIDString() + "/ent.json";
         entities = entityHandler.deserializeCharactersFromFile(filepath);
         log.info("Entities loaded");
     }
     public void loadMapObjects(){
         // Load map objects - feature to be implemented later
         log.info("Loading map objects");
-        String filepath = gamePanel.loadSaved ? "res/save/map_objects.json" : MAP_PATH + gamePanel.getMapIDString() + "/map_objects.json";
+        String filepath = gamePanel.isLoadSaved() ? "res/save/map_obj.json" : MAP_PATH + gamePanel.getMapIDString() + "/map_objects.json";
         mapObjects = mapObjectHandler.deserializeObjectsFromFile(filepath);
         log.info("Map objects loaded");
     }

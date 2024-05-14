@@ -1,26 +1,26 @@
-water_top_left 0
-water_bottom_right 1
-sea_ice_top_right 2
-water_bottom_left 3
-sea_ice_bottom_left 4
-sea_water_left 5
-sea_ice_top_left 6
-snow 7
-path 8
-sea_ice_top 9
-water_top_right 10
-grass 11
-sea_water_right 12
-sea_ice_right 13
-frozen_water 14
-tile_central 15
-water 16
-snow_gravel 17
-water_right 18
-water_top 19
-sea_ice_bottom 20
-water_left 21
-path_vertical 22
-sea_ice_bottom_right 23
-water_bottom 24
-path_horizontal 25
+ice 0 false false
+frozen_water 1 true true
+path_horizontal 2 false false
+path_vertical 3 false false
+sea_ice_bottom 4 false false
+sea_ice_bottom_left 5 false false
+sea_ice_bottom_right 6 false false
+sea_ice_right 7 false false
+sea_ice_top 8 false false
+sea_ice_top_left 9 false false
+sea_ice_top_right 10 false false
+sea_water_left 11 true true
+sea_water_right 12 true true
+snow 13 false false
+snow_gravel 14 false false
+tile_central 15 false false
+water 16 true true
+water_bottom 17 true true
+water_bottom_left 18 true true
+water_bottom_right 19 true true
+water_left 20 true true
+water_right 21 true true
+water_top 22 true true
+water_top_left 23 true true
+water_top_right 24 true true
+snow 25 false false

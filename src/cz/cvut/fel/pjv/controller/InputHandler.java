@@ -19,6 +19,8 @@ public class InputHandler implements EventHandler<KeyEvent> {
     boolean paused = false;
     @Setter
     boolean pickUp = false;
+    @Setter
+    @Getter
     boolean inventory = false;
 
     public InputHandler() {

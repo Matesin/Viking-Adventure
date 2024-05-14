@@ -5,6 +5,7 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
+import static cz.cvut.fel.pjv.gameloop.Constants.Tile.SCALE;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
@@ -82,12 +83,20 @@ public class Constants {
         //TEMPORARY FX
         public static final int INITIAL_INVENTORY_CAPACITY = 5;
         public static final double SLOT_SIZE = SCREEN_WIDTH / 10.0;
-        public static final double SLOT_PADDING = SLOT_SIZE / 5;
+        public static final double SLOT_PADDING = SLOT_SIZE / 5.0;
+        public static final double SCREEN_SLOT_SIZE = SCREEN_WIDTH / 20.0;
+        public static final double SCREEN_SLOT_PADDING = SCREEN_SLOT_SIZE / 5.0;
         public static final double INVENTORY_WIDTH = (SLOT_SIZE + SLOT_PADDING) * INITIAL_INVENTORY_CAPACITY + SLOT_PADDING;
         public static final double INVENTORY_HEIGHT = SLOT_SIZE + 2 * SLOT_PADDING;
         public static final double INVENTORY_X = (SCREEN_WIDTH - INVENTORY_WIDTH) / 2;
         public static final double INVENTORY_Y = (SCREEN_HEIGHT - INVENTORY_HEIGHT) / 2;
         public static final double FIRST_SLOT_X = INVENTORY_X + SLOT_PADDING;
         public static final double FIRST_SLOT_Y = INVENTORY_Y + SLOT_PADDING;
+        public static final double SCREEN_INVENTORY_WIDTH = SCREEN_SLOT_SIZE + 2 * SCREEN_SLOT_PADDING;
+        public static final double SCREEN_INVENTORY_HEIGHT = SCREEN_SLOT_SIZE + 2 * SCREEN_SLOT_PADDING;
+        public static final double SCREEN_INVENTORY_X = (SCREEN_WIDTH - SCREEN_INVENTORY_WIDTH - SCREEN_SLOT_PADDING);
+        public static final double SCREEN_INVENTORY_Y = SCREEN_HEIGHT - SCREEN_INVENTORY_HEIGHT - SCREEN_SLOT_PADDING;
+        public static final double FIRST_SCREEN_SLOT_X = SCREEN_INVENTORY_X + SCREEN_SLOT_PADDING;
+        public static final double FIRST_SCREEN_SLOT_Y = SCREEN_INVENTORY_Y + SCREEN_SLOT_PADDING;
     }
 }

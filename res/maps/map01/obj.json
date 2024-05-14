@@ -3,8 +3,8 @@
     "type": "melee_weapon",
     "name": "Swordus maximus",
     "description": "Huuge sword",
-    "x": 2,
-    "y": 3,
+    "x": 10,
+    "y": 30,
     "picture": "large_sword1.png"
   },
 

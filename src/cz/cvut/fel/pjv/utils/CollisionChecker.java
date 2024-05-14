@@ -132,25 +132,21 @@ public class CollisionChecker {
                     case DIR_UP:
                         if (player.hitbox.getCoordY() > mapObject.hitbox.getCoordY()) {
                             player.setCollision(true);
-                            logCollision(mapObject, DIR_UP);
                         }
                         break;
                     case DIR_DOWN:
                         if (player.hitbox.getCoordY() < mapObject.hitbox.getCoordY()) {
                             player.setCollision(true);
-                            logCollision(mapObject, DIR_DOWN);
                         }
                         break;
                     case DIR_LEFT:
                         if (player.hitbox.getCoordX() > mapObject.hitbox.getCoordX()) {
                             player.setCollision(true);
-                            logCollision(mapObject, DIR_LEFT);
                         }
                         break;
                     case DIR_RIGHT:
                         if (player.hitbox.getCoordX() < mapObject.hitbox.getCoordX()) {
                             player.setCollision(true);
-                            logCollision(mapObject, DIR_RIGHT);
                         }
                         break;
                     default:

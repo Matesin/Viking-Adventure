@@ -2,24 +2,23 @@ package cz.cvut.fel.pjv.inventory;
 
 import cz.cvut.fel.pjv.gameloop.Constants;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
-import cz.cvut.fel.pjv.item.Item;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 import static javafx.scene.paint.Color.BLACK;
+
 @Slf4j
 public class InventoryGUI {
     private int capacity;
@@ -35,7 +34,19 @@ public class InventoryGUI {
         this.gamePanel = gamePanel;
         if (mainStage != null) {
             this.previousScene = mainStage.getScene();
-            mainStage.setScene(new Scene(createContent(), Constants.Screen.SCREEN_WIDTH, Constants.Screen.SCREEN_HEIGHT));
+            Scene inventoryScene = new Scene(createContent(), Constants.Screen.SCREEN_WIDTH, Constants.Screen.SCREEN_HEIGHT);
+            inventoryScene.setOnKeyPressed(event -> {
+                switch (event.getCode()) {
+                    case ESCAPE, I:
+                        mainStage.setScene(previousScene);
+                        gamePanel.getInputHandler().setInventory(false);
+                        break;
+                    default:
+                        // Handle other key presses as needed
+                        break;
+                }
+            });
+            mainStage.setScene(inventoryScene);
         }
     }
 
@@ -53,26 +64,18 @@ public class InventoryGUI {
         inventory = gamePanel.player.getInventory();
         capacity = inventory.getCapacity();
         for (int i = 0; i < capacity; i++) {
-            ItemSlot itemSlot = new ItemSlot(Optional.ofNullable(inventory.getItems()[i]), i);
-            this.root.getChildren().add(itemSlot.getSlot());
-
-            // If the item slot has an item, create an ImageView for the item's image and add it to the root
-            itemSlot.getItem().ifPresent(item -> {
-                ImageView imageView = new ImageView(item.getInventoryImage());
-                imageView.setLayoutX(itemSlot.getSlot().getLayoutX());
-                imageView.setLayoutY(itemSlot.getSlot().getLayoutY());
-                log.debug("layoutX: {}, layoutY: {}", itemSlot.getSlot().getLayoutX(), itemSlot.getSlot().getLayoutY());
-                log.debug("image set to coords: {}, {}", imageView.getLayoutX(), imageView.getLayoutY());
-                this.root.getChildren().add(imageView);
-            });
+            ItemSlot itemSlot = new ItemSlot(Optional.ofNullable(inventory.getItems()[i]), i, SLOT_SIZE, SLOT_PADDING, FIRST_SLOT_X, FIRST_SLOT_Y);
+            this.root.getChildren().add(itemSlot.getInventorySlot());
         }
     }
+
     private Parent createContent(){
         setBackground();
         initInventoryBase();
         initInventory();
         return this.root;
     }
+
     private void initInventoryBase() {
         Rectangle inventoryBase = new Rectangle(INVENTORY_WIDTH, INVENTORY_HEIGHT);
         inventoryBase.setFill(BLACK); // Black background
@@ -82,5 +85,9 @@ public class InventoryGUI {
         inventoryBase.setLayoutX(INVENTORY_X); // Positioning the rectangle
         inventoryBase.setLayoutY(INVENTORY_Y);
         this.root.getChildren().add(inventoryBase);
+    }
+
+    public void render(){
+
     }
 }

@@ -1,6 +1,9 @@
 package cz.cvut.fel.pjv.entity;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -30,6 +33,8 @@ import static cz.cvut.fel.pjv.gameloop.Constants.GraphicsDefaults.*;
 @Slf4j
 public abstract class Character {
     @Getter
+    String type;
+    @Getter
     @Setter
     int hp; // will differ by character type
     @Getter
@@ -38,24 +43,35 @@ public abstract class Character {
     int worldCoordY;
     @Getter
     @Setter
+    @JsonIgnore
     private int screenCoordX;
     @Getter
     @Setter
+    @JsonIgnore
     private int screenCoordY;
     @Getter
     String direction = "down";
     @Getter
     @Setter
+    @JsonIgnore
     int speed;
+    @JsonIgnore
     int width;
+    @JsonIgnore
     int height;
+    @JsonIgnore
     public Hitbox hitbox;
     @Getter
     @Setter
+    @JsonIgnore
     boolean collision = false;
     @Getter
     @Setter
+    @JsonIgnore
     private boolean isMoving = false;
+    @Getter
+    @Setter
+    private int health;
     Image up1;
     Image up2;
     Image down1;
@@ -65,12 +81,11 @@ public abstract class Character {
     Image right1;
     Image right2;
     Image currentSprite;
-    String name;
 
     protected Character(int worldCoordX, int worldCoordY) {
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
-        String type = this.getClass().getSimpleName().toLowerCase();
+        type = this.getClass().getSimpleName().toLowerCase();
         getSprites(type);
         currentSprite = down1;
         if (!(this instanceof Player)){

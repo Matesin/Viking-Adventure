@@ -26,7 +26,7 @@ public class MapObjectManager {
     public MapObjectManager(GamePanel gamePanel){
         // Set the entities for the game
         this.gamePanel = gamePanel;
-        MapObjectSetter mapObjectSetter = new MapObjectSetter(gamePanel.getMapIDString(), gamePanel.loadSaved);
+        MapObjectSetter mapObjectSetter = new MapObjectSetter(gamePanel.getMapIDString(), gamePanel.isLoadSaved());
         this.mapObjects = mapObjectSetter.setEntities();
         this.camera = gamePanel.getCamera();
         this.player = gamePanel.player;
@@ -42,7 +42,7 @@ public class MapObjectManager {
     public void saveItems(){
         // Save the items
         log.info("Saving Map Objects...");
-        Path path = Paths.get("res/save/map_objects.json");
+        Path path = Paths.get("res/save/map_obj.json");
         if (Files.exists(path)) {
             try {
                 Files.delete(path);
@@ -53,7 +53,7 @@ public class MapObjectManager {
         JsonMapObjectHandler jsonMapObjectHandler = new JsonMapObjectHandler();
         if (mapObjects.isPresent()){
             try {
-                jsonMapObjectHandler.serializeObjectsToFile(mapObjects.get(), "res/save/map_objects.json");
+                jsonMapObjectHandler.serializeObjectsToFile(mapObjects.get(), "res/save/map_obj.json");
             } catch (Exception e) {
                 log.error("Error saving map objects", e);
             }

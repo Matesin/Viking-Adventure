@@ -2,10 +2,10 @@ package cz.cvut.fel.pjv.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Mob extends Enemy{
-    private String type; //for sprite loading purposes
-
     @JsonCreator
     public Mob(@JsonProperty("x") int worldCoordX, @JsonProperty("y") int worldCoordY) {
         super(worldCoordX, worldCoordY);

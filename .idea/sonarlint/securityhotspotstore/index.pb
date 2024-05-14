@@ -598,3 +598,11 @@ b
 2src/cz/cvut/fel/pjv/handling/MapObjectManager.java,b/b/bbb786980cf88094b4f563a8fd296d3d63511f6d
 a
 1src/cz/cvut/fel/pjv/handling/MapObjectSetter.java,f/6/f6ed3e88da19e9bc85272e1cbf7a60b8f2416c62
+b
+2src/cz/cvut/fel/pjv/handling/EntitySerializer.java,7/3/730aa8467ce97d3665db50382277d86027359069
+b
+2src/cz/cvut/fel/pjv/inventory/InGameInventory.java,f/3/f3da9b09cf46f80461593306db23d4458fdb5950
+e
+5src/cz/cvut/fel/pjv/inventory/InGameInventoryBar.java,9/2/92a0159e3c02ffb65b5527788553d7659aa73454
+Y
+)src/cz/cvut/fel/pjv/entity/HealthBar.java,f/2/f2712d1e17e4b476adea1ba9b8879c5007b51c67

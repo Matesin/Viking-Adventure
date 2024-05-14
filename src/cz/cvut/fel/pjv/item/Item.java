@@ -36,6 +36,13 @@ public abstract class Item {
     /*
      * This class is the parent class for all items in the game. It contains the basic attributes that all items have.
      */
+    String type;
+    @JsonGetter("type")
+    public String getType() {
+        return this.getClass().getSimpleName()
+                .replaceAll("(\\p{Ll})(\\p{Lu})", "$1_$2")
+                .toLowerCase();
+    }
     @Getter
     String name;
     @Getter
@@ -43,19 +50,38 @@ public abstract class Item {
     public boolean collision = false;
     @Getter
     @Setter
+    @JsonIgnore
     int worldCoordX;
+    @JsonGetter("x")
+    public int getJsonX() {
+        return this.worldCoordX / TILE_SIZE;
+    }
     @Getter
     @Setter
+    @JsonIgnore
     int worldCoordY;
+    @JsonGetter("y")
+    public int getJsonY() {
+        return this.worldCoordY / TILE_SIZE;
+    }
+    @JsonIgnore
     @Getter
     int screenCoordX;
+    @JsonIgnore
     @Getter
     int screenCoordY;
     String pictureID;
+    @JsonGetter ("picture")
+    public String getPictureID() {
+        return this.pictureID;
+    }
+    @JsonIgnore
     public final Hitbox hitbox;
     @Getter
+    @JsonIgnore
     Image placementImage; //Image used when the object is placed on the map
     @Getter
+    @JsonIgnore
     Image inventoryImage; //Image used when the object is in the player's inventory
 
     @JsonCreator
@@ -64,21 +90,25 @@ public abstract class Item {
                    @JsonProperty("picture") String pictureID) {
         //default constructor - load the image of the respective item
         this.pictureID = pictureID;
-        String itemName = this.getClass().getSimpleName();
-        log.info("Loading image for item: {}", itemName);
+        type = this.getClass().getSimpleName();
+        log.info("Loading image for item: {}", type);
         loadImage(pictureID);
-        log.info("Image loaded for item: {}", itemName);
+        log.info("Image loaded for item: {}", type);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getWidth());
         this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getHeight());
         this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
+
     }
     public void loadImage(String pictureID) {
         String filepath = "res/items/" + pictureID;
         try {
-            FileInputStream fis = new FileInputStream(filepath);
-            placementImage = new Image(fis);
-            inventoryImage = new Image(fis, 50, 50, false, false);
+            FileInputStream fis1 = new FileInputStream(filepath);
+            placementImage = new Image(fis1);
+            FileInputStream fis2 = new FileInputStream(filepath);
+            inventoryImage = new Image(fis2, SLOT_SIZE, SLOT_SIZE, false, false);
+            log.debug("Placement Image {} loaded with dimensions {}x{}", pictureID, placementImage.getWidth(), placementImage.getHeight());
+            log.debug("Inventory Image {} loaded with dimensions {}x{}", pictureID, inventoryImage.getWidth(), inventoryImage.getHeight());
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
@@ -114,6 +144,7 @@ public abstract class Item {
             screenCoordY <= SCREEN_HEIGHT) {
             gc.drawImage(placementImage, screenCoordX, screenCoordY);
         }
+
     }
 
 }

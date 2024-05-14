@@ -28,7 +28,7 @@ public class EntityManager {
     public EntityManager(GamePanel gamePanel){
         // Set the entities for the game
         this.gamePanel = gamePanel;
-        EntitySetter entitySetter = new EntitySetter(gamePanel.getMapIDString(), gamePanel.loadSaved);
+        EntitySetter entitySetter = new EntitySetter(gamePanel.getMapIDString(), gamePanel.isLoadSaved());
         this.entities = entitySetter.setEntities();
         this.camera = gamePanel.getCamera();
         this.player = gamePanel.player;

@@ -1,7 +1,55 @@
 [
   {
     "type": "bush",
-    "x": 5,
+    "x": 10,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 11,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 12,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 13,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 14,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 15,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 16,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 17,
+    "y": 10,
+    "picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 18,
     "y": 10,
     "picture": "snowy_bush.png"
   }

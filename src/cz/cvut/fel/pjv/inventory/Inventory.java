@@ -10,10 +10,12 @@ public class Inventory {
     private Item[] items;
     private boolean isFull;
     private int capacity;
+    private Item pickedItem;
 
     public Inventory(int capacity) {
         this.capacity = capacity;
         this.items = new Item[capacity];
+        this.pickedItem = null;
     }
 
 }

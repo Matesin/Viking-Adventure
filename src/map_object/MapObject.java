@@ -1,6 +1,7 @@
 package map_object;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import cz.cvut.fel.pjv.entity.Hitbox;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import cz.cvut.fel.pjv.item.*;
@@ -30,7 +31,25 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
 public abstract class MapObject {
-    String name;
+    @JsonGetter("type")
+    public String getType() {
+        return this.getClass().getSimpleName()
+                .replaceAll("(\\p{Ll})(\\p{Lu})", "$1_$2")
+                .toLowerCase();
+    }
+    @JsonGetter("picture")
+            public String getPicture() {
+            return this.pictureID;
+    }
+    @JsonGetter("x")
+    public int getX() {
+        return this.worldCoordX / TILE_SIZE;
+    }
+    @JsonGetter("y")
+    public int getY() {
+        return this.worldCoordY / TILE_SIZE;
+    }
+    String itemName;
     String pictureID;
     @Getter
     @Setter
@@ -38,11 +57,15 @@ public abstract class MapObject {
     @Getter
     @Setter
     int worldCoordY;
+    @JsonIgnore
     @Getter
     int screenCoordX;
+    @JsonIgnore
     @Getter
     int screenCoordY;
+    @JsonIgnore
     Image image;
+    @JsonIgnore
     public final Hitbox hitbox;
     @JsonCreator
     protected MapObject(@JsonProperty("x") int worldCoordX,
@@ -50,7 +73,7 @@ public abstract class MapObject {
                         @JsonProperty("picture") String pictureID) {
         //default constructor - load the image of the respective item
         this.pictureID = pictureID;
-        String itemName = this.getClass().getSimpleName();
+        itemName = this.getClass().getSimpleName();
         log.info("Loading image for item: {}", itemName);
         loadImage(pictureID);
         log.info("Image loaded for item: {}", itemName);

@@ -25,6 +25,7 @@ public class Player extends Character {
     @Getter
     @Setter
     private Inventory inventory;
+    private int health;
 
     public Player( int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);

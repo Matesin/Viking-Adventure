@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.map;
 
+import cz.cvut.fel.pjv.entity.Player;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
+import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
 @Getter
@@ -48,8 +50,11 @@ public class GameMap implements Serializable {
         Optional<List<TileProperty>> tileIndexes = utils.loadTileIndexes(this.mapID);
         if (tileIndexes.isPresent()){
             tiles = new Tile[tileIndexes.get().size()];
+            int counter = 0;
             for (TileProperty tile : tileIndexes.get()){
+                log.debug("Tile: {}, counter: {}", tile.getTileName(), counter);
                 utils.initTile(tile.getTileName(), tile.getTileIndex(), tile.isSolid(), tile.isCollision());
+                counter++;
             }
         } else {
             tiles = new Tile[0];
@@ -117,5 +122,33 @@ public class GameMap implements Serializable {
                 default -> log.info((Marker) Level.SEVERE, "Map {} has invalid data: {}", filepath, line);
             }
         }
+    }
+
+    public void save(String filepath, Player player) {
+        // Save the map to a file
+        try (PrintWriter writer = new PrintWriter(filepath);
+                BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+                // Write the map metadata
+                bufferedWriter.write("# Map metadata");
+                bufferedWriter.newLine();
+                bufferedWriter.write("width: " + this.mapWidth);
+                bufferedWriter.newLine();
+                bufferedWriter.write("height: " + this.mapHeight);
+                bufferedWriter.newLine();
+                bufferedWriter.write("start: " + player.getWorldCoordX() / TILE_SIZE + " " + player.getWorldCoordY() / TILE_SIZE);
+                bufferedWriter.newLine();
+                bufferedWriter.write("# Map data");
+                bufferedWriter.newLine();
+                bufferedWriter.newLine();
+                // Write the map dat
+                for (int row = 0; row < this.mapHeight; row++) {
+                    for (int col = 0; col < this.mapWidth; col++) {
+                        bufferedWriter.write(this.map[col][row] + " ");
+                    }
+                    bufferedWriter.newLine();
+                }
+            } catch (IOException e) {
+                log.error("Error saving map: {}", e.getMessage());
+            }
     }
 }

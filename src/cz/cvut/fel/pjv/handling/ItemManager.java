@@ -30,7 +30,7 @@ public class ItemManager {
     private final Player player;
     public ItemManager(GamePanel gamePanel){
         // Set the items for the game
-        ItemSetter itemSetter = new ItemSetter(gamePanel.getMapIDString(), gamePanel.loadSaved);
+        ItemSetter itemSetter = new ItemSetter(gamePanel.getMapIDString(), gamePanel.isLoadSaved());
         this.items = itemSetter.setItems();
         this.gamePanel = gamePanel;
         this.camera = gamePanel.getCamera();

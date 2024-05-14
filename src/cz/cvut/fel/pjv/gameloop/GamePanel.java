@@ -6,6 +6,7 @@ import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.handling.EntityManager;
 import cz.cvut.fel.pjv.handling.ItemManager;
 import cz.cvut.fel.pjv.handling.MapObjectManager;
+import cz.cvut.fel.pjv.inventory.InGameInventoryBar;
 import cz.cvut.fel.pjv.map.GameMap;
 import cz.cvut.fel.pjv.map.MapManager;
 import cz.cvut.fel.pjv.utils.CollisionChecker;
@@ -58,12 +59,14 @@ public class GamePanel extends Pane {
     private Optional<List<Character>> entities;
     @Getter
     private final Camera camera;
-    public boolean loadSaved;
+    @Getter
+    private final boolean loadSaved;
     @Getter
     private final EntityManager entityManager;
     private final ItemManager itemManager;
     @Getter
     private final MapObjectManager mapObjectManager;
+    private InGameInventoryBar inGameInventoryBar;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");
@@ -80,6 +83,7 @@ public class GamePanel extends Pane {
         this.mapObjectManager = new MapObjectManager(this);
         entities = entityManager.getEntities();
         initCanvas();
+        inGameInventoryBar = new InGameInventoryBar(this.player.getInventory(), this.root);
         log.info("GamePanel created. Starting game loop");
         startGameLoop();
     }
@@ -163,5 +167,6 @@ public class GamePanel extends Pane {
         this.itemManager.saveItems();
         this.entityManager.saveEntities();
         this.mapObjectManager.saveItems();
+        this.mapManager.saveMap();
     }
 }
