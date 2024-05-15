@@ -1,7 +1,5 @@
 package cz.cvut.fel.pjv.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import cz.cvut.fel.pjv.controller.InputHandler;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import cz.cvut.fel.pjv.inventory.Inventory;
@@ -12,20 +10,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import static cz.cvut.fel.pjv.gameloop.Constants.Directions.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.INITIAL_INVENTORY_CAPACITY;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.*;
 
 @Slf4j
 public class Player extends Character {
+    public final Hitbox reactionRange;
     InputHandler input;
     GamePanel gamePanel;
     private boolean isMoving = false;
-    private boolean oddIteration = false;
+    private int spriteCounter = 1;
     @Getter
     @Setter
     private Inventory inventory;
     private int health;
+
 
     public Player( int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
@@ -34,7 +35,10 @@ public class Player extends Character {
         this.height = TILE_SIZE;
         this.width = TILE_SIZE;
         this.inventory = new Inventory(INITIAL_INVENTORY_CAPACITY);
-        this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, (this.width - TILE_SIZE / 2) / 2, this.height /3);
+        int hitboxOffsetX = (this.width - TILE_SIZE / 2) / 2;
+        int hitboxOffsetY = this.height / 3;
+        this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, hitboxOffsetX, hitboxOffsetY);
+        this.reactionRange = new Hitbox(this, this.hitbox.getWidth() * 3, this.hitbox.getHeight() * 3, hitboxOffsetX, hitboxOffsetY);
         setDefaultValues();
         update();
     }
@@ -50,16 +54,16 @@ public class Player extends Character {
     @Override
     public void update(){
         if(input.isUpPressed()){
-            direction = "up";
+            direction = DIR_UP;
         }
         if(input.isDownPressed()){
-            direction = "down";
+            direction = DIR_DOWN;
         }
         if(input.isLeftPressed()){
-            direction = "left";
+            direction = DIR_LEFT;
         }
         if(input.isRightPressed()){
-            direction = "right";
+            direction = DIR_RIGHT;
         }
         isMoving = input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed();
 
@@ -71,16 +75,16 @@ public class Player extends Character {
             //if there is no collision, move the player
             if (!collision) {
                 switch (direction) {
-                    case "up":
+                    case DIR_UP:
                         worldCoordY -= this.speed;
                         break;
-                    case "down":
+                    case DIR_DOWN:
                         worldCoordY += this.speed;
                         break;
-                    case "left":
+                    case DIR_LEFT:
                         worldCoordX -= this.speed;
                         break;
-                    case "right":
+                    case DIR_RIGHT:
                         worldCoordX += this.speed;
                         break;
                     default:
@@ -97,17 +101,50 @@ public class Player extends Character {
         // update the sprite relatively to speed
         int speedConst = 1000;
         if (now - lastUpdate > speedConst / this.speed) {
-            currentSprite = !(isMoving) ? currentSprite : switch (this.direction){
-                case "up" -> oddIteration ? up1 : up2;
-                case "down" -> oddIteration ? down1 : down2;
-                case "left" -> oddIteration ? left1 : left2;
-                case "right" -> oddIteration ? right1 : right2;
-                default -> null;
-            };
-            oddIteration = !oddIteration;
+            //set the current sprite based on spriteCounter and direction
+            currentSprite = isMoving ? setMovingSprite(spriteCounter) : setSpriteToIdle();
+            spriteCounter = spriteCounter == 4 ? 1 : spriteCounter + 1;
             lastUpdate = now;
         }
         gc.drawImage(currentSprite, getScreenCoordX(), getScreenCoordY());
+    }
+
+    private Image setSpriteToIdle(){
+        return switch (this.direction){
+            case DIR_UP -> upIdle;
+            case DIR_DOWN -> downIdle;
+            case DIR_LEFT -> leftIdle;
+            case DIR_RIGHT -> rightIdle;
+            default -> null;
+        };
+    }
+
+    private Image setMovingSprite(int counter){
+        return switch (counter){
+            case 1 -> switch (this.direction){
+                case DIR_UP -> up1;
+                case DIR_DOWN -> down1;
+                case DIR_LEFT -> left1;
+                case DIR_RIGHT -> right1;
+                default -> null;
+            };
+            case 2, 4 -> switch (this.direction){
+                case DIR_UP -> upIdle;
+                case DIR_DOWN -> downIdle;
+                case DIR_LEFT -> leftIdle;
+                case DIR_RIGHT -> rightIdle;
+                default -> null;
+            };
+            case 3 -> switch (this.direction){
+                case DIR_UP -> up2;
+                case DIR_DOWN -> down2;
+                case DIR_LEFT -> left2;
+                case DIR_RIGHT -> right2;
+                default -> null;
+            };
+
+            default -> null;
+        };
     }
     public boolean pickUpItem(Item item){
         boolean pickedUpItem = false;

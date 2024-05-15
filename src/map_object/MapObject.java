@@ -1,10 +1,8 @@
 package map_object;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import cz.cvut.fel.pjv.entity.Hitbox;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
-import cz.cvut.fel.pjv.item.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -13,10 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.GraphicsDefaults.DEFAULT_TILE_FILEPATH;
-import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.SLOT_SIZE;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
@@ -37,9 +33,9 @@ public abstract class MapObject {
                 .replaceAll("(\\p{Ll})(\\p{Lu})", "$1_$2")
                 .toLowerCase();
     }
-    @JsonGetter("picture")
+    @JsonGetter("idle_picture")
             public String getPicture() {
-            return this.pictureID;
+            return this.idlePictureID;
     }
     @JsonGetter("x")
     public int getX() {
@@ -50,7 +46,7 @@ public abstract class MapObject {
         return this.worldCoordY / TILE_SIZE;
     }
     String itemName;
-    String pictureID;
+    String idlePictureID;
     @Getter
     @Setter
     int worldCoordX;
@@ -64,29 +60,30 @@ public abstract class MapObject {
     @Getter
     int screenCoordY;
     @JsonIgnore
-    Image image;
+    Image idleImage;
     @JsonIgnore
-    public final Hitbox hitbox;
+    public Hitbox hitbox;
     @JsonCreator
     protected MapObject(@JsonProperty("x") int worldCoordX,
                         @JsonProperty("y") int worldCoordY,
-                        @JsonProperty("picture") String pictureID) {
+                        @JsonProperty("idle_picture") String idlePictureID) {
         //default constructor - load the image of the respective item
-        this.pictureID = pictureID;
-        itemName = this.getClass().getSimpleName();
+        this.idlePictureID = idlePictureID;
+        log.debug("Idle picture ID: {}", idlePictureID);
         log.info("Loading image for item: {}", itemName);
-        loadImage(pictureID);
+        idleImage = loadImage(idlePictureID);
         log.info("Image loaded for item: {}", itemName);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
-        this.hitbox = new Hitbox(this, (int) this.image.getWidth(), (int) this.image.getHeight());
+        this.hitbox = new Hitbox(this, (int) this.idleImage.getWidth(), (int) this.idleImage.getHeight());
     }
-    public void loadImage(String pictureID) {
+    public Image loadImage(String pictureID) {
         String filepath = "res/map_objects/" + pictureID;
+        Image image;
         try {
             FileInputStream fis = new FileInputStream(filepath);
-            image = new Image(fis, TILE_SIZE/2, TILE_SIZE/2, false, false);
+            image = new Image(fis, (double) TILE_SIZE /2, (double) TILE_SIZE /2, false, false);
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
@@ -95,8 +92,10 @@ public abstract class MapObject {
                 log.info("Default tile loaded successfully");
             } catch (FileNotFoundException ex) {
                 log.error("Error loading default tile", ex);
+                image = null;
             }
         }
+        return image;
     }
     public void render(GraphicsContext gc, GamePanel gamePanel){
         screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
@@ -119,7 +118,7 @@ public abstract class MapObject {
                 screenCoordX <= SCREEN_WIDTH &&
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
-            gc.drawImage(image, screenCoordX, screenCoordY);
+            gc.drawImage(idleImage, screenCoordX, screenCoordY);
         }
     }
 }

@@ -99,4 +99,7 @@ public class Constants {
         public static final double FIRST_SCREEN_SLOT_X = SCREEN_INVENTORY_X + SCREEN_SLOT_PADDING;
         public static final double FIRST_SCREEN_SLOT_Y = SCREEN_INVENTORY_Y + SCREEN_SLOT_PADDING;
     }
+    public static class Player{
+        public static final int SPEED = 5;
+    }
 }

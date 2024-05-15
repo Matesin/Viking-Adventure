@@ -1,11 +1,17 @@
 package cz.cvut.fel.pjv.inventory;
 
-import cz.cvut.fel.pjv.gameloop.Constants;
 import cz.cvut.fel.pjv.item.Item;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.scene.Parent;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,46 +19,59 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 
 import java.util.Optional;
 
-@Getter
-@Setter
 @Slf4j
-public class ItemSlot {
+public class ItemSlot extends Pane{
+    @Getter
     private Pane inventorySlot;
-    private Optional<Item> item;
-    private Optional<Image> itemImage;
+    @Getter
+    private Item item;
+    private Image itemImage;
     private final double slotSize;
-    private final double padding;
-    private final double firstSlotX;
-    private final double firstSlotY;
+    @Getter
+    private Rectangle base;
+    Parent root;
 
-    public ItemSlot(Optional<Item> item, int offset, double slotSize, double padding, double firstSlotX, double firstSlotY) {
+    public ItemSlot(Item item, double slotSize, Pane root) {
+        this.inventorySlot = new Pane();
         this.slotSize = slotSize;
-        this.padding = padding;
-        this.firstSlotX = firstSlotX;
-        this.firstSlotY = firstSlotY;
-        this.inventorySlot = initSlot(offset);
+        this.root = root;
         this.item = item;
-        this.itemImage = item.map(Item::getInventoryImage);
-        log.debug("Image {} loaded", itemImage);
-        initImage();
+        initBase();
+        if (item != null){
+            this.itemImage = item.getInventoryImage();
+            initImage();
+        }
+        if (itemImage == null) {
+            log.debug("No item present, no image loaded");
+        } else {
+            log.debug("Item present, image {} loaded", itemImage);
+        }
     }
 
-    private Pane initSlot(int offset){
-        Pane slot = new Pane();
-        slot.setPrefSize(slotSize, slotSize);
-        slot.setStyle("-fx-background-color: white; -fx-opacity: 0.5; -fx-background-radius: 20;");
-        slot.setLayoutX(firstSlotX + (offset % INITIAL_INVENTORY_CAPACITY) * (slotSize + padding));
-        int row = (int) Math.floor((double) offset / INITIAL_INVENTORY_CAPACITY);
-        slot.setLayoutY(firstSlotY + row * (slotSize + padding));
-        return slot;
+    private void initBase(){
+        Rectangle slot = new Rectangle(slotSize, slotSize);
+        slot.setFill(Color.WHITE);
+        slot.setOpacity(0.5);
+        slot.setArcWidth(20);
+        slot.setArcHeight(20);
+        this.base = slot;
+        this.inventorySlot.getChildren().add(slot);
     }
+
 
     private void initImage() {
-        itemImage.ifPresent(image -> {
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(slotSize);
-            imageView.setFitHeight(slotSize);
-            inventorySlot.getChildren().add(imageView);
-        });
+        Image image = itemImage;
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(slotSize);
+        imageView.setFitHeight(slotSize);
+        imageView.setLayoutX(this.root.getLayoutX());
+        imageView.setLayoutY(this.root.getLayoutY());
+        inventorySlot.getChildren().add(imageView);
     }
+
+    public void setOnAction(Runnable action){
+        inventorySlot.setOnMouseClicked(e -> action.run());
+
+    }
+
 }

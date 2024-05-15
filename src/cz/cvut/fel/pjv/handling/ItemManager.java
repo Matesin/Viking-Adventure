@@ -58,10 +58,10 @@ public class ItemManager {
                         gc.setFont(statsFont);
                         gc.fillText("Press 'E' to pick up this " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
                         if(player.getInventory().isFull()){
+                            gc.clearRect(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 20, 200, 20);
                             gc.fillText("Inventory is full!", SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 20);
                         }
                         if(player.pickUpItem(item)){
-                            gc.fillText("Picked up " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 20);
                             iterator.remove();
                         }
                     }

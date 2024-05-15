@@ -22,6 +22,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
     @Setter
     @Getter
     boolean inventory = false;
+    boolean useItem = false;
 
     public InputHandler() {
         upPressed = downPressed = leftPressed = rightPressed = false;
@@ -45,18 +46,17 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     rightPressed = true;
                     break;
                 case ESCAPE:
-                    if (inventory){
-                        inventory = false;
-                    }
-                    else{
-                        paused = !paused;
-                    }
+                    paused = true;
+                    log.debug("Pausing game");
                     break;
                 case E:
                     pickUp = true;
                     break;
                 case I:
                     inventory = !inventory;
+                    break;
+                case K:
+                    useItem = true;
                     break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;
@@ -79,12 +79,16 @@ public class InputHandler implements EventHandler<KeyEvent> {
                 case E:
                     pickUp = false;
                     break;
+                case K:
+                    useItem = false;
+                    break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;
                     break;
             }
         }
     }
+
     public void reset(){
         upPressed = downPressed = leftPressed = rightPressed = paused = false;
     }

@@ -1,40 +1,43 @@
 package cz.cvut.fel.pjv.inventory;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.Group;
 import lombok.extern.slf4j.Slf4j;
-
-import java.awt.*;
-import java.util.Optional;
 
 import  static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 @Slf4j
 public class InGameInventoryBar {
-    private Inventory inventory;
-    private final int capacity = 5;
-    private StackPane root;
+    private final Inventory inventory;
+    private final Pane inventoryBar;
 
-    public InGameInventoryBar(Inventory inventory, StackPane root) {
+    public InGameInventoryBar(Inventory inventory, Pane root) {
+        this.inventoryBar = new Pane();
         this.inventory = inventory;
-        this.root = root;
-//        initBase();
+        initBase();
         initSlots();
+        root.getChildren().add(inventoryBar);
     }
     private void initBase() {
         Rectangle inventoryBase = new Rectangle();
         inventoryBase.setWidth(SCREEN_INVENTORY_WIDTH);
         inventoryBase.setHeight(SCREEN_INVENTORY_HEIGHT);
+        inventoryBase.setLayoutX(SCREEN_INVENTORY_X);
+        inventoryBase.setLayoutY(SCREEN_INVENTORY_Y);
         inventoryBase.setOpacity(0.5); // 50% opacity
         inventoryBase.setArcWidth(20); // Rounded corners
         inventoryBase.setArcHeight(20); // Rounded corner
-        log.debug("Inventory position {}x{}", inventoryBase.getLayoutX(), inventoryBase.getLayoutY());
-        log.debug("Desired inventory position {}x{}", SCREEN_INVENTORY_X, SCREEN_INVENTORY_Y);
-        root.getChildren().add(inventoryBase);
+       inventoryBar.getChildren().add(inventoryBase);
     }
     private void initSlots(){
-        ItemSlot itemSlot = new ItemSlot(Optional.ofNullable(inventory.getPickedItem()), 0, SCREEN_SLOT_SIZE, SCREEN_SLOT_PADDING, SCREEN_INVENTORY_X, SCREEN_INVENTORY_Y);
-        root.getChildren().add(itemSlot.getInventorySlot());
+        ItemSlot itemSlot = new ItemSlot(inventory.getPickedItem(), SCREEN_SLOT_SIZE, inventoryBar);
+        itemSlot.getInventorySlot().setLayoutX(FIRST_SCREEN_SLOT_X);
+        itemSlot.getInventorySlot().setLayoutY(FIRST_SCREEN_SLOT_Y);
+        inventoryBar.getChildren().add(itemSlot.getInventorySlot());
+    }
+    public void update(){
+        inventoryBar.getChildren().clear();
+        initBase();
+        initSlots();
     }
 
 }

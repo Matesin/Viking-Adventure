@@ -32,26 +32,15 @@ public class GameLoop extends AnimationTimer {
             this.gamePanel.render(gc);
         if (this.gamePanel.inputHandler.isPaused()) {
             this.stop();
+            log.info("Game paused");
             inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isPaused()) this.start();
         } else if (this.gamePanel.inputHandler.isInventory()) {
             this.stop();
+            log.info("Inventory opened");
             inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isInventory()) this.start();
         }
-//        else if (this.gamePanel.inputHandler.isInventory() && (inventoryThread == null || !inventoryThread.isAlive())) {
-//                inventoryThread = new Thread(() -> {
-//                    log.info("Inventory thread created");
-//                    inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
-//                    inventoryThread = null;
-//                });
-//                inventoryThread.start();
-//        } else {
-//            if (inventoryThread != null && inventoryThread.isAlive()) {
-//                inventoryThread.interrupt();
-//                inventoryThread = null;
-//            }
-//        }
         Timeline loop = new Timeline(new KeyFrame(Duration.millis(Constants.Game.FRAME_TIME_MILLIS)));
         loop.setCycleCount(Animation.INDEFINITE);
         loop.play();

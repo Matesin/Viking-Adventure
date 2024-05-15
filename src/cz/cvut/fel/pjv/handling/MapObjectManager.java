@@ -7,6 +7,7 @@ import cz.cvut.fel.pjv.gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import map_object.ActiveMapObject;
 import map_object.MapObject;
 
 import java.io.IOException;
@@ -36,6 +37,9 @@ public class MapObjectManager {
             //use iterator for future implementation of entity removal
             for (MapObject mapObject : mapObjects.get()) {
                 mapObject.render(gc, this.gamePanel);
+                if(player.reactionRange.intersects(mapObject.hitbox) && (mapObject instanceof ActiveMapObject activeMapObject)){
+                    activeMapObject.changeState(player.getInventory().getPickedItem());
+                }
             }
         }
     }

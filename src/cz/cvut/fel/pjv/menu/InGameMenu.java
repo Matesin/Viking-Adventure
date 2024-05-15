@@ -9,8 +9,6 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -37,16 +35,13 @@ public class InGameMenu {
         this.gamePanel = gamePanel;
         if (mainStage != null){
             this.previousScene = mainStage.getScene();
-            mainStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    //exit the menu and return to the game
-                    log.info("Resuming game");
-                    gamePanel.getInputHandler().reset();
-                    mainStage.setScene(previousScene);
-                    event.consume();
+            Scene menuScene = new Scene(createContent(), SCREEN_WIDTH, SCREEN_HEIGHT);
+            menuScene.setOnKeyPressed(event -> {
+                if(event.getCode().toString().equals("ESCAPE")){
+                    setPreviousScene();
                 }
             });
-            mainStage.setScene(new Scene(createContent(), SCREEN_WIDTH, SCREEN_HEIGHT));
+            mainStage.setScene(menuScene);
         }
     }
     private void initButtons(){
@@ -94,5 +89,8 @@ public class InGameMenu {
         setBackground();
         addMenu();
         return this.root;
+    }
+    private void setPreviousScene(){
+
     }
 }

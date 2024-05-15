@@ -42,7 +42,7 @@ public class GamePanel extends Pane {
     Scene scene;
     GameLoop gameLoop;
     @Getter
-    StackPane root;
+    Pane root;
     @Getter
     MapManager mapManager;
     @Getter
@@ -66,7 +66,7 @@ public class GamePanel extends Pane {
     private final ItemManager itemManager;
     @Getter
     private final MapObjectManager mapObjectManager;
-    private InGameInventoryBar inGameInventoryBar;
+    public InGameInventoryBar inGameInventoryBar;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");

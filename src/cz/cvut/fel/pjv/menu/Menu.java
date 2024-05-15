@@ -33,7 +33,7 @@ public class Menu extends Application implements GameMenu{
 
 
     private final Pane root = new Pane();
-    private final VBox menuBox = new VBox(2);
+    private final VBox menuBox = new VBox();
 
     @Override
     public void initButtons() {
@@ -88,9 +88,6 @@ public class Menu extends Application implements GameMenu{
 
     @Override
     public void addMenu() {
-        /*
-         * TODO: ADD TRANSITIONS between menu and nodes
-         */
         menuBox.setTranslateX(MENU_TRANSLATE_X);
         menuBox.setTranslateY(MENU_TRANSLATE_Y + 30);
         menuButtons.forEach(data -> {
@@ -128,7 +125,7 @@ public class Menu extends Application implements GameMenu{
         title.setTranslateY(MENU_TITLE_Y);
         this.root.getChildren().add(title);
     }
-    //TODO: CUSTOMIZE ANIMATION
+
     private void startAnimation(){
         ScaleTransition st = new ScaleTransition(Duration.seconds(1), menuBox);
         st.setToX(1);

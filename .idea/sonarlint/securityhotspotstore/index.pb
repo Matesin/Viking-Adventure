@@ -606,3 +606,11 @@ e
 5src/cz/cvut/fel/pjv/inventory/InGameInventoryBar.java,9/2/92a0159e3c02ffb65b5527788553d7659aa73454
 Y
 )src/cz/cvut/fel/pjv/entity/HealthBar.java,f/2/f2712d1e17e4b476adea1ba9b8879c5007b51c67
+[
++src/cz/cvut/fel/pjv/inventory/ItemInfo.java,f/a/fa6d26d06e86fbcbc398a4ac90b9a9d350c1d3e0
+S
+#src/map_object/ActiveMapObject.java,5/6/56d05999b2c4e093fb8a4c1df0bb7ae825d86fcb
+H
+src/map_object/Door.java,3/3/337ccb8a88b80eaa0d54626367b5d13a343c9a46
+I
+src/map_object/Chest.java,c/6/c612f8b812e8571d7cb8896639228314583c01ef

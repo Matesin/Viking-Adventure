@@ -146,5 +146,8 @@ public abstract class Item {
         }
 
     }
+    public void use(){
+        //Use the current object the player is using
+    }
 
 }

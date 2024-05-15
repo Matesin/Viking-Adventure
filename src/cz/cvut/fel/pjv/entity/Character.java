@@ -72,12 +72,16 @@ public abstract class Character {
     @Getter
     @Setter
     private int health;
+    Image upIdle;
     Image up1;
     Image up2;
+    Image downIdle;
     Image down1;
     Image down2;
+    Image leftIdle;
     Image left1;
     Image left2;
+    Image rightIdle;
     Image right1;
     Image right2;
     Image currentSprite;
@@ -98,6 +102,10 @@ public abstract class Character {
         // Load the character's sprites
          log.info("Loading sprites for: {}", type);
         try {
+            upIdle = setIdleSprite(DIR_UP, type);
+            downIdle = setIdleSprite(DIR_DOWN, type);
+            leftIdle = setIdleSprite(DIR_LEFT, type);
+            rightIdle = setIdleSprite(DIR_RIGHT, type);
             up1 = setSprite(1, DIR_UP, type);
             up2 = setSprite(2, DIR_UP, type);
             down1 = setSprite(1, DIR_DOWN, type);
@@ -119,6 +127,27 @@ public abstract class Character {
             direction = direction.substring(0, 1).toUpperCase() + direction.substring(1);
         }
          String filepath = "res" + File.separator + "entities" + File.separator + type + File.separator + type + direction + spriteNum + ".png";        try {
+            FileInputStream fis = new FileInputStream(filepath);
+            sprite = new Image(fis, TILE_SIZE, TILE_SIZE, false, false);
+        } catch (FileNotFoundException e) {
+            log.error("Error loading entity sprites: {}, loading default instead", e.getMessage());
+            try{
+                FileInputStream fis = new FileInputStream(DEFAULT_TILE_FILEPATH);
+                sprite = new Image(fis);
+            } catch (FileNotFoundException ex){
+                throw new FileNotFoundException("Error loading default sprite");
+            }
+        }
+        return sprite;
+    }
+    Image setIdleSprite(String direction, String type) throws FileNotFoundException {
+        // Load the sprite
+        Image sprite;
+        if (!direction.isEmpty()){
+            // Capitalize the first letter of the direction
+            direction = direction.substring(0, 1).toUpperCase() + direction.substring(1);
+        }
+        String filepath = "res" + File.separator + "entities" + File.separator + type + File.separator + type + direction + "Idle" + ".png";        try {
             FileInputStream fis = new FileInputStream(filepath);
             sprite = new Image(fis, TILE_SIZE, TILE_SIZE, false, false);
         } catch (FileNotFoundException e) {

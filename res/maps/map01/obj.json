@@ -37,5 +37,35 @@
     "x": 6,
     "y": 7,
     "picture": "hammer.png"
+  },
+  {
+    "type": "melee_weapon",
+    "name": "Swordus minimus",
+    "description": "A basic sword",
+    "damage": 15,
+    "range": 1,
+    "x": 20,
+    "y": 10,
+    "picture": "small_sword.png"
+  },
+  {
+    "type": "melee_weapon",
+    "name": "Swordus minimus",
+    "description": "A basic sword",
+    "damage": 15,
+    "range": 1,
+    "x": 20,
+    "y": 10,
+    "picture": "small_sword.png"
+  },
+  {
+    "type": "melee_weapon",
+    "name": "Swordus minimus",
+    "description": "A basic sword",
+    "damage": 15,
+    "range": 1,
+    "x": 20,
+    "y": 10,
+    "picture": "small_sword.png"
   }
 ]
