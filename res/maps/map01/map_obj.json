@@ -52,5 +52,20 @@
     "x": 18,
     "y": 10,
     "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "chest",
+    "x": 19,
+    "y": 10,
+    "idle_picture": "chestIdle.png",
+    "active_picture": "chestActive.png"
+  },
+  {
+    "type" : "fire",
+    "x" : 25,
+    "y" : 10,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png"
   }
+
 ]

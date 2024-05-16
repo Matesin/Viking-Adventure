@@ -1,10 +1,9 @@
 package cz.cvut.fel.pjv.utils;
 
 import cz.cvut.fel.pjv.entity.Character;
-import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import lombok.extern.slf4j.Slf4j;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import java.util.Collections;
 

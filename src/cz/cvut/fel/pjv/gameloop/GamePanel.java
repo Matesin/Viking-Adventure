@@ -67,6 +67,7 @@ public class GamePanel extends Pane {
     @Getter
     private final MapObjectManager mapObjectManager;
     public InGameInventoryBar inGameInventoryBar;
+    boolean craftingOpened = false;
     // CONSTRUCT GAME PANEL
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");
@@ -130,10 +131,11 @@ public class GamePanel extends Pane {
         refreshScreen(gc);
         this.mapManager.renderMap(gc);
         this.player.hitbox.display(gc);
-        this.player.render(gc);
+        this.player.reactionRange.display(gc);
         this.itemManager.renderItems(gc);
         this.entityManager.renderEntities(gc);
         this.mapObjectManager.renderMapObjects(gc);
+        this.player.render(gc);
 //        printPlayerStats(gc);
     }
     public Stage getStage(){

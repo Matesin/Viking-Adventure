@@ -1,10 +1,8 @@
 package cz.cvut.fel.pjv.handling;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.cvut.fel.pjv.item.Item;
 import lombok.extern.slf4j.Slf4j;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import java.io.File;
 import java.io.IOException;

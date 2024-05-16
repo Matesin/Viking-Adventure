@@ -5,8 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import map_object.ActiveMapObject;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.ActiveMapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 @Slf4j
 public class Hitbox {

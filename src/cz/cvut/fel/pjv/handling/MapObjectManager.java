@@ -1,14 +1,13 @@
 package cz.cvut.fel.pjv.handling;
 
-import cz.cvut.fel.pjv.entity.Character;
 import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.gameloop.Camera;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import map_object.ActiveMapObject;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.ActiveMapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,9 +36,17 @@ public class MapObjectManager {
             //use iterator for future implementation of entity removal
             for (MapObject mapObject : mapObjects.get()) {
                 mapObject.render(gc, this.gamePanel);
-                if(player.reactionRange.intersects(mapObject.hitbox) && (mapObject instanceof ActiveMapObject activeMapObject)){
-                    activeMapObject.changeState(player.getInventory().getPickedItem());
+                if(mapObject instanceof ActiveMapObject activeMapObject){
+                    if (player.reactToMapObject(activeMapObject)) {
+                        log.debug("Player reacted to {}", activeMapObject);
+                        activeMapObject.changeState(player.getInventory().getPickedItem());
+                    } else if (player.hitbox.intersects(activeMapObject.hitbox)
+                            && activeMapObject.isDealingDamage()) {
+                        log.debug("Player hit by {}", activeMapObject);
+                        activeMapObject.dealDamage(player);
+                    }
                 }
+
             }
         }
     }

@@ -26,6 +26,7 @@ public class GameLoop extends AnimationTimer {
     }
 
     // GAME LOOP
+    //TODO implement multithreading
     @Override
     public void handle(long now) {
             this.gamePanel.update();
@@ -36,10 +37,27 @@ public class GameLoop extends AnimationTimer {
             inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isPaused()) this.start();
         } else if (this.gamePanel.inputHandler.isInventory()) {
-            this.stop();
+            this.stop(); // Stop the main thread
             log.info("Inventory opened");
-            inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
-            if (this.gamePanel.inputHandler.isInventory()) this.start();
+            inventoryThread = new Thread(() -> {
+                synchronized (this) {
+                    inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
+                    while (this.gamePanel.inputHandler.isInventory()){
+                        try {
+                            this.wait();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
+                inventoryThread.interrupt();
+            });
+            inventoryThread.start();
+            this.start(); // Restart the main thread once the inventory is closed
+        } else if (this.gamePanel.craftingOpened){
+            this.stop();
+            //
+            if (this.gamePanel.craftingOpened) this.start();
         }
         Timeline loop = new Timeline(new KeyFrame(Duration.millis(Constants.Game.FRAME_TIME_MILLIS)));
         loop.setCycleCount(Animation.INDEFINITE);

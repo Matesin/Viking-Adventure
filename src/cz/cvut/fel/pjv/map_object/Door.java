@@ -1,4 +1,4 @@
-package map_object;
+package cz.cvut.fel.pjv.map_object;
 
 import cz.cvut.fel.pjv.item.Item;
 

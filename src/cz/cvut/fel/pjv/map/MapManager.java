@@ -9,7 +9,7 @@ import cz.cvut.fel.pjv.item.Item;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import java.io.FileNotFoundException;
 import java.util.List;

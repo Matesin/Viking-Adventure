@@ -1,4 +1,4 @@
-package map_object;
+package cz.cvut.fel.pjv.map_object;
 
 import com.fasterxml.jackson.annotation.*;
 import cz.cvut.fel.pjv.entity.Hitbox;
@@ -23,6 +23,9 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Bush.class, name = "bush"),
+        @JsonSubTypes.Type(value = Chest.class, name = "chest"),
+        @JsonSubTypes.Type(value = Door.class, name = "door"),
+        @JsonSubTypes.Type(value = Fire.class, name = "fire"),
 })
 
 @Slf4j
@@ -34,7 +37,7 @@ public abstract class MapObject {
                 .toLowerCase();
     }
     @JsonGetter("idle_picture")
-            public String getPicture() {
+    public String getPicture() {
             return this.idlePictureID;
     }
     @JsonGetter("x")
@@ -61,6 +64,8 @@ public abstract class MapObject {
     int screenCoordY;
     @JsonIgnore
     Image idleImage;
+    @Setter
+    Image currentImage;
     @JsonIgnore
     public Hitbox hitbox;
     @JsonCreator
@@ -77,13 +82,14 @@ public abstract class MapObject {
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
         this.hitbox = new Hitbox(this, (int) this.idleImage.getWidth(), (int) this.idleImage.getHeight());
+        this.setCurrentImage(idleImage);
     }
     public Image loadImage(String pictureID) {
         String filepath = "res/map_objects/" + pictureID;
         Image image;
         try {
             FileInputStream fis = new FileInputStream(filepath);
-            image = new Image(fis, (double) TILE_SIZE /2, (double) TILE_SIZE /2, false, false);
+            image = new Image(fis);
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
@@ -118,7 +124,7 @@ public abstract class MapObject {
                 screenCoordX <= SCREEN_WIDTH &&
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
-            gc.drawImage(idleImage, screenCoordX, screenCoordY);
+            gc.drawImage(currentImage, screenCoordX, screenCoordY);
         }
     }
 }

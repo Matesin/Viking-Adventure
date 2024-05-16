@@ -5,7 +5,6 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
-import static cz.cvut.fel.pjv.gameloop.Constants.Tile.SCALE;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
@@ -100,6 +99,11 @@ public class Constants {
         public static final double FIRST_SCREEN_SLOT_Y = SCREEN_INVENTORY_Y + SCREEN_SLOT_PADDING;
     }
     public static class Player{
-        public static final int SPEED = 5;
+        private Player() {
+            log.error(CONSTANT_CREATION, "Utility Player class created");
+        }
+        public static final int INITIAL_SPEED = 5;
+        public static final long CHANGE_STATE_COOLDOWN = 100; // cooldown of mapObject state change
+        public static final int SPEED_CONSTANT = 1000;
     }
 }

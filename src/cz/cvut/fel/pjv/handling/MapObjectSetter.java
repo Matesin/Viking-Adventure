@@ -1,8 +1,7 @@
 package cz.cvut.fel.pjv.handling;
 
-import cz.cvut.fel.pjv.entity.Character;
 import lombok.extern.slf4j.Slf4j;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import java.util.List;
 import java.util.Optional;

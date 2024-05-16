@@ -1,7 +1,6 @@
 package cz.cvut.fel.pjv.handling;
 
-import cz.cvut.fel.pjv.entity.Character;
-import map_object.MapObject;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import java.io.IOException;
 import java.util.List;

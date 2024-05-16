@@ -9,9 +9,11 @@ import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import cz.cvut.fel.pjv.map_object.MapObject;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Directions.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.INITIAL_INVENTORY_CAPACITY;
+import static cz.cvut.fel.pjv.gameloop.Constants.Player.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.*;
 
@@ -26,7 +28,8 @@ public class Player extends Character {
     @Setter
     private Inventory inventory;
     private int health;
-
+    private long lastChangeStateTime = 0;
+    private long lastUpdate = 0;
 
     public Player( int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
@@ -38,7 +41,9 @@ public class Player extends Character {
         int hitboxOffsetX = (this.width - TILE_SIZE / 2) / 2;
         int hitboxOffsetY = this.height / 3;
         this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, hitboxOffsetX, hitboxOffsetY);
-        this.reactionRange = new Hitbox(this, this.hitbox.getWidth() * 3, this.hitbox.getHeight() * 3, hitboxOffsetX, hitboxOffsetY);
+        int reactionRangeWidth = this.hitbox.getWidth() * 3;
+        int reactionRangeHeight = this.hitbox.getHeight() * 3;
+        this.reactionRange = new Hitbox(this, reactionRangeWidth, reactionRangeHeight, -hitboxOffsetX/4, -hitboxOffsetY /2);
         setDefaultValues();
         update();
     }
@@ -46,8 +51,8 @@ public class Player extends Character {
         this.setScreenCoordX(SCREEN_MIDDLE_X);
         this.setScreenCoordY(SCREEN_MIDDLE_Y);
         currentSprite = down1;
-        this.speed = 5; // Adjust this value as needed
-        direction = "down";
+        this.speed = INITIAL_SPEED; // Adjust this value as needed
+        direction = DIR_DOWN;
         hitbox.update();
     }
 
@@ -69,6 +74,7 @@ public class Player extends Character {
 
         if (isMoving) {
             hitbox.update();
+            reactionRange.update();
             //check for collision
             collision = false; //reset collision
             gamePanel.collisionChecker.checkTile(this);
@@ -94,16 +100,14 @@ public class Player extends Character {
         }
     }
 
-    private long lastUpdate = 0;
     public void render(GraphicsContext gc) {
         //create movement effect by switching between two sprites
         long now = System.currentTimeMillis();
         // update the sprite relatively to speed
-        int speedConst = 1000;
-        if (now - lastUpdate > speedConst / this.speed) {
+        if (now - lastUpdate > SPEED_CONSTANT / this.speed) {
             //set the current sprite based on spriteCounter and direction
             currentSprite = isMoving ? setMovingSprite(spriteCounter) : setSpriteToIdle();
-            spriteCounter = spriteCounter == 4 ? 1 : spriteCounter + 1;
+            spriteCounter = spriteCounter == 4 ? 1 : spriteCounter + 1; //reset spriteCounter if equal to 4
             lastUpdate = now;
         }
         gc.drawImage(currentSprite, getScreenCoordX(), getScreenCoordY());
@@ -162,5 +166,14 @@ public class Player extends Character {
             inventory.setFull(!pickedUpItem);
         }
         return pickedUpItem;
+    }
+    public boolean reactToMapObject(MapObject mapObject){
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastChangeStateTime < CHANGE_STATE_COOLDOWN) {
+            return false;
+        }
+        lastChangeStateTime = currentTime;
+
+        return reactionRange.intersects(mapObject.hitbox) && input.isUseItem();
     }
 }
