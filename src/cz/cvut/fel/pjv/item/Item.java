@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.GraphicsDefaults.DEFAULT_TILE_FILEPATH;
@@ -28,7 +29,10 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
         @JsonSubTypes.Type(value = MeleeWeapon.class, name = "melee_weapon"),
         @JsonSubTypes.Type(value = RangedWeapon.class, name = "ranged_weapon"),
         @JsonSubTypes.Type(value = Potion.class, name = "potion"),
-        @JsonSubTypes.Type(value = WeaponUpgrade.class, name = "weapon_upgrade")
+        @JsonSubTypes.Type(value = WeaponUpgrade.class, name = "weapon_upgrade"),
+        @JsonSubTypes.Type(value = Bucket.class, name = "bucket"),
+        @JsonSubTypes.Type(value = Wood.class, name = "wood"),
+        @JsonSubTypes.Type(value = IronOre.class, name = "iron_ore")
 })
 
 @Slf4j
@@ -46,8 +50,9 @@ public abstract class Item {
     @Getter
     String name;
     @Getter
+    String itemID;
+    @Getter
     String description;
-    public boolean collision = false;
     @Getter
     @Setter
     @JsonIgnore
@@ -76,14 +81,15 @@ public abstract class Item {
         return this.pictureID;
     }
     @JsonIgnore
-    public final Hitbox hitbox;
+    public Hitbox hitbox;
     @Getter
     @JsonIgnore
     Image placementImage; //Image used when the object is placed on the map
     @Getter
     @JsonIgnore
     Image inventoryImage; //Image used when the object is in the player's inventory
-
+    @Getter
+    List<Item> craftingMaterials;
     @JsonCreator
     protected Item(@JsonProperty("x") int worldCoordX,
                    @JsonProperty("y") int worldCoordY,
@@ -95,12 +101,38 @@ public abstract class Item {
         loadImage(pictureID);
         log.info("Image loaded for item: {}", type);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
+        this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE);
+        this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE);
+        this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
+    }
+    @JsonCreator
+    protected Item(@JsonProperty("x") int worldCoordX,
+                   @JsonProperty("y") int worldCoordY,
+                   @JsonProperty("ID") String itemID,
+                   @JsonProperty("picture") String pictureID) {
+        //default constructor - load the image of the respective item
+        this.pictureID = pictureID;
+        this.itemID = itemID;
+        type = this.getClass().getSimpleName();
+        log.info("Loading image for item: {}", type);
+        loadImage(pictureID);
+        log.info("Image loaded for item: {}", type);
+        //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getWidth());
         this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getHeight());
         this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
-
     }
-    public void loadImage(String pictureID) {
+    @JsonCreator
+    protected Item(@JsonProperty("picture") String pictureID) {
+        //default constructor - load the image of the respective item
+        this.pictureID = pictureID;
+        type = this.getClass().getSimpleName();
+        log.info("Loading image for item: {}", type);
+        loadImage(pictureID);
+        log.info("Image loaded for item: {}", type);
+        //set the world coordinates of the item, do not place it in the top left corner of the tile
+        this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
+    }    public void loadImage(String pictureID) {
         String filepath = "res/items/" + pictureID;
         try {
             FileInputStream fis1 = new FileInputStream(filepath);
@@ -120,6 +152,8 @@ public abstract class Item {
                 log.error("Error loading default tile", ex);
             }
         }
+    }
+    protected Item() {
     }
     public void render(GraphicsContext gc, GamePanel gamePanel){
         screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
@@ -148,6 +182,14 @@ public abstract class Item {
     }
     public void use(){
         //Use the current object the player is using
+    }
+    public static Item createItem(String type, String name, String description, String imageName) {
+        return switch (type) {
+            case "Bucket" -> new Bucket(name, description, imageName);
+            case "IronOre" -> new IronOre(imageName);
+            case "Wood" -> new Wood(imageName);
+            default -> throw new IllegalArgumentException("Invalid item type: " + type);
+        };
     }
 
 }

@@ -37,12 +37,13 @@ public class MapObjectManager {
             for (MapObject mapObject : mapObjects.get()) {
                 mapObject.render(gc, this.gamePanel);
                 if(mapObject instanceof ActiveMapObject activeMapObject){
-                    if (player.reactToMapObject(activeMapObject)) {
+                    if (player.reactionRange.intersects(activeMapObject.hitbox) &&
+                        player.reactToMapObject() ){
                         log.debug("Player reacted to {}", activeMapObject);
                         activeMapObject.changeState(player.getInventory().getPickedItem());
-                    } else if (player.hitbox.intersects(activeMapObject.hitbox)
-                            && activeMapObject.isDealingDamage()) {
-                        log.debug("Player hit by {}", activeMapObject);
+                    } else if (player.hitbox.intersects(activeMapObject.hitbox) &&
+                                activeMapObject.isDealingDamage()) {
+                        log.debug("Player hit by {}", activeMapObject.getClass().getSimpleName());
                         activeMapObject.dealDamage(player);
                     }
                 }

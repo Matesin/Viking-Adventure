@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.SLOT_SIZE;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
@@ -83,7 +84,7 @@ public class Constants {
         public static final int INITIAL_INVENTORY_CAPACITY = 5;
         public static final double SLOT_SIZE = SCREEN_WIDTH / 10.0;
         public static final double SLOT_PADDING = SLOT_SIZE / 5.0;
-        public static final double SCREEN_SLOT_SIZE = SCREEN_WIDTH / 20.0;
+        public static final double SCREEN_SLOT_SIZE = SCREEN_WIDTH / 15.0;
         public static final double SCREEN_SLOT_PADDING = SCREEN_SLOT_SIZE / 5.0;
         public static final double INVENTORY_WIDTH = (SLOT_SIZE + SLOT_PADDING) * INITIAL_INVENTORY_CAPACITY + SLOT_PADDING;
         public static final double INVENTORY_HEIGHT = SLOT_SIZE + 2 * SLOT_PADDING;
@@ -103,7 +104,27 @@ public class Constants {
             log.error(CONSTANT_CREATION, "Utility Player class created");
         }
         public static final int INITIAL_SPEED = 5;
-        public static final long CHANGE_STATE_COOLDOWN = 100; // cooldown of mapObject state change
+        public static final long CHANGE_STATE_COOLDOWN = 50; // cooldown of mapObject state change
         public static final int SPEED_CONSTANT = 1000;
+    }
+    public static class Fire{
+        private Fire() {
+            log.error(CONSTANT_CREATION, "Utility Fire class created");
+        }
+        public static final int FIRE_DAMAGE = 1;
+        public static final int FIRE_KNOCKBACK = 30;
+    }
+    public static class Crafting {
+        private Crafting() {
+            log.error(CONSTANT_CREATION, "Utility Inventory class created");
+        }
+        public static final int CRAFTING_GRID_ROWS = 2;
+        public static final int CRAFTING_GRID_COLS = 2;
+        public static final double CRAFTING_GRID_X = SCREEN_WIDTH / 5.0 - 100;
+        public static final double CRAFTING_GRID_Y = SCREEN_HEIGHT / 4.0;
+        public static final double CRAFTING_SLOT_SIZE = SLOT_SIZE * 1.8;
+        public static final double CRAFTING_SLOT_PADDING = 20;
+        public static final double RESULT_SLOT_X = CRAFTING_GRID_X + 550;
+        public static final double RESULT_SLOT_Y = CRAFTING_GRID_Y + CRAFTING_SLOT_SIZE / 2 + CRAFTING_SLOT_PADDING;
     }
 }

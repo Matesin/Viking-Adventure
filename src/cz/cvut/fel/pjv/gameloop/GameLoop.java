@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.gameloop;
 
+import cz.cvut.fel.pjv.crafting.CraftingGUI;
 import cz.cvut.fel.pjv.menu.InGameMenu;
 import cz.cvut.fel.pjv.inventory.InventoryGUI;
 import javafx.animation.Animation;
@@ -18,6 +19,7 @@ public class GameLoop extends AnimationTimer {
     InGameMenu inGameMenu;
     Thread inventoryThread;
     InventoryGUI inventory;
+    CraftingGUI crafting;
 
     public GameLoop(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -38,26 +40,12 @@ public class GameLoop extends AnimationTimer {
             if (this.gamePanel.inputHandler.isPaused()) this.start();
         } else if (this.gamePanel.inputHandler.isInventory()) {
             this.stop(); // Stop the main thread
-            log.info("Inventory opened");
-            inventoryThread = new Thread(() -> {
-                synchronized (this) {
-                    inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
-                    while (this.gamePanel.inputHandler.isInventory()){
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                    }
-                }
-                inventoryThread.interrupt();
-            });
-            inventoryThread.start();
+            inventory = new InventoryGUI(this.gamePanel.getStage(), this.gamePanel);
             this.start(); // Restart the main thread once the inventory is closed
-        } else if (this.gamePanel.craftingOpened){
+        } else if (this.gamePanel.inputHandler.isCrafting()) {
             this.stop();
-            //
-            if (this.gamePanel.craftingOpened) this.start();
+            this.crafting = new CraftingGUI(this.gamePanel.getStage(), this.gamePanel);
+            this.start();
         }
         Timeline loop = new Timeline(new KeyFrame(Duration.millis(Constants.Game.FRAME_TIME_MILLIS)));
         loop.setCycleCount(Animation.INDEFINITE);

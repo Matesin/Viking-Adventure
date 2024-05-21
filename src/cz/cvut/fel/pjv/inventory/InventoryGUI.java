@@ -1,9 +1,11 @@
 package cz.cvut.fel.pjv.inventory;
 
 import cz.cvut.fel.pjv.gameloop.GamePanel;
+import cz.cvut.fel.pjv.item.Bucket;
 import cz.cvut.fel.pjv.item.Item;
+import cz.cvut.fel.pjv.menu.Menu;
+import cz.cvut.fel.pjv.menu.MenuButton;
 import javafx.beans.binding.Bindings;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
@@ -21,8 +23,11 @@ import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static cz.cvut.fel.pjv.gameloop.Constants.Button.BUTTON_HEIGHT;
+import static cz.cvut.fel.pjv.gameloop.Constants.Button.BUTTON_WIDTH;
 import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.SCREEN_HEIGHT;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.SCREEN_WIDTH;
@@ -34,11 +39,14 @@ public class InventoryGUI {
     private final Pane root = new Pane();
     private final GamePanel gamePanel;
     private Scene previousScene;
-    private Inventory inventory;
+    private final Inventory inventory;
     private final InGameInventoryBar inGameInventoryBar;
     private List<Pair<Item, Runnable>> itemSlots;
-    private Stage mainStage;
+    private final Stage mainStage;
     private final HBox inventoryBox = new HBox();
+    private List<Pair<Item, Runnable>> itemChoiceButtons;
+    private final HBox itemChoiceBox = new HBox(2);
+
 
     public InventoryGUI(Stage mainStage, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -56,6 +64,7 @@ public class InventoryGUI {
             });
             mainStage.setScene(inventoryScene);
         }
+        itemChoiceBox.setSpacing(10);
     }
 
     private void setBackground() {
@@ -68,16 +77,18 @@ public class InventoryGUI {
         this.root.setBackground(new Background(background));
     }
 
+
     private void initSlots() {
         this.itemSlots = new ArrayList<>();
+        int i = 0;
         for(Item item : inventory.getItems()){
+            double x = (FIRST_SLOT_X + (i % capacity) * (SLOT_SIZE + SLOT_PADDING) - (double) BUTTON_WIDTH / 2);
+            double y = (FIRST_SLOT_Y + 1.5 * BUTTON_HEIGHT + ((double) i / capacity));
             itemSlots.add(new Pair<>(item, () -> {
-                inventory.setPickedItem(item);
-                if(inGameInventoryBar != null){
-                    inGameInventoryBar.update();
-                }
-                setPreviousScene();
+                addChoiceButtons(item, x, y);
+                this.root.getChildren().add(itemChoiceBox);
             }));
+            i++;
         }
     }
 
@@ -93,6 +104,39 @@ public class InventoryGUI {
             this.root.getChildren().addAll(itemSlot.getInventorySlot(), itemInfo);
         });
     }
+
+    private void initItemButtons(Item item){
+        this.itemChoiceButtons = Arrays.asList(
+                new Pair<>(item, () -> {
+                    inventory.setPickedItem(item);
+                    if(inGameInventoryBar != null){
+                        inGameInventoryBar.update();
+                    }
+                    setPreviousScene();
+                }),
+                new Pair<>(item, () -> {
+                    gamePanel.player.dropItem(item);
+                    if(inGameInventoryBar != null){
+                        inGameInventoryBar.update();
+                    }
+                    setPreviousScene();
+                })
+        );
+    }
+
+    private void addChoiceButtons(Item item, double x, double y){
+        itemChoiceBox.setLayoutX(x);
+        itemChoiceBox.setLayoutY(y);
+        if (item != null) {
+            initItemButtons(item);
+            MenuButton button1 = new MenuButton("Equip");
+            button1.setOnAction(itemChoiceButtons.get(0).getValue());
+            MenuButton button2 = new MenuButton("Drop");
+            button2.setOnAction(itemChoiceButtons.get(1).getValue());
+            itemChoiceBox.getChildren().addAll(button1, button2);
+        }
+    }
+
     private void setSlotEffects(Rectangle base){
         Glow glow = new Glow(0.8);
         Effect shadow = new DropShadow(5, Color.BLACK);

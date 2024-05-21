@@ -65,7 +65,9 @@
     "x" : 25,
     "y" : 10,
     "idle_picture" : "fire1.png",
-    "active_picture" : "fire2.png"
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
   }
 
 ]

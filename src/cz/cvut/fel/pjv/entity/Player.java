@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import cz.cvut.fel.pjv.map_object.MapObject;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Directions.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.INITIAL_INVENTORY_CAPACITY;
@@ -30,8 +29,10 @@ public class Player extends Character {
     private int health;
     private long lastChangeStateTime = 0;
     private long lastUpdate = 0;
+    int lastCoordX;
+    int lastCoordY;
 
-    public Player( int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
+    public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
         this.gamePanel = gamePanel;
         this.input = input;
@@ -45,7 +46,6 @@ public class Player extends Character {
         int reactionRangeHeight = this.hitbox.getHeight() * 3;
         this.reactionRange = new Hitbox(this, reactionRangeWidth, reactionRangeHeight, -hitboxOffsetX/4, -hitboxOffsetY /2);
         setDefaultValues();
-        update();
     }
     public void setDefaultValues(){
         this.setScreenCoordX(SCREEN_MIDDLE_X);
@@ -58,6 +58,7 @@ public class Player extends Character {
 
     @Override
     public void update(){
+
         if(input.isUpPressed()){
             direction = DIR_UP;
         }
@@ -70,7 +71,12 @@ public class Player extends Character {
         if(input.isRightPressed()){
             direction = DIR_RIGHT;
         }
-        isMoving = input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed();
+        isMoving = input.isUpPressed()
+                || input.isDownPressed()
+                || input.isLeftPressed()
+                || input.isRightPressed()
+                || (this.lastCoordX != this.worldCoordX)
+                || (this.lastCoordY != this.worldCoordY);
 
         if (isMoving) {
             hitbox.update();
@@ -98,6 +104,8 @@ public class Player extends Character {
                 }
             }
         }
+        lastCoordX = worldCoordX;
+        lastCoordY = worldCoordY;
     }
 
     public void render(GraphicsContext gc) {
@@ -153,6 +161,11 @@ public class Player extends Character {
     public boolean pickUpItem(Item item){
         boolean pickedUpItem = false;
         if (input.isPickUp()){
+            if (inventory.isEmpty()){
+                inventory.setPickedItem(item);
+                inventory.setEmpty(false);
+                gamePanel.inGameInventoryBar.update();
+            }
             for (int i = 0; i < inventory.getCapacity(); i++) {
                 if (inventory.getItems()[i] == null) {
                     inventory.getItems()[i] = item;
@@ -167,13 +180,29 @@ public class Player extends Character {
         }
         return pickedUpItem;
     }
-    public boolean reactToMapObject(MapObject mapObject){
+    public boolean reactToMapObject(){
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastChangeStateTime < CHANGE_STATE_COOLDOWN) {
             return false;
         }
         lastChangeStateTime = currentTime;
-
-        return reactionRange.intersects(mapObject.hitbox) && input.isUseItem();
+        return input.isUseItem();
+    }
+    public void dropPickedItem(){
+       inventory.getPickedItem().setWorldCoordX(this.worldCoordX);
+       inventory.getPickedItem().setWorldCoordY(this.worldCoordY);
+       gamePanel.getItemManager().items.ifPresent(items -> items.add(inventory.getPickedItem()));
+       inventory.setPickedItem(null);
+       inventory.removeItem(inventory.getPickedItem());
+    }
+    public void dropItem(Item item){
+        item.setWorldCoordX(this.worldCoordX);
+        item.setWorldCoordY(this.worldCoordY);
+        gamePanel.getItemManager().items.ifPresent(items -> items.add(item));
+        if (inventory.getPickedItem() == item){
+            inventory.setPickedItem(null);
+        }
+        item.hitbox.update();
+        inventory.removeItem(item);
     }
 }

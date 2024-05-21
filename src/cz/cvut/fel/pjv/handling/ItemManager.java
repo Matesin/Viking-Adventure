@@ -8,9 +8,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
 @Slf4j
 public class ItemManager {
-    private final Optional<List<Item>> items;
+    public Optional<List<Item>> items;
     private final Camera camera;
     private final GamePanel gamePanel;
     private final Player player;
@@ -56,10 +57,10 @@ public class ItemManager {
                         gc.setFill(Color.BLACK);
                         Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 15);
                         gc.setFont(statsFont);
-                        gc.fillText("Press 'E' to pick up this " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
-                        if(player.getInventory().isFull()){
-                            gc.clearRect(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 20, 200, 20);
-                            gc.fillText("Inventory is full!", SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 20);
+                        if(!player.getInventory().isFull()){
+                            gc.fillText("Press 'E' to pick up this " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
+                        } else {
+                            gc.fillText("Inventory is full!", SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
                         }
                         if(player.pickUpItem(item)){
                             iterator.remove();

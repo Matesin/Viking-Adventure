@@ -3,7 +3,7 @@ package cz.cvut.fel.pjv.item;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class WeaponUpgrade extends Item{
+public class WeaponUpgrade extends Item {
     String upgradeType;
     int upgradeValue;
     @JsonCreator

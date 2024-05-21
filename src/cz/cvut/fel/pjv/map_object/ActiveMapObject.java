@@ -9,9 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
+
 @Slf4j
 public abstract class ActiveMapObject extends MapObject{
-    public final Item activationItem;
+    String activationItem;
     @Getter
     @Setter
     boolean activated = false;
@@ -23,23 +26,46 @@ public abstract class ActiveMapObject extends MapObject{
                               @JsonProperty("y") int worldCoordY,
                               @JsonProperty("idle_picture") String idlePictureID,
                               @JsonProperty("active_picture") String activePictureID,
-                              @JsonProperty("activation_item") Item activationItem) {
+                              @JsonProperty("activation_item") String activationItemName) {
         super(worldCoordX, worldCoordY, idlePictureID);
-        this.activationItem = activationItem;
+        if (activationItemName != null){
+            this.activationItem = createActivationItem(activationItemName);
+            log.debug("{} activation item: {}", this.getClass().getSimpleName(), activationItem);
+        }
+
         this.activeImage = loadImage(activePictureID);
     }
     public void changeState(Item usedItem){
         // Change the state of the object
-        if (usedItem == activationItem || activationItem == null){
-            // Change the state of the object
-//            this.activate();
-            activated = !activated;
-            log.debug("Object {}", (activated ? " activated" : " deactivated"));
-            this.currentImage = activated ? activeImage : idleImage;
+        if (usedItem != null){
+            log.debug("Used item: {}", usedItem.getClass().getSimpleName());
         }
+        if (activationItem != null){
+            log.debug("Activation item: {}", activationItem);
+        }
+
+        if (activationItem == null) {
+            reactToActivation();
+        } else {
+            if (usedItem != null && usedItem.getClass().getSimpleName().equals(activationItem)){
+                reactToActivation();
+            }
+        }
+        log.debug("Activation unsuccessful");
     }
-    abstract void activate();
+    protected void reactToActivation(){
+        activated = !activated;
+        log.debug("Object {}", (activated ? "activated" : "deactivated"));
+        this.currentImage = activated ? activeImage : idleImage;
+    }
     public void dealDamage(Character entity){
         damageDealer.dealDamage(entity);
+    }
+    private String createActivationItem(String activationItemName){
+        if (activationItemName != null){
+            //return activationItemName with first letter capitalized
+            return activationItemName.substring(0, 1).toUpperCase() + activationItemName.substring(1);
+        }
+        return null;
     }
 }

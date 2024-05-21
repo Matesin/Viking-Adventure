@@ -95,6 +95,22 @@ public class Hitbox {
         this.hitArea.setY(coordY);
         this.offset = false;
     }
+    public Hitbox(ActiveMapObject activeMapObject, int width, int height, int xOffset, int yOffset) {
+        this.activeMapObject = activeMapObject;
+        this.width = width;
+        this.height = height;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+        this.coordX = this.activeMapObject.getWorldCoordX() + this.xOffset;
+        this.coordY = this.activeMapObject.getWorldCoordY() + this.yOffset;
+        this.hitArea = new Rectangle();
+        this.hitArea.setWidth(width);
+        this.hitArea.setHeight(height);
+        this.hitArea.setX(coordX);
+        this.hitArea.setY(coordY);
+        this.offset = true;
+    }
+
 
     public void update(){
         if(entity != null){
@@ -120,14 +136,16 @@ public class Hitbox {
 
     public void display(GraphicsContext gc){
         //display the hitbox
-        int displayX = entity != null ? entity.getScreenCoordX() : item.getScreenCoordX();
-        int displayY = entity != null ? entity.getScreenCoordY() : item.getScreenCoordY();
+
+        int displayX = entity != null ? entity.getScreenCoordX() : item != null ? item.getScreenCoordX() : mapObject.getScreenCoordX();
+        int displayY = entity != null ? entity.getScreenCoordY() : item != null ? item.getScreenCoordY() : mapObject.getScreenCoordY();
         if (offset) {
             displayX += this.xOffset;
             displayY += this.yOffset;
         }
         gc.strokeRect(displayX, displayY, this.width, this.height);
     }
+
     public boolean intersects(Hitbox other) {
         //if the other hitbox is an item, check if any of the corners of the item hitbox are inside this hitbox
         //NOTE: had to hardcode this for entities, because the rectangle.intersects method was not working

@@ -29,16 +29,16 @@ public class DamageDealer {
     public void knockBack(Character character) {
         switch (character.direction){
             case DIR_UP:
-                character.worldCoordY = character.worldCoordY + 10;
+                character.worldCoordY = character.worldCoordY + this.knockBack;
                 break;
             case DIR_DOWN:
-                character.worldCoordY = character.worldCoordY - 10;
+                character.worldCoordY = character.worldCoordY - this.knockBack;
                 break;
             case DIR_LEFT:
-                character.worldCoordX = character.worldCoordX + 10;
+                character.worldCoordX = character.worldCoordX + this.knockBack;
                 break;
             case DIR_RIGHT:
-                character.worldCoordX = character.worldCoordX - 10;
+                character.worldCoordX = character.worldCoordX - this.knockBack;
                 break;
             default:
                 break;

@@ -67,5 +67,25 @@
     "x": 20,
     "y": 10,
     "picture": "small_sword.png"
+  },
+  {
+    "type": "bucket",
+    "name": "Bucketos oss",
+    "description": "Can be used to extinguish fires",
+    "x": 15,
+    "y": 20,
+    "picture": "bucket.png"
+  },
+  {
+    "type": "wood",
+    "x": 15,
+    "y": 15,
+    "picture": "wood.png"
+  },
+  {
+    "type": "iron_ore",
+    "x": 15,
+    "y": 18,
+    "picture": "iron_ore.png"
   }
 ]

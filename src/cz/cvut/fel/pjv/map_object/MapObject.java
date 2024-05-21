@@ -75,9 +75,9 @@ public abstract class MapObject {
         //default constructor - load the image of the respective item
         this.idlePictureID = idlePictureID;
         log.debug("Idle picture ID: {}", idlePictureID);
-        log.info("Loading image for item: {}", itemName);
+        log.info("Loading image for item: {}", this.getClass().getSimpleName());
         idleImage = loadImage(idlePictureID);
-        log.info("Image loaded for item: {}", itemName);
+        log.info("Image loaded for item: {}", this.getClass().getSimpleName());
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
@@ -125,6 +125,9 @@ public abstract class MapObject {
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
             gc.drawImage(currentImage, screenCoordX, screenCoordY);
+//            if (this.hitbox != null){
+//                this.hitbox.display(gc);
+//            }
         }
     }
 }

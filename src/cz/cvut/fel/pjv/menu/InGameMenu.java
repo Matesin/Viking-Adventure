@@ -58,8 +58,9 @@ public class InGameMenu {
                     gamePanel.saveGame();
                     System.exit(0);
                 }),
-                new Pair<>("Settings", () -> {
-                    //this will implement the same settings class as the main menu
+                new Pair<>("Exit", () -> {
+                    log.info("Exiting without saving");
+                    System.exit(0);
                 })
         );
     }

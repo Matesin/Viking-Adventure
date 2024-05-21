@@ -23,6 +23,10 @@ public class InputHandler implements EventHandler<KeyEvent> {
     @Getter
     boolean inventory = false;
     boolean useItem = false;
+    boolean dropItem = false;
+    @Getter
+    @Setter
+    boolean crafting = false;
 
     public InputHandler() {
         upPressed = downPressed = leftPressed = rightPressed = false;
@@ -49,6 +53,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     paused = true;
                     log.debug("Pausing game");
                     break;
+                case C:
+                    crafting = !crafting;
+                    break;
                 case E:
                     pickUp = true;
                     break;
@@ -57,6 +64,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     break;
                 case K:
                     useItem = true;
+                    break;
+                case Q:
+                    dropItem = true;
                     break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;
@@ -81,6 +91,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
                     break;
                 case K:
                     useItem = false;
+                    break;
+                case Q:
+                    dropItem = false;
                     break;
                 default:
                     rightPressed = leftPressed = downPressed = upPressed = false;

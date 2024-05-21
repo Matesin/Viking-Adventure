@@ -2,7 +2,7 @@ package cz.cvut.fel.pjv.item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Potion extends Item{
+public class Potion extends Item {
 
     String effectType;
     int effectValue;

@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 
 @Getter
 @Setter
-public class LevelKey extends Item{
+public class LevelKey extends Item {
     private int level;
     private int id;
     @JsonCreator

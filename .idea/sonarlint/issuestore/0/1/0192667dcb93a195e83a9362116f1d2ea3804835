@@ -1,17 +1,0 @@
-
-
-java:S1104"UMake chosenMap a static final constant or non-public and provide accessors if needed.(³‡Åäıÿÿÿÿ8»é”Äò1J$f8bad194-1090-4f1b-a9af-8786111df00c
-w
-java:S1444"/Make this "public static chosenMap" field final(³‡Åäıÿÿÿÿ8¿é”Äò1J$d0fdb7d2-31ca-4efb-b0c0-452e8c792f18
-Ä
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(è¨¾Û8ºõÄò1J$0359cd2f-1fb4-41e4-a9ef-d517ee3b7d84
-Ä
-java:S1186""€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(˜®È8ºõÄò1J$43b53316-9cb7-42ef-b90c-64c454143cf6
-É
-java:S1186'"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(˜ÖŒ°ÿÿÿÿÿ8»õÄò1J$a370081c-9a45-4385-9371-ea1ac9873539
-Ä
-java:S1186,"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ıÏ­ö8»õÄò1J$0ef94522-ef03-454d-a0fc-c98411bbeb2b
-w
-java:S1128"/Remove this unused import 'gameloop.GamePanel'.(¸”œìúÿÿÿÿ8ÆõÄò1J$7736a14d-bffb-48d4-bc06-181a3b7eafe9
-u
-java:S1144"-Remove this unused private "setScene" method.(÷²Üƒøÿÿÿÿ8©ØÔïí1J$6eac0e57-58ae-4fe6-91f1-a9ec82d35846

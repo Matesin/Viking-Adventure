@@ -63,6 +63,7 @@ public class GamePanel extends Pane {
     private final boolean loadSaved;
     @Getter
     private final EntityManager entityManager;
+    @Getter
     private final ItemManager itemManager;
     @Getter
     private final MapObjectManager mapObjectManager;
