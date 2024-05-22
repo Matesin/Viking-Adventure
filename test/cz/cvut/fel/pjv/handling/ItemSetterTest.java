@@ -1,6 +1,5 @@
-package handling;
+package cz.cvut.fel.pjv.handling;
 
-import cz.cvut.fel.pjv.handling.ItemSetter;
 import cz.cvut.fel.pjv.item.Item;
 import org.junit.jupiter.api.Test;
 

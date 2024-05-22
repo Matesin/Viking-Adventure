@@ -4,7 +4,9 @@ import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 
-
+/**
+ * Class representing a map tile.
+ */
 @Setter
 @Getter
 public class Tile {

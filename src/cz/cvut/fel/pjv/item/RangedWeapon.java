@@ -2,6 +2,9 @@ package cz.cvut.fel.pjv.item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Class representing a ranged weapon item.
+ */
 public class RangedWeapon extends Weapon{
     public RangedWeapon(@JsonProperty("name")String name,
                         @JsonProperty("damage") int damage,

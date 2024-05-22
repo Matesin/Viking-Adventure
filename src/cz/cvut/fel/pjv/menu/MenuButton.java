@@ -12,8 +12,16 @@ import javafx.scene.text.Text;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Button.*;
 
+/**
+ * Class representing a menu button.
+ * @see Pane
+ */
 public class MenuButton extends Pane {
 
+    /**
+     * Constructor for a menu button.
+     * @param name text to be displayed on the button
+     */
     public MenuButton(String name){
         Rectangle button = new Rectangle(
                 BUTTON_WIDTH,
@@ -39,6 +47,11 @@ public class MenuButton extends Pane {
         );
         getChildren().addAll(button, text);
     }
+
+    /**
+     * Set action to be performed when the button is clicked.
+     * @param action action to be performed
+     */
     public void setOnAction(Runnable action){
         setOnMouseClicked(e -> action.run());
     }

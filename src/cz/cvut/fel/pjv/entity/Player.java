@@ -15,7 +15,10 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.INITIAL_INVENTORY_CAP
 import static cz.cvut.fel.pjv.gameloop.Constants.Player.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.*;
-
+/**
+ * Class representing a player in the game.
+ * This class extends the Character class and handles player-specific behavior.
+ */
 @Slf4j
 public class Player extends Character {
     public final Hitbox reactionRange;
@@ -31,7 +34,14 @@ public class Player extends Character {
     private long lastUpdate = 0;
     int lastCoordX;
     int lastCoordY;
-
+    /**
+     * Constructor for Player with specified world coordinates, game panel, and input handler.
+     *
+     * @param worldCoordX the x-coordinate of the player in the world
+     * @param worldCoordY the y-coordinate of the player in the world
+     * @param gamePanel the game panel
+     * @param input the input handler
+     */
     public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
         this.gamePanel = gamePanel;
@@ -47,6 +57,9 @@ public class Player extends Character {
         this.reactionRange = new Hitbox(this, reactionRangeWidth, reactionRangeHeight, -hitboxOffsetX/4, -hitboxOffsetY /2);
         setDefaultValues();
     }
+    /**
+     * Sets the default values for the player.
+     */
     public void setDefaultValues(){
         this.setScreenCoordX(SCREEN_MIDDLE_X);
         this.setScreenCoordY(SCREEN_MIDDLE_Y);
@@ -55,7 +68,9 @@ public class Player extends Character {
         direction = DIR_DOWN;
         hitbox.update();
     }
-
+    /**
+     * Updates the player's state and position
+     */
     @Override
     public void update(){
 
@@ -107,7 +122,11 @@ public class Player extends Character {
         lastCoordX = worldCoordX;
         lastCoordY = worldCoordY;
     }
-
+    /**
+     * Renders the player on the screen.
+     *
+     * @param gc the graphics context to draw on
+     */
     public void render(GraphicsContext gc) {
         //create movement effect by switching between two sprites
         long now = System.currentTimeMillis();
@@ -158,13 +177,19 @@ public class Player extends Character {
             default -> null;
         };
     }
+    /**
+     * Picks up an item.
+     *
+     * @param item the item to pick up
+     * @return true if the item was picked up, false otherwise
+     */
     public boolean pickUpItem(Item item){
         boolean pickedUpItem = false;
         if (input.isPickUp()){
             if (inventory.isEmpty()){
                 inventory.setPickedItem(item);
                 inventory.setEmpty(false);
-                gamePanel.inGameInventoryBar.update();
+                gamePanel.getInGameInventoryBar().update();
             }
             for (int i = 0; i < inventory.getCapacity(); i++) {
                 if (inventory.getItems()[i] == null) {
@@ -180,6 +205,11 @@ public class Player extends Character {
         }
         return pickedUpItem;
     }
+    /**
+     * Reacts to a map object.
+     *
+     * @return true if the player reacted to the map object, false otherwise
+     */
     public boolean reactToMapObject(){
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastChangeStateTime < CHANGE_STATE_COOLDOWN) {
@@ -187,7 +217,9 @@ public class Player extends Character {
         }
         lastChangeStateTime = currentTime;
         return input.isUseItem();
-    }
+    }/**
+     * Drops the currently picked item.
+     */
     public void dropPickedItem(){
        inventory.getPickedItem().setWorldCoordX(this.worldCoordX);
        inventory.getPickedItem().setWorldCoordY(this.worldCoordY);
@@ -195,6 +227,11 @@ public class Player extends Character {
        inventory.setPickedItem(null);
        inventory.removeItem(inventory.getPickedItem());
     }
+    /**
+     * Drops an item.
+     *
+     * @param item the item to drop
+     */
     public void dropItem(Item item){
         item.setWorldCoordX(this.worldCoordX);
         item.setWorldCoordY(this.worldCoordY);

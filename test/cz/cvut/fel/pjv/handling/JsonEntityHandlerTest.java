@@ -1,7 +1,6 @@
-package handling;
+package cz.cvut.fel.pjv.handling;
 
 import cz.cvut.fel.pjv.entity.Character;
-import cz.cvut.fel.pjv.handling.JsonEntityHandler;
 
 import java.util.Arrays;
 import java.util.List;

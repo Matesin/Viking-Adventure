@@ -28,13 +28,14 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Button.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.MenuLayout.*;
 
+/**
+ * Class representing the main menu.
+ */
 public class Menu extends Application implements GameMenu{
     private List<Pair<String, Runnable>> menuButtons;
 
-
     private final Pane root = new Pane();
     private final VBox menuBox = new VBox();
-
     @Override
     public void initButtons() {
         this.menuButtons = Arrays.asList(
@@ -70,13 +71,10 @@ public class Menu extends Application implements GameMenu{
                     text.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
                     this.root.getChildren().add(text);
                     //TEMPORARY***
-//                root.getChildren().add(settingsGUI);
                 }),
                 new Pair<>("Exit", () -> System.exit(0))
         );
     }
-
-
     private Parent createContent() throws FileNotFoundException {
         setBackGround();
         addTitle();
@@ -104,6 +102,9 @@ public class Menu extends Application implements GameMenu{
         root.getChildren().add(menuBox);
     }
 
+    /**
+     * Set background.
+     */
     @Override
     public void setBackGround() throws FileNotFoundException {
 

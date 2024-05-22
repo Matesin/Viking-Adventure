@@ -1,6 +1,5 @@
-package handling;
+package cz.cvut.fel.pjv.handling;
 
-import cz.cvut.fel.pjv.handling.EntitySetter;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

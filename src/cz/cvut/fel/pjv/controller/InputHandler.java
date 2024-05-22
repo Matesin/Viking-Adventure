@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
+/**
+ * Handles user input events.
+ */
 @Slf4j
 @Getter
 public class InputHandler implements EventHandler<KeyEvent> {
@@ -27,11 +29,17 @@ public class InputHandler implements EventHandler<KeyEvent> {
     @Getter
     @Setter
     boolean crafting = false;
-
+    /**
+     * Constructor for InputHandler.
+     */
     public InputHandler() {
         upPressed = downPressed = leftPressed = rightPressed = false;
     }
-
+    /**
+     * Handles key events.
+     *
+     * @param keyEvent the key event
+     */
     @Override
     public void handle(KeyEvent keyEvent) {
         KeyCode keyCode = keyEvent.getCode();
@@ -101,7 +109,9 @@ public class InputHandler implements EventHandler<KeyEvent> {
             }
         }
     }
-
+    /**
+     * Resets the state of the input handler.
+     */
     public void reset(){
         upPressed = downPressed = leftPressed = rightPressed = paused = false;
     }

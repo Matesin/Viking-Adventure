@@ -7,10 +7,19 @@ import org.slf4j.MarkerFactory;
 import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.SLOT_SIZE;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
-
+/**
+ * Class containing all the constants used in the game.
+ * This class is not meant to be instantiated.
+ */
 @Slf4j
 public class Constants {
+
     private static final Marker CONSTANT_CREATION = MarkerFactory.getMarker("ILLEGAL CONSTANT CREATION");
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+
     private Constants() {
         log.error(CONSTANT_CREATION, "Utility class created!");
     }
@@ -116,7 +125,7 @@ public class Constants {
     }
     public static class Crafting {
         private Crafting() {
-            log.error(CONSTANT_CREATION, "Utility Inventory class created");
+            log.error(CONSTANT_CREATION, "Utility Crafting class created");
         }
         public static final int CRAFTING_GRID_ROWS = 2;
         public static final int CRAFTING_GRID_COLS = 2;

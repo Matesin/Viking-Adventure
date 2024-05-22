@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * Class representing a bucket item.
+ */
 public class Bucket extends Item {
     @JsonCreator
     public Bucket(@JsonProperty("name") String name,
@@ -21,7 +24,7 @@ public class Bucket extends Item {
         super(pictureID);
         this.name = name;
         this.description = description;
-        this.craftingMaterials = List.of(new IronOre(), new Wood());
+        this.craftingMaterials = List.of(/*new IronOre(), new Wood()*/);
     }
     public Bucket() {
         super();

@@ -28,6 +28,9 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
         @JsonSubTypes.Type(value = Fire.class, name = "fire"),
 })
 
+/**
+ * Class representing a map object.
+ */
 @Slf4j
 public abstract class MapObject {
     @JsonGetter("type")
@@ -68,6 +71,13 @@ public abstract class MapObject {
     Image currentImage;
     @JsonIgnore
     public Hitbox hitbox;
+
+    /**
+     * Constructor for a map object.
+     * @param worldCoordX world coordinate X
+     * @param worldCoordY world coordinate Y
+     * @param idlePictureID idle picture ID
+     */
     @JsonCreator
     protected MapObject(@JsonProperty("x") int worldCoordX,
                         @JsonProperty("y") int worldCoordY,
@@ -84,12 +94,20 @@ public abstract class MapObject {
         this.hitbox = new Hitbox(this, (int) this.idleImage.getWidth(), (int) this.idleImage.getHeight());
         this.setCurrentImage(idleImage);
     }
+
+    /**
+     * Method to load an image.
+     * @param pictureID The ID of the picture.
+     * @return The image.
+     */
     public Image loadImage(String pictureID) {
         String filepath = "res/map_objects/" + pictureID;
         Image image;
         try {
             FileInputStream fis = new FileInputStream(filepath);
-            image = new Image(fis);
+            if (pictureID.equals("snowy_bush.png")){
+                image = new Image(fis, 32, 32, false, false);
+            } else image = new Image(fis);
         } catch (FileNotFoundException e) {
             log.error("Error loading the image {}, loading default tile", pictureID);
             try {
@@ -103,6 +121,12 @@ public abstract class MapObject {
         }
         return image;
     }
+
+    /**
+     * Method to render the map object.
+     * @param gc The graphics context.
+     * @param gamePanel The game panel.
+     */
     public void render(GraphicsContext gc, GamePanel gamePanel){
         screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
         screenCoordY = this.worldCoordY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
@@ -125,9 +149,6 @@ public abstract class MapObject {
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
             gc.drawImage(currentImage, screenCoordX, screenCoordY);
-//            if (this.hitbox != null){
-//                this.hitbox.display(gc);
-//            }
         }
     }
 }

@@ -7,12 +7,15 @@ import javafx.util.Pair;
 
 import java.util.List;
 
+/**
+ * Class representing game settings.
+ */
 public class GameSettings extends Pane implements GameMenu {
     // CLASS ALLOWING USER TO CHANGE SETTINGS, somehow import all settings possible, to be implemented
     private Scene scene;
     private List <Pair<String, Runnable>> menuButtons;
     public GameSettings() {
-
+        // TODO document why this constructor is empty
     }
     private Slider createSlider() {
         Slider slider = new Slider();

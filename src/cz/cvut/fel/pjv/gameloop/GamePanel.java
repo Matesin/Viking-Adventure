@@ -4,6 +4,7 @@ import cz.cvut.fel.pjv.controller.InputHandler;
 import cz.cvut.fel.pjv.entity.Character;
 import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.handling.EntityManager;
+import cz.cvut.fel.pjv.handling.InventoryManager;
 import cz.cvut.fel.pjv.handling.ItemManager;
 import cz.cvut.fel.pjv.handling.MapObjectManager;
 import cz.cvut.fel.pjv.inventory.InGameInventoryBar;
@@ -25,7 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * Class representing the game panel.
+ * This class is responsible for setting up the game panel, initializing the player, starting the game loop, setting up the map, refreshing entity coordinates, and rendering graphics.
+ */
 @Slf4j
 public class GamePanel extends Pane {
     // WORLD SETTINGS
@@ -67,9 +71,18 @@ public class GamePanel extends Pane {
     private final ItemManager itemManager;
     @Getter
     private final MapObjectManager mapObjectManager;
-    public InGameInventoryBar inGameInventoryBar;
+    @Getter
+    private final InventoryManager inventoryManager;
+    @Getter
+    private final InGameInventoryBar inGameInventoryBar;
     boolean craftingOpened = false;
-    // CONSTRUCT GAME PANEL
+    /**
+     * Constructor for GamePanel with specified scene, root and loadSaved.
+     *
+     * @param scene the scene
+     * @param root the root
+     * @param loadSaved the loadSaved
+     */
     public GamePanel(Scene scene, StackPane root, boolean loadSaved){
         log.info("GamePanel created");
         log.info("Setting up game panel");
@@ -83,13 +96,16 @@ public class GamePanel extends Pane {
         this.entityManager = new EntityManager(this);
         this.itemManager = new ItemManager(this);
         this.mapObjectManager = new MapObjectManager(this);
+        this.inventoryManager = new InventoryManager(this);
         entities = entityManager.getEntities();
         initCanvas();
         inGameInventoryBar = new InGameInventoryBar(this.player.getInventory(), this.root);
         log.info("GamePanel created. Starting game loop");
         startGameLoop();
     }
-    // CANVAS INIT
+    /**
+     * Initializes the canvas.
+     */
     private void initCanvas() {
         this.canvas = new Canvas(Constants.Screen.SCREEN_WIDTH, Constants.Screen.SCREEN_HEIGHT);
         this.canvas.setFocusTraversable(true);
@@ -98,19 +114,33 @@ public class GamePanel extends Pane {
         this.gc = canvas.getGraphicsContext2D();
         this.root.getChildren().add(canvas);
     }
-    // PLAYER INIT
+    /**
+     * Initializes the player.
+     *
+     * @return the player
+     */
     private Player initPlayer(){
         int playerStartX = mapManager.getMap().getStartX();
         int playerStartY = mapManager.getMap().getStartY();
         log.info("Player initialized at {}, {}", playerStartX, playerStartY);
         return new Player(playerStartX, playerStartY, this, inputHandler);
     }
-    // GAME LOOP INIT
+
+    /**
+     * Initializes and starts the game loop.
+     */
+
     public void startGameLoop(){
         this.gameLoop = new GameLoop(this);
         gameLoop.start();
     }
-    // SETUP MAP
+
+    /**
+     * Sets up the map with the specified map index.
+     *
+     * @param mapIndex the map index
+     */
+
     public void setMap(int mapIndex){
         this.mapManager = new MapManager(this);
         this.chosenMapIndex = mapIndex;
@@ -121,13 +151,19 @@ public class GamePanel extends Pane {
         this.maxWorldCols = worldWidth * Constants.Screen.SCREEN_COLS;
         this.chosenMap = mapManager.getMap();
     }
-    // REFRESH ENTITY COORDS
+    /**
+     * Updates coords and states of entities.
+     */
     public void update() {
         this.player.update();
         this.camera.update();
         this.entityManager.updateEntities();
     }
-    // DRAW GRAPHICS
+    /**
+     * Renders the game panel.
+     *
+     * @param gc the graphics context
+     */
     public void render(GraphicsContext gc) {
         refreshScreen(gc);
         this.mapManager.renderMap(gc);
@@ -137,39 +173,34 @@ public class GamePanel extends Pane {
         this.entityManager.renderEntities(gc);
         this.mapObjectManager.renderMapObjects(gc);
         this.player.render(gc);
-//        printPlayerStats(gc);
     }
+    /**
+     * Gets the stage.
+     *
+     * @return the stage
+     */
     public Stage getStage(){
         return (Stage) this.root.getScene().getWindow();
     }
+    /**
+     * Refreshes the screen.
+     *
+     * @param gc the graphics context
+     */
     private void refreshScreen(GraphicsContext gc){
         gc.clearRect(0, 0, Constants.Screen.SCREEN_WIDTH, Constants.Screen.SCREEN_HEIGHT);
         gc.setFill(Color.CADETBLUE);
         gc.fillRect(0, 0, Constants.Screen.SCREEN_WIDTH, Constants.Screen.SCREEN_HEIGHT);
     }
-    private void printPlayerStats(GraphicsContext gc){
-        gc.setFill(Color.BLACK);
-        Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 24);
-        gc.setFont(statsFont);
-        gc.fillText("Player Coords: " + player.getWorldCoordX() + ", " + player.getWorldCoordY(), 15, 30);
-        gc.fillText("Hitbox Coords: " + player.hitbox.getCoordX() + ", " + player.hitbox.getCoordY(), 15, 60);
-        gc.fillText("Camera Coords: " + camera.getCameraX() + ", " + camera.getCameraY(), 15, 90);
-        if(entities.isPresent()){
-            for (int i = 0; i < entities.get().size(); i++) {
-                gc.fillText("Entity " + (i + 1) +
-                            " Coords: " + entities.get().get(i).getWorldCoordX() + ", " +
-                            entities.get().get(i).getWorldCoordY() + " Hitbox coords: " +
-                            entities.get().get(i).hitbox.getCoordX() + ", " +
-                            entities.get().get(i).hitbox.getCoordY(), 15, 120 + 30 * i);
-            }
-
-        }
-    }
+    /**
+     * Saves the game.
+     */
     public void saveGame(){
         // Save the game
         this.itemManager.saveItems();
         this.entityManager.saveEntities();
         this.mapObjectManager.saveItems();
         this.mapManager.saveMap();
+        this.inventoryManager.saveInventory();
     }
 }

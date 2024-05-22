@@ -21,6 +21,9 @@ import java.util.List;
 import static cz.cvut.fel.pjv.gameloop.Constants.MenuLayout.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Button.*;
 
+/**
+ * Class representing in-game menu.
+ */
 @Slf4j
 public class InGameMenu {
     private final Pane root = new Pane();
@@ -30,6 +33,11 @@ public class InGameMenu {
     private Scene previousScene;
     private List<Pair<String, Runnable>> menuButtons;
 
+    /**
+     * Constructor for in-game menu.
+     * @param mainStage main stage
+     * @param gamePanel game panel
+     */
     public InGameMenu(Stage mainStage, GamePanel gamePanel) {
         this.mainStage = mainStage;
         this.gamePanel = gamePanel;
@@ -44,6 +52,10 @@ public class InGameMenu {
             mainStage.setScene(menuScene);
         }
     }
+
+    /**
+     * Initialize buttons.
+     */
     private void initButtons(){
         this.menuButtons = Arrays.asList(
                 new Pair<>("Resume", () -> {
@@ -64,6 +76,10 @@ public class InGameMenu {
                 })
         );
     }
+
+    /**
+     * Set background.
+     */
     private void setBackground() {
         WritableImage snapshot = new WritableImage(SCREEN_WIDTH, SCREEN_HEIGHT);
         previousScene.getRoot().snapshot(null, snapshot);
@@ -73,6 +89,10 @@ public class InGameMenu {
         BackgroundImage background = new BackgroundImage(blurredImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.root.setBackground(new Background(background));
     }
+
+    /**
+     * Add the menu to the root.
+     */
     private void addMenu(){
         menuButtons.forEach(data -> {
             MenuButton item = new MenuButton(data.getKey());
@@ -85,13 +105,23 @@ public class InGameMenu {
         });
         root.getChildren().add(menuBox);
     }
+
+    /**
+     * Create content.
+     * @return root
+     */
     private Parent createContent(){
         initButtons();
         setBackground();
         addMenu();
         return this.root;
     }
-    private void setPreviousScene(){
 
+    /**
+     * Set previous scene, set the game as unpaused.
+     */
+    private void setPreviousScene() {
+        mainStage.setScene(previousScene);
+        gamePanel.getInputHandler().setPaused(false);
     }
 }

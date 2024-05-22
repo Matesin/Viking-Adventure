@@ -3,6 +3,9 @@ package cz.cvut.fel.pjv.item;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Class representing a weapon upgrade item.
+ */
 public class WeaponUpgrade extends Item {
     String upgradeType;
     int upgradeValue;

@@ -2,16 +2,22 @@ package cz.cvut.fel.pjv.map;
 
 import lombok.Getter;
 
+/**
+ * Class representing a tile property.
+ */
+@Getter
 public class TileProperty {
-    @Getter
     private final String tileName;
-    @Getter
     private final int tileIndex;
-    @Getter
     private final boolean isSolid;
-    @Getter
     private final boolean collision;
 
+    /**
+     * @param tileName name of the tile
+     * @param tileIndex index of the tile
+     * @param isSolid if the tile is solid
+     * @param collision if the tile has collision
+     */
     public TileProperty(String tileName, int tileIndex, boolean isSolid, boolean collision) {
         this.tileName = tileName;
         this.tileIndex = tileIndex;
@@ -19,6 +25,11 @@ public class TileProperty {
         this.collision = collision;
     }
 
+    /**
+     * @param tileName name of the tile
+     * @param tileIndex index of the tile
+     * @param isSolid if the tile is solid
+     */
     public TileProperty(String tileName, int tileIndex, boolean isSolid) {
         this.tileName = tileName;
         this.tileIndex = tileIndex;
@@ -26,7 +37,11 @@ public class TileProperty {
         this.collision = false;
     }
 
-
+    /**
+     * @param tileName name of the tile
+     * @param tileIndex index of the tile
+     * assuming the tile is not solid by default
+     */
     public TileProperty(String tileName, int tileIndex) {
         this.tileName = tileName;
         this.tileIndex = tileIndex;

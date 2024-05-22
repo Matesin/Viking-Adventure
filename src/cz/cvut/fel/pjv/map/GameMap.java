@@ -15,7 +15,9 @@ import java.util.logging.Level;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
-
+/**
+ * The GameMap class is responsible for storing the map data and rendering the map to the screen.
+ */
 @Slf4j
 @Getter
 public class GameMap implements Serializable {
@@ -35,6 +37,10 @@ public class GameMap implements Serializable {
     private final String mapID;
     transient TileUtils utils;
 
+    /**
+     * Constructor for the GameMap class.
+     * @param mapID The ID of the map.
+     */
     public GameMap(String mapID){
         if (mapID == null){
             throw new IllegalArgumentException("Map ID cannot be null");
@@ -46,6 +52,9 @@ public class GameMap implements Serializable {
         getTileImages();
 
     }
+    /**
+     * Method to get tile images.
+     */
     public void getTileImages(){
         Optional<List<TileProperty>> tileIndexes = utils.loadTileIndexes(this.mapID);
         if (tileIndexes.isPresent()){
@@ -61,7 +70,11 @@ public class GameMap implements Serializable {
             log.error("Error loading tile indexes for map {}", this.mapID);
         }
     }
-
+    /**
+     * Method to load map from a file.
+     * @param filepath The path of the file.
+     * @throws FileNotFoundException If the file is not found.
+     */
     public void loadMapFromFile(String filepath) throws FileNotFoundException {
         // Load the map from a file
         try (Scanner scanner = new Scanner(new File(filepath))) {
@@ -73,6 +86,7 @@ public class GameMap implements Serializable {
             readMapData(scanner, filepath);
         }
     }
+
     private void readMapData(Scanner scanner, String filepath) {
         // MAP DATA FORMAT - space separated integers
         // Read the map data
@@ -101,6 +115,7 @@ public class GameMap implements Serializable {
             row++;
         }
     }
+
     private void readMetadata(Scanner scanner, String filepath) {
         // MAP METADATA FORMAT - hashed lines contain comment, then map width and height
         String line = null;
@@ -123,7 +138,11 @@ public class GameMap implements Serializable {
             }
         }
     }
-
+    /**
+     * Method to save the map to a file.
+     * @param filepath The path of the file.
+     * @param player The player object.
+     */
     public void save(String filepath, Player player) {
         // Save the map to a file
         try (PrintWriter writer = new PrintWriter(filepath);

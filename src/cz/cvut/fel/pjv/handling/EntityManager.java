@@ -17,23 +17,34 @@ import java.util.Optional;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
-
+/**
+ * Class responsible for managing entities in the game.
+ * This class provides methods for rendering, updating, and saving entities.
+ */
 @Slf4j
 public class EntityManager {
     @Getter
     Optional<List<Character>> entities;
     private final Camera camera;
     private final GamePanel gamePanel;
-    private final Player player;
+    /**
+     * Constructor for EntityManager with specified game panel.
+     *
+     * @param gamePanel the game panel
+     */
     public EntityManager(GamePanel gamePanel){
         // Set the entities for the game
         this.gamePanel = gamePanel;
         EntitySetter entitySetter = new EntitySetter(gamePanel.getMapIDString(), gamePanel.isLoadSaved());
         this.entities = entitySetter.setEntities();
         this.camera = gamePanel.getCamera();
-        this.player = gamePanel.player;
     }
-
+    /**
+     * Checks if an entity is on the screen.
+     *
+     * @param entity the entity to check
+     * @return true if the entity is on the screen, false otherwise
+     */
     public boolean isOnScreen(Character entity){
         int cameraX = camera.getCameraX();
         int cameraY = camera.getCameraY();
@@ -42,6 +53,11 @@ public class EntityManager {
         return entityX >= cameraX - TILE_SIZE && entityX <= cameraX + SCREEN_WIDTH + TILE_SIZE &&
                 entityY >= cameraY - TILE_SIZE && entityY <= cameraY + SCREEN_HEIGHT + TILE_SIZE;
     }
+    /**
+     * Renders entities on the screen.
+     *
+     * @param gc the graphics context
+     */
     public void renderEntities(GraphicsContext gc){
         if (entities.isPresent()) {
             //use iterator for future implementation of entity removal
@@ -52,6 +68,9 @@ public class EntityManager {
             }
         }
     }
+    /**
+     * Updates the states of entities.
+     */
     public void updateEntities(){
         if (entities.isPresent()) {
             for (Character entity : entities.orElseThrow()) {
@@ -59,10 +78,13 @@ public class EntityManager {
             }
         }
     }
+    /**
+     * Saves the entities to a file.
+     */
     public void saveEntities(){
         // Save the items
         log.info("Saving entities...");
-        Path path = Paths.get("res/save/ent.json");
+        Path path = Paths.get("res", "save", "ent.json");
         if (Files.exists(path)) {
             try {
                 Files.delete(path);
@@ -70,10 +92,10 @@ public class EntityManager {
                 log.error("Error deleting the file", e);
             }
         }
-        JsonEntityHandler jsonItemHandler = new JsonEntityHandler();
+        JsonEntityHandler jsonEntityHandler = new JsonEntityHandler();
         if (entities.isPresent()){
             try {
-                jsonItemHandler.serializeCharactersToFile(entities.get(), "res/save/ent.json");
+                jsonEntityHandler.serializeCharactersToFile(entities.get(), "res/save/ent.json");
             } catch (Exception e) {
                 log.error("Error saving entities", e);
             }

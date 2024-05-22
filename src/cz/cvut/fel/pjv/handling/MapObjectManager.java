@@ -16,6 +16,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class responsible for managing map objects in the game.
+ * This class provides methods for rendering map objects on the screen and saving map objects.
+ */
 @Slf4j
 public class MapObjectManager {
     @Getter
@@ -23,6 +27,12 @@ public class MapObjectManager {
     private final Camera camera;
     private final GamePanel gamePanel;
     private final Player player;
+
+    /**
+     * Constructor for MapObjectManager with specified game panel.
+     *
+     * @param gamePanel the game panel
+     */
     public MapObjectManager(GamePanel gamePanel){
         // Set the entities for the game
         this.gamePanel = gamePanel;
@@ -31,6 +41,11 @@ public class MapObjectManager {
         this.camera = gamePanel.getCamera();
         this.player = gamePanel.player;
     }
+
+    /**
+     * Renders map objects on the screen.
+     * @param gc the graphics context
+     */
     public void renderMapObjects(GraphicsContext gc){
         if (mapObjects.isPresent()) {
             //use iterator for future implementation of entity removal

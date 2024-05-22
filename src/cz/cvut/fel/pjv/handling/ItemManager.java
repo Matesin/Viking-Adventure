@@ -23,12 +23,22 @@ import java.util.Optional;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
 
+/**
+ * Class responsible for managing items in the game.
+ * This class provides methods for rendering items on the screen and saving items.
+ */
 @Slf4j
 public class ItemManager {
     public Optional<List<Item>> items;
     private final Camera camera;
     private final GamePanel gamePanel;
     private final Player player;
+
+    /**
+     * Constructor for ItemManager with specified game panel.
+     *
+     * @param gamePanel the game panel
+     */
     public ItemManager(GamePanel gamePanel){
         // Set the items for the game
         ItemSetter itemSetter = new ItemSetter(gamePanel.getMapIDString(), gamePanel.isLoadSaved());
@@ -37,6 +47,13 @@ public class ItemManager {
         this.camera = gamePanel.getCamera();
         this.player = gamePanel.player;
     }
+
+    /**
+     * Checks if an item is on the screen.
+     *
+     * @param item the item to check
+     * @return true if the item is on the screen, false otherwise
+     */
     public boolean isOnScreen(Item item){
         int cameraX = camera.getCameraX();
         int cameraY = camera.getCameraY();
@@ -46,6 +63,12 @@ public class ItemManager {
                 itemY >= cameraY - TILE_SIZE && itemY <= cameraY + SCREEN_HEIGHT + TILE_SIZE;
 
     }
+
+    /**
+     * Renders items on the screen.
+     *
+     * @param gc the graphics context
+     */
     public void renderItems(GraphicsContext gc){
         if (items.isPresent()) {
             Iterator<Item> iterator = items.get().iterator();
@@ -70,10 +93,14 @@ public class ItemManager {
             }
         }
     }
+
+    /**
+     * Saves the items to a file.
+     */
     public void saveItems(){
         // Save the items
         log.info("Saving items...");
-        Path path = Paths.get("res/save/obj.json");
+        Path path = Paths.get("res" , "save","obj.json");
         if (Files.exists(path)) {
             try {
                 Files.delete(path);

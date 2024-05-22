@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Class representing a key item.
+ */
 @Getter
 @Setter
 public class LevelKey extends Item {

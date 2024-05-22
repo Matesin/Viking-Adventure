@@ -3,6 +3,9 @@ package cz.cvut.fel.pjv.item;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Class representing an iron ore item.
+ */
 public class IronOre extends Item{
     @JsonCreator
     public IronOre(@JsonProperty("x")int worldCoordX,

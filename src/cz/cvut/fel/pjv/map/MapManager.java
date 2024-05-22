@@ -18,6 +18,9 @@ import java.util.Optional;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.*;
 
+/**
+ * The MapManager class is responsible for managing the map, items, entities, and map objects.
+ */
 @Slf4j
 public class MapManager {
     private static final String MAP_PATH = "res/maps/map";
@@ -35,10 +38,18 @@ public class MapManager {
     JsonEntityHandler entityHandler = new JsonEntityHandler();
     JsonMapObjectHandler mapObjectHandler = new JsonMapObjectHandler();
 
+    /**
+     * Constructor for the MapManager class.
+     * @param gamePanel The game panel.
+     */
     public MapManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Method to render the map.
+     * @param gc The graphics context.
+     */
     public void renderMap(GraphicsContext gc) {
         int worldCol = 0;
         int worldRow = 0;
@@ -78,6 +89,9 @@ public class MapManager {
         }
     }
 
+    /**
+     * Method to load the map tiles indexes from a file
+     */
     public void loadMap() {
         // Load the map
         String mapIndexString = gamePanel.getMapIDString();
@@ -93,32 +107,14 @@ public class MapManager {
         }
         log.info("Map loaded");
     }
+
+    /**
+     * Method to save the map
+     */
     public void saveMap(){
         log.info("Saving map");
         String filepath = "res/save/map.txt";
         this.map.save(filepath, gamePanel.player);
         log.info("Map saved");
-    }
-
-    public void loadItems() {
-        log.info("Loading objects for map {}", gamePanel.getMapIDString());
-        String filepath = gamePanel.isLoadSaved() ? "res/save/items.json" : MAP_PATH + gamePanel.getMapID() + "/items.json";
-        items = itemHandler.deserializeItemsFromFile(filepath);
-        log.info("Items loaded");
-    }
-
-    public void loadEntities() {
-        // Load entities - feature to be implemented later
-        log.info("Loading entities");
-        String filepath = gamePanel.isLoadSaved() ? "res/save/ent.json" : MAP_PATH + gamePanel.getMapIDString() + "/ent.json";
-        entities = entityHandler.deserializeCharactersFromFile(filepath);
-        log.info("Entities loaded");
-    }
-    public void loadMapObjects(){
-        // Load map objects - feature to be implemented later
-        log.info("Loading map objects");
-        String filepath = gamePanel.isLoadSaved() ? "res/save/map_obj.json" : MAP_PATH + gamePanel.getMapIDString() + "/map_objects.json";
-        mapObjects = mapObjectHandler.deserializeObjectsFromFile(filepath);
-        log.info("Map objects loaded");
     }
 }

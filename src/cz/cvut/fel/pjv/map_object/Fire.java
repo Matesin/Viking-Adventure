@@ -10,10 +10,23 @@ import lombok.extern.slf4j.Slf4j;
 
 import static cz.cvut.fel.pjv.gameloop.Constants.Fire.*;
 
+/**
+ * Class representing a fire map object.
+ */
 @Slf4j
 public class Fire extends ActiveMapObject{
     private long lastChangeStateTime = 0;
-    private Image extinguishedImage;
+    private final Image extinguishedImage;
+
+    /**
+     * Constructor for a fire map object.
+     * @param worldCoordX world coordinate X
+     * @param worldCoordY world coordinate Y
+     * @param idlePictureID idle picture ID
+     * @param activePictureID active picture ID
+     * @param extinguishedPictureID extinguished picture ID
+     * @param activationItemID activation item ID
+     */
     protected Fire(@JsonProperty("x")int worldCoordX,
                     @JsonProperty("y") int worldCoordY,
                     @JsonProperty("idle_picture") String idlePictureID,
@@ -32,7 +45,7 @@ public class Fire extends ActiveMapObject{
     @Override
     protected void reactToActivation(){
         activated = false;
-        log.debug("Fire extinguished");
+        log.info("Fire extinguished");
         this.hitbox = new Hitbox(this, 0,0,0,0);
         this.currentImage = extinguishedImage;
     }

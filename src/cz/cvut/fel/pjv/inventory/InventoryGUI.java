@@ -45,12 +45,13 @@ public class InventoryGUI {
     private final Stage mainStage;
     private final HBox inventoryBox = new HBox();
     private List<Pair<Item, Runnable>> itemChoiceButtons;
-    private final HBox itemChoiceBox = new HBox(2);
+    private HBox itemChoiceBox;
+    private boolean isItemChoiceBox = false;
 
 
     public InventoryGUI(Stage mainStage, GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.inGameInventoryBar = gamePanel.inGameInventoryBar;
+        this.inGameInventoryBar = gamePanel.getInGameInventoryBar();
         this.inventory = gamePanel.player.getInventory();
         this.capacity = inventory.getCapacity();
         this.mainStage = mainStage;
@@ -64,7 +65,6 @@ public class InventoryGUI {
             });
             mainStage.setScene(inventoryScene);
         }
-        itemChoiceBox.setSpacing(10);
     }
 
     private void setBackground() {
@@ -77,7 +77,7 @@ public class InventoryGUI {
         this.root.setBackground(new Background(background));
     }
 
-
+    //TODO: Fix the bug with choiceButtons only displaying once
     private void initSlots() {
         this.itemSlots = new ArrayList<>();
         int i = 0;
@@ -85,7 +85,16 @@ public class InventoryGUI {
             double x = (FIRST_SLOT_X + (i % capacity) * (SLOT_SIZE + SLOT_PADDING) - (double) BUTTON_WIDTH / 2);
             double y = (FIRST_SLOT_Y + 1.5 * BUTTON_HEIGHT + ((double) i / capacity));
             itemSlots.add(new Pair<>(item, () -> {
-                addChoiceButtons(item, x, y);
+                if (!isItemChoiceBox){
+                    addChoiceButtons(item, x, y);
+                    isItemChoiceBox = true;
+                    this.root.setOnMouseClicked(event -> {
+                    if (!itemChoiceBox.getBoundsInParent().contains(event.getX(), event.getY())) {
+                            this.root.getChildren().remove(itemChoiceBox);
+                            isItemChoiceBox = false;
+                        }
+                    });
+                }
                 this.root.getChildren().add(itemChoiceBox);
             }));
             i++;
@@ -125,6 +134,8 @@ public class InventoryGUI {
     }
 
     private void addChoiceButtons(Item item, double x, double y){
+        itemChoiceBox = new HBox(2);
+        itemChoiceBox.setSpacing(10);
         itemChoiceBox.setLayoutX(x);
         itemChoiceBox.setLayoutY(y);
         if (item != null) {

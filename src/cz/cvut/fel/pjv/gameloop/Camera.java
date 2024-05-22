@@ -4,7 +4,10 @@ import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.map.GameMap;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * Class representing the camera in the game.
+ * This class is responsible for following the player around the game map.
+ */
 @Slf4j
 public class Camera {
     private final Player player;
@@ -14,11 +17,22 @@ public class Camera {
     @Getter
     private int cameraY;
 
+    /**
+     * Constructor for Camera with specified game panel.
+     *
+     * @param gamePanel the game panel
+     */
+
     public Camera(GamePanel gamePanel) {
         this.player = gamePanel.player;
         this.gameMap = gamePanel.getChosenMap();
         update();
     }
+
+    /**
+     * Updates the camera's position based on the player's position.
+     */
+
     public void update() {
         //place the camera in the center of the screen initially, if the player is not at the edge of the map
         cameraX = player.getWorldCoordX() - Constants.Screen.SCREEN_MIDDLE_X;

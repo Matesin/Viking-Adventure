@@ -9,9 +9,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class responsible for handling items in the game.
+ * This class provides methods for serializing and deserializing items to and from a file.
+ */
 @Slf4j
 public class JsonItemHandler implements ItemHandler{
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public void serializeItemsToFile(List<Item> items, String filepath) throws IOException {
         File file = new File(filepath);

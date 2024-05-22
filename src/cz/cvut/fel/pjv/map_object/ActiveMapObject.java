@@ -1,5 +1,7 @@
 package cz.cvut.fel.pjv.map_object;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import cz.cvut.fel.pjv.entity.Character;
 import cz.cvut.fel.pjv.entity.DamageDealer;
@@ -9,19 +11,36 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
-
+/**
+ * Class representing an active map object.
+ */
 @Slf4j
 public abstract class ActiveMapObject extends MapObject{
+    @JsonGetter("active_picture")
+    public String getActivePicture() {
+        return this.activePictureID;
+    }
+    String activePictureID;
+    @Getter
     String activationItem;
     @Getter
     @Setter
     boolean activated = false;
     @Getter
     boolean dealingDamage = false;
+    @JsonIgnore
     public final Image activeImage;
+    @JsonIgnore
     DamageDealer damageDealer;
+
+    /**
+     * Constructor for an active map object.
+     * @param worldCoordX world coordinate X
+     * @param worldCoordY world coordinate Y
+     * @param idlePictureID idle picture ID
+     * @param activePictureID active picture ID
+     * @param activationItemName activation item name
+     */
     protected ActiveMapObject(@JsonProperty("x")int worldCoordX,
                               @JsonProperty("y") int worldCoordY,
                               @JsonProperty("idle_picture") String idlePictureID,
@@ -32,7 +51,7 @@ public abstract class ActiveMapObject extends MapObject{
             this.activationItem = createActivationItem(activationItemName);
             log.debug("{} activation item: {}", this.getClass().getSimpleName(), activationItem);
         }
-
+        this.activePictureID = activePictureID;
         this.activeImage = loadImage(activePictureID);
     }
     public void changeState(Item usedItem){

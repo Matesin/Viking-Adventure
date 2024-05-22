@@ -35,6 +35,9 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.*;
         @JsonSubTypes.Type(value = IronOre.class, name = "iron_ore")
 })
 
+/**
+ * This class is the parent class for all items in the game. It contains the basic attributes that all items have.
+ */
 @Slf4j
 public abstract class Item {
     /*
@@ -89,7 +92,17 @@ public abstract class Item {
     @JsonIgnore
     Image inventoryImage; //Image used when the object is in the player's inventory
     @Getter
-    List<Item> craftingMaterials;
+    List<String> craftingMaterials;
+    final String IRON_ORE = "IronOre";
+    final String WOOD = "Wood";
+
+    /**
+     * Constructor for Item with specified world coordinates and image name.
+     *
+     * @param worldCoordX the x coordinate of the item in the world
+     * @param worldCoordY the y coordinate of the item in the world
+     * @param pictureID the name of the image file
+     */
     @JsonCreator
     protected Item(@JsonProperty("x") int worldCoordX,
                    @JsonProperty("y") int worldCoordY,
@@ -105,6 +118,12 @@ public abstract class Item {
         this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE);
         this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
     }
+
+    /**
+     * Constructor for Item with specified image name.
+     *
+     * @param pictureID the name of the image file
+     */
     @JsonCreator
     protected Item(@JsonProperty("x") int worldCoordX,
                    @JsonProperty("y") int worldCoordY,
@@ -122,6 +141,12 @@ public abstract class Item {
         this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getHeight());
         this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
     }
+
+    /**
+     * Constructor for Item with specified image name.
+     *
+     * @param pictureID the name of the image file
+     */
     @JsonCreator
     protected Item(@JsonProperty("picture") String pictureID) {
         //default constructor - load the image of the respective item
@@ -155,6 +180,13 @@ public abstract class Item {
     }
     protected Item() {
     }
+
+    /**
+     * Renders the item on the screen.
+     *
+     * @param gc the graphics context
+     * @param gamePanel the game panel
+     */
     public void render(GraphicsContext gc, GamePanel gamePanel){
         screenCoordX = this.worldCoordX - gamePanel.player.getWorldCoordX() + SCREEN_MIDDLE_X;
         screenCoordY = this.worldCoordY - gamePanel.player.getWorldCoordY() + SCREEN_MIDDLE_Y;
@@ -180,9 +212,15 @@ public abstract class Item {
         }
 
     }
-    public void use(){
-        //Use the current object the player is using
-    }
+
+    /**
+     * Method for item factory creation
+     * @param type the type of the item
+     * @param name  the name of the item
+     * @param description the description of the item
+     * @param imageName the name of the image file
+     * @return the created item
+     */
     public static Item createItem(String type, String name, String description, String imageName) {
         return switch (type) {
             case "Bucket" -> new Bucket(name, description, imageName);

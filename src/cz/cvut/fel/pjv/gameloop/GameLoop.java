@@ -10,7 +10,10 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * Class representing the game loop.
+ * This class is responsible for updating and rendering the game panel, and handling game states such as pause, inventory, and crafting.
+ */
 @Slf4j
 public class GameLoop extends AnimationTimer {
 
@@ -20,7 +23,11 @@ public class GameLoop extends AnimationTimer {
     Thread inventoryThread;
     InventoryGUI inventory;
     CraftingGUI crafting;
-
+    /**
+     * Constructor for GameLoop with specified game panel.
+     *
+     * @param gamePanel the game panel
+     */
     public GameLoop(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.gc = this.gamePanel.canvas.getGraphicsContext2D();
@@ -29,13 +36,15 @@ public class GameLoop extends AnimationTimer {
 
     // GAME LOOP
     //TODO implement multithreading
+    /**
+     * Private constructor to prevent instantiation.
+     */
     @Override
     public void handle(long now) {
             this.gamePanel.update();
             this.gamePanel.render(gc);
         if (this.gamePanel.inputHandler.isPaused()) {
             this.stop();
-            log.info("Game paused");
             inGameMenu = new InGameMenu(this.gamePanel.getStage(), this.gamePanel);
             if (this.gamePanel.inputHandler.isPaused()) this.start();
         } else if (this.gamePanel.inputHandler.isInventory()) {

@@ -230,3 +230,17 @@ U
 %src/cz/cvut/fel/pjv/item/IronOre.java,9/f/9f71d08779f47b7ea1ef6ff6342f14a451963a8a
 R
 "src/cz/cvut/fel/pjv/item/Wood.java,4/a/4a85f512aa7e86c57f280e6a9ddc80898670d95c
+b
+2src/cz/cvut/fel/pjv/handling/InventoryHandler.java,5/5/559ec17b090ebf4d11809f300e7362701a87bb1e
+f
+6src/cz/cvut/fel/pjv/handling/JsonInventoryHandler.java,9/8/988172b8803f4006711a1cad5c697a64709fcf77
+k
+;test/cz/cvut/fel/pjv/handling/JsonInventoryHandlerTest.java,7/2/7284d6ad7cc1e769610366739a63e366802d1c83
+b
+2src/cz/cvut/fel/pjv/handling/InventoryManager.java,4/d/4d8882dbcaab7284694131e880e11e0a3d4f2eed
+c
+3test/cz/cvut/fel/pjv/handling/EntitySetterTest.java,d/0/d090eaf73937730afc9738b808d88068102be3db
+h
+8test/cz/cvut/fel/pjv/handling/JsonEntityHandlerTest.java,c/7/c766ca0e7d0a74664d7c073bf83e61cbf682da36
+a
+1test/cz/cvut/fel/pjv/handling/ItemSetterTest.java,4/9/49c25525e1f1b04a50c000fb94e5191860e54d87

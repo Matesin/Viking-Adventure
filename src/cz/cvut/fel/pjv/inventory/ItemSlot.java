@@ -11,6 +11,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Class representing an item slot in the inventory.
+ * The item slot contains an item and an image of the item.
+ */
 @Slf4j
 public class ItemSlot extends Pane{
     @Getter
@@ -24,6 +28,13 @@ public class ItemSlot extends Pane{
     private Rectangle base;
     Parent root;
 
+    /**
+     * Constructor for ItemSlot with specified item, slot size, and root.
+     *
+     * @param item the item
+     * @param slotSize the size of the slot
+     * @param root the root
+     */
     public ItemSlot(Item item, double slotSize, Pane root) {
         this.inventorySlot = new Pane();
         this.slotSize = slotSize;
@@ -40,6 +51,7 @@ public class ItemSlot extends Pane{
             log.debug("Item present, image {} loaded", itemImage);
         }
     }
+
 
     private void initBase(){
         Rectangle slot = new Rectangle(slotSize, slotSize);

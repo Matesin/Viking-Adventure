@@ -30,6 +30,10 @@ import static cz.cvut.fel.pjv.gameloop.Constants.GraphicsDefaults.*;
         @JsonSubTypes.Type(value = Mob.class, name = "mob"),
         @JsonSubTypes.Type(value = Warden.class, name = "warden"),
 })
+/**
+ * Abstract class representing a character in the game.
+ * This class is extended by specific types of characters.
+ */
 @Slf4j
 public abstract class Character {
     @Getter
@@ -85,7 +89,12 @@ public abstract class Character {
     Image right1;
     Image right2;
     Image currentSprite;
-
+    /**
+     * Constructor for Character.
+     *
+     * @param worldCoordX the x-coordinate of the character in the world
+     * @param worldCoordY the y-coordinate of the character in the world
+     */
     protected Character(int worldCoordX, int worldCoordY) {
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
@@ -98,6 +107,11 @@ public abstract class Character {
             log.debug("Hitbox of {} covers area from x: {}, y: {} to x: {}, y: {}", this.getClass().getSimpleName(), hitbox.getCoordX(), hitbox.getCoordY(), hitbox.getCoordX() + hitbox.getWidth(), hitbox.getCoordY() + hitbox.getHeight());
         }
     }
+    /**
+     * Loads the sprites for the character.
+     *
+     * @param type the type of the character
+     */
      void getSprites(String type){
         // Load the character's sprites
          log.info("Loading sprites for: {}", type);
@@ -119,6 +133,15 @@ public abstract class Character {
             log.error("Error loading entity sprites: {}", e.getMessage());
         }
     }
+    /**
+     * Loads a specific sprite for the character.
+     *
+     * @param spriteNum the number of the sprite
+     * @param direction the direction of the sprite
+     * @param type the type of the character
+     * @return the loaded sprite
+     * @throws FileNotFoundException if the sprite file is not found
+     */
      Image setSprite(int spriteNum, String direction, String type) throws FileNotFoundException {
         // Load the sprite
         Image sprite;
@@ -140,6 +163,14 @@ public abstract class Character {
         }
         return sprite;
     }
+    /**
+     * Loads the idle sprite for the character.
+     *
+     * @param direction the direction of the sprite
+     * @param type the type of the character
+     * @return the loaded sprite
+     * @throws FileNotFoundException if the sprite file is not found
+     */
     Image setIdleSprite(String direction, String type) throws FileNotFoundException {
         // Load the sprite
         Image sprite;
@@ -161,12 +192,20 @@ public abstract class Character {
         }
         return sprite;
     }
-
+    /**
+     * Updates the state of the character.
+     */
     public void update(){
         // Update the character's position
         if (isMoving) move();
         hitbox.update();
     }
+    /**
+     * Renders the character on the screen.
+     *
+     * @param gc the graphics context to draw on
+     * @param gamePanel the game panel to draw on
+     */
     public void render(GraphicsContext gc, GamePanel gamePanel){
         // Render the character
         this.currentSprite = down1;
@@ -194,6 +233,9 @@ public abstract class Character {
             hitbox.display(gc);
         }
     }
+    /**
+     * Moves the character in the current direction.
+     */
     private void move(){
         // Move the character
         switch (direction){

@@ -2,8 +2,10 @@ package cz.cvut.fel.pjv.item;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Setter;
 
+/**
+ * Class representing a wood item.
+ */
 public class Wood extends Item{
     @JsonCreator
     public Wood(@JsonProperty("x")int worldCoordX,
