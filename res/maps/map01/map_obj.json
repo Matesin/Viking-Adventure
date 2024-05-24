@@ -68,6 +68,59 @@
     "active_picture" : "fire2.png",
     "extinguished_picture" : "fire_extinguished.png",
     "activation_item" : "bucket"
+  },
+  {
+    "type" : "fire",
+    "x" : 25,
+    "y" : 11,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
+  },
+  {
+    "type" : "fire",
+    "x" : 25,
+    "y" : 12,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
+  },
+  {
+    "type" : "fire",
+    "x" : 25,
+    "y" : 13,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
+  },
+  {
+    "type" : "fire",
+    "x" : 25,
+    "y" : 14,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
+  },
+  {
+    "type" : "fire",
+    "x" : 26,
+    "y" : 10,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
+  },
+  {
+    "type" : "fire",
+    "x" : 27,
+    "y" : 10,
+    "idle_picture" : "fire1.png",
+    "active_picture" : "fire2.png",
+    "extinguished_picture" : "fire_extinguished.png",
+    "activation_item" : "bucket"
   }
-
 ]

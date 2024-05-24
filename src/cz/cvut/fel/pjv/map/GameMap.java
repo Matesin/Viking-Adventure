@@ -27,13 +27,13 @@ public class GameMap implements Serializable {
     * tiles - array of all tiles in the map
     * game - the game panel
      */
-    private Tile[] tiles;
+    private transient Tile[] tiles;
     private int mapWidth;
     private int mapHeight;
     @Setter
     private int[][] map;
-    int startX;
-    int startY;
+    double startX;
+    double startY;
     private final String mapID;
     transient TileUtils utils;
 
@@ -131,8 +131,8 @@ public class GameMap implements Serializable {
                 case "width:" -> this.mapWidth = Integer.parseInt(values[1]);
                 case "height:" -> this.mapHeight = Integer.parseInt(values[1]);
                 case "start:" -> {
-                    startX = Integer.parseInt(values[1]);
-                    startY = Integer.parseInt(values[2]);
+                    startX = Double.parseDouble(values[1]);
+                    startY = Double.parseDouble(values[2]);
                 }
                 default -> log.info((Marker) Level.SEVERE, "Map {} has invalid data: {}", filepath, line);
             }

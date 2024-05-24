@@ -129,11 +129,16 @@ public class Constants {
         }
         public static final int CRAFTING_GRID_ROWS = 2;
         public static final int CRAFTING_GRID_COLS = 2;
-        public static final double CRAFTING_GRID_X = SCREEN_WIDTH / 5.0 - 100;
+        public static final double CRAFTING_GRID_X = SCREEN_WIDTH / 5.0 - 75;
         public static final double CRAFTING_GRID_Y = SCREEN_HEIGHT / 4.0;
         public static final double CRAFTING_SLOT_SIZE = SLOT_SIZE * 1.8;
         public static final double CRAFTING_SLOT_PADDING = 20;
-        public static final double RESULT_SLOT_X = CRAFTING_GRID_X + 550;
-        public static final double RESULT_SLOT_Y = CRAFTING_GRID_Y + CRAFTING_SLOT_SIZE / 2 + CRAFTING_SLOT_PADDING;
+        public static final double RESULT_SLOT_Y = CRAFTING_GRID_Y + CRAFTING_SLOT_SIZE / 2 + CRAFTING_SLOT_PADDING / 2;
+        public static final double CRAFTING_ARROW_SIZE = 150;
+        public static final double CRAFTING_ARROW_X = CRAFTING_GRID_X + (CRAFTING_SLOT_SIZE + CRAFTING_SLOT_PADDING) * CRAFTING_GRID_COLS;
+        public static final double CRAFTING_ARROW_Y = CRAFTING_GRID_Y + (CRAFTING_SLOT_SIZE + CRAFTING_SLOT_PADDING / 2) * CRAFTING_GRID_ROWS / 2 - CRAFTING_ARROW_SIZE / 2;
+        public static final double RESULT_SLOT_X = CRAFTING_GRID_X + (CRAFTING_SLOT_SIZE + CRAFTING_SLOT_PADDING) * CRAFTING_GRID_COLS + CRAFTING_ARROW_SIZE + CRAFTING_SLOT_PADDING;
+        public static final int RESULT_TEXT_SLEEP = 3000;
+        public static final int RESULT_TEXT_SIZE = 35;
     }
 }

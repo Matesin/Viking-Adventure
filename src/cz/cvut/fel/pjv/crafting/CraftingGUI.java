@@ -6,6 +6,7 @@ import cz.cvut.fel.pjv.inventory.ItemSlot;
 import cz.cvut.fel.pjv.item.Bucket;
 import cz.cvut.fel.pjv.item.Item;
 import cz.cvut.fel.pjv.item.MeleeWeapon;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
@@ -14,6 +15,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,8 @@ import java.util.List;
 import static cz.cvut.fel.pjv.gameloop.Constants.Crafting.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.SCREEN_HEIGHT;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.SCREEN_WIDTH;
+import static javafx.scene.paint.Color.WHITE;
+
 /**
  * The CraftingGUI class is responsible for creating the crafting GUI and storing its values.
  * It manages the crafting slots, craftable items, and the result slot.
@@ -70,9 +76,11 @@ public class CraftingGUI extends Pane {
      * Sets the background for the crafting GUI.
      */
     private void setBackground() {
+        //assuming the background is the previous scene
         WritableImage snapshot = new WritableImage(SCREEN_WIDTH, SCREEN_HEIGHT);
         previousScene.getRoot().snapshot(null, snapshot);
         ImageView imageView = new ImageView(snapshot);
+        //setting the background to be blurred and darkened
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(-0.5);
         imageView.setEffect(new GaussianBlur());
@@ -90,6 +98,16 @@ public class CraftingGUI extends Pane {
             itemSlots.add(new Pair<>(item, () -> handleCraftingSlotClick(item)));
         }
     }
+    private void initArrow(){
+        //assuming the arrow is located in this file every time
+        ImageView arrow = new ImageView(new Image("gui/crafting_arrow.png"));
+        arrow.setFitWidth(CRAFTING_ARROW_SIZE);
+        arrow.setFitHeight(CRAFTING_ARROW_SIZE);
+        arrow.setLayoutX(CRAFTING_ARROW_X);
+        arrow.setLayoutY(CRAFTING_ARROW_Y);
+        arrow.setOpacity(0.75);
+        this.root.getChildren().add(arrow);
+    }
 
     private void handleCraftingSlotClick(Item item) {
         log.debug("clicked on item {}", item.getName());
@@ -102,6 +120,26 @@ public class CraftingGUI extends Pane {
             log.debug("crafted item: {}", result.getClass().getSimpleName());
             updateResultSlot(result);
             log.debug("result slot updated");
+        } else {
+            Text text = new Text("Not enough materials");
+            text.setLayoutX(CRAFTING_GRID_X + CRAFTING_SLOT_PADDING * 2);
+            text.setLayoutY(CRAFTING_GRID_Y - CRAFTING_SLOT_PADDING);
+            Font font = Font.font("Segoe Script", FontWeight.BOLD, 40);
+            text.setFill(WHITE);
+            text.setFont(font);
+            root.getChildren().add(text);
+
+            // Create a new thread to remove the text after 5 seconds
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5000); // Wait for 5 seconds
+                } catch (InterruptedException e) {
+                   log.error("Error while waiting", e);
+                    Thread.currentThread().interrupt(); // Re-interrupt the thread
+                }
+                // Update the UI on the JavaFX Application Thread
+                Platform.runLater(() -> root.getChildren().remove(text));
+            }).start();
         }
     }
 
@@ -162,10 +200,50 @@ public class CraftingGUI extends Pane {
             inventory.addItem(item);
             if (item.getCraftingMaterials() != null) {
                 handleCraftingMaterials(item);
+                displayRemovedItems(item);
             }
             updateResultSlot(null);
             gamePanel.getInGameInventoryBar().update();
         });
+    }
+
+    private void displayRemovedItems(Item item) {
+        Text text = createText("Removed items:", CRAFTING_ARROW_X, CRAFTING_GRID_Y - CRAFTING_SLOT_PADDING);
+        root.getChildren().add(text);
+        removeTextAfterDelay(text);
+        int i;
+        for (i = 0; i < item.getCraftingMaterials().size(); i++) {
+            Text materialText = createText(item.getCraftingMaterials().get(i), CRAFTING_ARROW_X, CRAFTING_GRID_Y - CRAFTING_SLOT_PADDING + RESULT_TEXT_SIZE + i * RESULT_TEXT_SIZE);
+            root.getChildren().add(materialText);
+            removeTextAfterDelay(materialText);
+        }
+        Text removedFromInvText = createText("from inventory", CRAFTING_ARROW_X, CRAFTING_GRID_Y - CRAFTING_SLOT_PADDING + RESULT_TEXT_SIZE + i * RESULT_TEXT_SIZE);
+        root.getChildren().add(removedFromInvText);
+        removeTextAfterDelay(removedFromInvText);
+    }
+
+    private Text createText(String content, double x, double y) {
+        Text text = new Text(content);
+        text.setLayoutX(x);
+        text.setLayoutY(y);
+        text.setLineSpacing(10);
+        Font font = Font.font("Segoe Script", FontWeight.BOLD, RESULT_TEXT_SIZE);
+        text.setFill(WHITE);
+        text.setFont(font);
+        return text;
+    }
+
+    private void removeTextAfterDelay(Text text) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(RESULT_TEXT_SLEEP); // Wait for 3 seconds
+            } catch (InterruptedException e) {
+                log.error("Error while waiting", e);
+                Thread.currentThread().interrupt(); //Re-interrupt the thread
+            }
+            //Update the UI
+            Platform.runLater(() -> root.getChildren().remove(text));
+        }).start();
     }
 
     private void handleCraftingMaterials(Item item) {
@@ -185,7 +263,7 @@ public class CraftingGUI extends Pane {
     }
 
     private void handlePickedItem(int j) {
-        if(inventory.getPickedItem().equals(inventory.getItems()[j])){
+        if(inventory.getPickedItem() != null && inventory.getPickedItem().equals(inventory.getItems()[j])){
             inventory.setPickedItem(null);
         }
     }
@@ -249,6 +327,7 @@ public class CraftingGUI extends Pane {
         initCraftableItems();
         initCraftingSlots();
         initCraftingGrid();
+        initArrow();
         return this.root;
     }
 }

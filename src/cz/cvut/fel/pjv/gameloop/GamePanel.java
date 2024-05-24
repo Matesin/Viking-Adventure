@@ -119,8 +119,8 @@ public class GamePanel extends Pane {
      * @return the player
      */
     private Player initPlayer(){
-        int playerStartX = mapManager.getMap().getStartX();
-        int playerStartY = mapManager.getMap().getStartY();
+        double playerStartX = mapManager.getMap().getStartX();
+        double playerStartY = mapManager.getMap().getStartY();
         log.info("Player initialized at {}, {}", playerStartX, playerStartY);
         return new Player(playerStartX, playerStartY, this, inputHandler);
     }

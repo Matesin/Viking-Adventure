@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.map_object;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import cz.cvut.fel.pjv.entity.DamageDealer;
 import cz.cvut.fel.pjv.entity.Hitbox;
@@ -16,6 +17,11 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Fire.*;
 @Slf4j
 public class Fire extends ActiveMapObject{
     private long lastChangeStateTime = 0;
+    @JsonGetter("extinguished_picture")
+    private String getExtinguishedPictureID(){
+        return extinguishedPictureID;
+    }
+    private final String extinguishedPictureID;
     private final Image extinguishedImage;
 
     /**
@@ -34,8 +40,9 @@ public class Fire extends ActiveMapObject{
                     @JsonProperty("extinguished_picture") String extinguishedPictureID,
                     @JsonProperty("activation_item") String activationItemID) {
         super(worldCoordX, worldCoordY, idlePictureID, activePictureID, activationItemID);
+        this.extinguishedPictureID = extinguishedPictureID;
         this.extinguishedImage = loadImage(extinguishedPictureID);
-        this.hitbox = new Hitbox(this, (int) this.idleImage.getWidth()/2, (int) (this.idleImage.getHeight()/1.3), (int) this.idleImage.getWidth()/4,(int) this.idleImage.getHeight()/4);
+        this.hitbox = new Hitbox(this,  this.idleImage.getWidth() /2, (int) (this.idleImage.getHeight()/1.3), this.idleImage.getWidth()/4,this.idleImage.getHeight()/4);
         log.debug("Fire hitbox dimensions: {}x{}, position x: {}, y: {}", hitbox.getWidth(), hitbox.getHeight(), this.hitbox.getCoordX(), this.hitbox.getCoordY());
         activated = true;
         dealingDamage = true;

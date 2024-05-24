@@ -97,7 +97,7 @@ public abstract class Character {
      * @param worldCoordX the x-coordinate of the character in the world
      * @param worldCoordY the y-coordinate of the character in the world
      */
-    protected Character(int worldCoordX, int worldCoordY) {
+    protected Character(double worldCoordX, double worldCoordY) {
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
         type = this.getClass().getSimpleName().toLowerCase();

@@ -41,7 +41,7 @@ public class Player extends Character {
      * @param gamePanel the game panel
      * @param input the input handler
      */
-    public Player(int worldCoordX, int worldCoordY, GamePanel gamePanel, InputHandler input) {
+    public Player(double worldCoordX, double worldCoordY, GamePanel gamePanel, InputHandler input) {
         super(worldCoordX, worldCoordY);
         this.gamePanel = gamePanel;
         this.input = input;
