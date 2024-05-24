@@ -59,25 +59,25 @@ public abstract class Item {
     @Getter
     @Setter
     @JsonIgnore
-    int worldCoordX;
+    double worldCoordX;
     @JsonGetter("x")
-    public int getJsonX() {
+    public double getJsonX() {
         return this.worldCoordX / TILE_SIZE;
     }
     @Getter
     @Setter
     @JsonIgnore
-    int worldCoordY;
+    double worldCoordY;
     @JsonGetter("y")
-    public int getJsonY() {
+    public double getJsonY() {
         return this.worldCoordY / TILE_SIZE;
     }
     @JsonIgnore
     @Getter
-    int screenCoordX;
+    double screenCoordX;
     @JsonIgnore
     @Getter
-    int screenCoordY;
+    double screenCoordY;
     String pictureID;
     @JsonGetter ("picture")
     public String getPictureID() {
@@ -93,9 +93,8 @@ public abstract class Item {
     Image inventoryImage; //Image used when the object is in the player's inventory
     @Getter
     List<String> craftingMaterials;
-    final String IRON_ORE = "IronOre";
-    final String WOOD = "Wood";
-
+    static final String IRON_ORE = "IronOre";
+    static final String WOOD = "Wood";
     /**
      * Constructor for Item with specified world coordinates and image name.
      *
@@ -110,9 +109,9 @@ public abstract class Item {
         //default constructor - load the image of the respective item
         this.pictureID = pictureID;
         type = this.getClass().getSimpleName();
-        log.info("Loading image for item: {}", type);
+        logImageLoading(type);
         loadImage(pictureID);
-        log.info("Image loaded for item: {}", type);
+        logImageLoaded(type);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE);
         this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE);
@@ -133,9 +132,9 @@ public abstract class Item {
         this.pictureID = pictureID;
         this.itemID = itemID;
         type = this.getClass().getSimpleName();
-        log.info("Loading image for item: {}", type);
+        logImageLoading(type);
         loadImage(pictureID);
-        log.info("Image loaded for item: {}", type);
+        logImageLoaded(type);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getWidth());
         this.worldCoordY = worldCoordY * TILE_SIZE + ThreadLocalRandom.current().nextInt(0, TILE_SIZE - (int) this.placementImage.getHeight());
@@ -152,9 +151,9 @@ public abstract class Item {
         //default constructor - load the image of the respective item
         this.pictureID = pictureID;
         type = this.getClass().getSimpleName();
-        log.info("Loading image for item: {}", type);
+        logImageLoading(type);
         loadImage(pictureID);
-        log.info("Image loaded for item: {}", type);
+        logImageLoaded(type);
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.hitbox = new Hitbox(this, (int) this.placementImage.getWidth(), (int) this.placementImage.getHeight(), 0, 0);
     }    public void loadImage(String pictureID) {
@@ -224,10 +223,15 @@ public abstract class Item {
     public static Item createItem(String type, String name, String description, String imageName) {
         return switch (type) {
             case "Bucket" -> new Bucket(name, description, imageName);
-            case "IronOre" -> new IronOre(imageName);
-            case "Wood" -> new Wood(imageName);
+            case IRON_ORE -> new IronOre(imageName);
+            case WOOD -> new Wood(imageName);
             default -> throw new IllegalArgumentException("Invalid item type: " + type);
         };
     }
-
+    private void logImageLoading(String pictureID) {
+        log.info("Loading image for item: {}", pictureID);
+    }
+    private void logImageLoaded(String pictureID) {
+        log.info("Image loaded for item: {}", pictureID);
+    }
 }

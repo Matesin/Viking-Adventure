@@ -1,6 +1,7 @@
 package cz.cvut.fel.pjv.utils;
 
 import cz.cvut.fel.pjv.entity.Character;
+import cz.cvut.fel.pjv.entity.Hitbox;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import lombok.extern.slf4j.Slf4j;
 import cz.cvut.fel.pjv.map_object.MapObject;
@@ -14,26 +15,37 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Directions.*;
 public class CollisionChecker {
     //inspired by https://www.youtube.com/watch?v=oPzPpUcDiYY
     GamePanel gamePanel;
+
+    /**
+     * Constructor for CollisionChecker with specified game panel.
+     *
+     * @param gamePanel the game panel
+     */
     public CollisionChecker(GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
     int tileNum1;
     int tileNum2;
+
+    /**
+     * Check if the entity is colliding with a tile, entity, or object.
+     * @param entity the entity the collision is being checked for
+     */
     public void checkTile(Character entity){
         // Check if the entity is colliding with a tile
-        int entityLeftX = entity.hitbox.getCoordX();
-        int entityRightX = entity.hitbox.getCoordX() + entity.hitbox.getWidth();
-        int entityTopY =  entity.hitbox.getCoordY();
-        int entityBottomY = entity.hitbox.getCoordY() + entity.hitbox.getHeight();
+        double entityLeftX = entity.hitbox.getCoordX();
+        double entityRightX = entity.hitbox.getCoordX() + entity.hitbox.getWidth();
+        double entityTopY =  entity.hitbox.getCoordY();
+        double entityBottomY = entity.hitbox.getCoordY() + entity.hitbox.getHeight();
 
-        int entityLeftCol = entityLeftX / TILE_SIZE;
-        int entityRightCol = entityRightX / TILE_SIZE;
-        int entityTopRow = entityTopY / TILE_SIZE;
-        int entityBottomRow = entityBottomY / TILE_SIZE;
+        int entityLeftCol = (int) entityLeftX / TILE_SIZE;
+        int entityRightCol = (int) entityRightX / TILE_SIZE;
+        int entityTopRow = (int) entityTopY / TILE_SIZE;
+        int entityBottomRow = (int) entityBottomY / TILE_SIZE;
 
         switch (entity.getDirection()){
             case DIR_UP:
-                entityTopRow = (entityTopY - entity.getSpeed()) / TILE_SIZE;
+                entityTopRow = (int) (entityTopY - entity.getSpeed()) / TILE_SIZE;
                 if (entityTopY - entity.getSpeed() < 0){
                     entity.setCollision(true);
                     return;
@@ -46,7 +58,7 @@ public class CollisionChecker {
                     entity.setCollision(true);}
                 break;
             case DIR_DOWN:
-                entityBottomRow = (entityBottomY + entity.getSpeed()) / TILE_SIZE;
+                entityBottomRow = (int) (entityBottomY + entity.getSpeed()) / TILE_SIZE;
                 if (entityBottomRow >= gamePanel.getChosenMap().getMapHeight()){
                     entity.setCollision(true);
                     break;
@@ -59,7 +71,7 @@ public class CollisionChecker {
                 }
                 break;
             case DIR_LEFT:
-                entityLeftCol = (entityLeftX - entity.getSpeed()) / TILE_SIZE;
+                entityLeftCol = (int) (entityLeftX - entity.getSpeed()) / TILE_SIZE;
                 if (entityLeftX - entity.getSpeed() < 0 ){
                     entity.setCollision(true);
                     break;
@@ -72,7 +84,7 @@ public class CollisionChecker {
 
                 break;
             case DIR_RIGHT:
-                entityRightCol = (entityRightX + entity.getSpeed()) / TILE_SIZE;
+                entityRightCol = (int) (entityRightX + entity.getSpeed()) / TILE_SIZE;
                 if (entityRightCol >= gamePanel.getChosenMap().getMapWidth() ){
                     entity.setCollision(true);
                     break;
@@ -92,73 +104,61 @@ public class CollisionChecker {
     public void checkEntity(Character entity){
         for (Character otherEntity : gamePanel.getEntityManager().getEntities().orElse(Collections.emptyList())) {
             if (!otherEntity.equals(entity) && entity.hitbox.intersects(otherEntity.hitbox)) {
-                switch (entity.getDirection()) {
-                    case DIR_UP:
-                        if (entity.hitbox.getCoordY() > otherEntity.hitbox.getCoordY()) {
-                            entity.setCollision(true);
-                            logCollision(otherEntity, DIR_UP);
-                        }
-                        break;
-                    case DIR_DOWN:
-                        if (entity.hitbox.getCoordY() < otherEntity.hitbox.getCoordY()) {
-                            entity.setCollision(true);
-                            logCollision(otherEntity, DIR_DOWN);
-                        }
-                        break;
-                    case DIR_LEFT:
-                        if (entity.hitbox.getCoordX() > otherEntity.hitbox.getCoordX()) {
-                            entity.setCollision(true);
-                            logCollision(otherEntity, DIR_LEFT);
-                        }
-                        break;
-                    case DIR_RIGHT:
-                        if (entity.hitbox.getCoordX() < otherEntity.hitbox.getCoordX()) {
-                            entity.setCollision(true);
-                            logCollision(otherEntity, DIR_RIGHT);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                handleCollision(entity, otherEntity.hitbox);
                 return;
             }
         }
     }
+
     public void checkObject(Character player){
         for (MapObject mapObject : gamePanel.getMapObjectManager().getMapObjects().orElseThrow()){
             if (player.hitbox.intersects(mapObject.hitbox)) {
-                switch (player.getDirection()) {
-                    case DIR_UP:
-                        if (player.hitbox.getCoordY() > mapObject.hitbox.getCoordY()) {
-                            player.setCollision(true);
-                        }
-                        break;
-                    case DIR_DOWN:
-                        if (player.hitbox.getCoordY() < mapObject.hitbox.getCoordY()) {
-                            player.setCollision(true);
-                        }
-                        break;
-                    case DIR_LEFT:
-                        if (player.hitbox.getCoordX() > mapObject.hitbox.getCoordX()) {
-                            player.setCollision(true);
-                        }
-                        break;
-                    case DIR_RIGHT:
-                        if (player.hitbox.getCoordX() < mapObject.hitbox.getCoordX()) {
-                            player.setCollision(true);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                handleCollision(player, mapObject.hitbox);
                 return;
             }
         }
     }
-    private void logCollision(Character entity, String direction){
-        log.debug("Other entity hitbox dimensions:\n x: {}, y: {}, width: {}, height: {}\n Direction: {}", entity.hitbox.getCoordX(), entity.hitbox.getCoordY(), entity.hitbox.getWidth(), entity.hitbox.getHeight(), direction);
+
+    private void handleCollision(Character player, Hitbox other) {
+        switch (player.getDirection()) {
+            case DIR_UP:
+                checkCollisionUp(player, other);
+                break;
+            case DIR_DOWN:
+                checkCollisionDown(player, other);
+                break;
+            case DIR_LEFT:
+                checkCollisionLeft(player, other);
+                break;
+            case DIR_RIGHT:
+                checkCollisionRight(player, other);
+                break;
+            default:
+                break;
+        }
     }
-    private void logCollision(MapObject mapObject, String direction){
-        log.debug("Map object hitbox dimensions:\n x: {}, y: {}, width: {}, height: {}\n Direction: {}", mapObject.hitbox.getCoordX(), mapObject.hitbox.getCoordY(), mapObject.hitbox.getWidth(), mapObject.hitbox.getHeight(), direction);
+
+    private void checkCollisionUp(Character player, Hitbox other) {
+        if (player.hitbox.getCoordY() + player.getSpeed() > other.getCoordY()) {
+            player.setCollision(true);
+        }
+    }
+
+    private void checkCollisionDown(Character player, Hitbox other) {
+        if (player.hitbox.getCoordY() - player.getSpeed() < other.getCoordY()) {
+            player.setCollision(true);
+        }
+    }
+
+    private void checkCollisionLeft(Character player, Hitbox other) {
+        if (player.hitbox.getCoordX() + player.getSpeed() > other.getCoordX()) {
+            player.setCollision(true);
+        }
+    }
+
+    private void checkCollisionRight(Character player, Hitbox other) {
+        if (player.hitbox.getCoordX() - player.getSpeed()  < other.getCoordX()) {
+            player.setCollision(true);
+        }
     }
 }

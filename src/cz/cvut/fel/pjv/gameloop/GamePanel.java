@@ -60,7 +60,6 @@ public class GamePanel extends Pane {
     @Setter
     private int chosenMapIndex;
     public final CollisionChecker collisionChecker = new CollisionChecker(this);
-    private Optional<List<Character>> entities;
     @Getter
     private final Camera camera;
     @Getter
@@ -97,10 +96,10 @@ public class GamePanel extends Pane {
         this.itemManager = new ItemManager(this);
         this.mapObjectManager = new MapObjectManager(this);
         this.inventoryManager = new InventoryManager(this);
-        entities = entityManager.getEntities();
         initCanvas();
         inGameInventoryBar = new InGameInventoryBar(this.player.getInventory(), this.root);
         log.info("GamePanel created. Starting game loop");
+        log.debug("Root has {} children", root.getChildren().size());
         startGameLoop();
     }
     /**

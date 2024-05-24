@@ -15,6 +15,7 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Inventory.INITIAL_INVENTORY_CAP
 import static cz.cvut.fel.pjv.gameloop.Constants.Player.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Tile.*;
+
 /**
  * Class representing a player in the game.
  * This class extends the Character class and handles player-specific behavior.
@@ -29,11 +30,9 @@ public class Player extends Character {
     @Getter
     @Setter
     private Inventory inventory;
-    private int health;
-    private long lastChangeStateTime = 0;
     private long lastUpdate = 0;
-    int lastCoordX;
-    int lastCoordY;
+    double lastCoordX;
+    double lastCoordY;
     /**
      * Constructor for Player with specified world coordinates, game panel, and input handler.
      *
@@ -52,8 +51,8 @@ public class Player extends Character {
         int hitboxOffsetX = (this.width - TILE_SIZE / 2) / 2;
         int hitboxOffsetY = this.height / 3;
         this.hitbox = new Hitbox(this, TILE_SIZE / 3, TILE_SIZE / 2, hitboxOffsetX, hitboxOffsetY);
-        int reactionRangeWidth = this.hitbox.getWidth() * 3;
-        int reactionRangeHeight = this.hitbox.getHeight() * 3;
+        double reactionRangeWidth = this.hitbox.getWidth() * 3;
+        double reactionRangeHeight = this.hitbox.getHeight() * 3;
         this.reactionRange = new Hitbox(this, reactionRangeWidth, reactionRangeHeight, -hitboxOffsetX/4, -hitboxOffsetY /2);
         setDefaultValues();
     }
@@ -186,11 +185,12 @@ public class Player extends Character {
     public boolean pickUpItem(Item item){
         boolean pickedUpItem = false;
         if (input.isPickUp()){
-            if (inventory.isEmpty()){
+            if (inventory.isEmpty() || inventory.getPickedItem() == null) {
                 inventory.setPickedItem(item);
                 inventory.setEmpty(false);
                 gamePanel.getInGameInventoryBar().update();
             }
+
             for (int i = 0; i < inventory.getCapacity(); i++) {
                 if (inventory.getItems()[i] == null) {
                     inventory.getItems()[i] = item;
@@ -205,25 +205,25 @@ public class Player extends Character {
         }
         return pickedUpItem;
     }
+
     /**
      * Reacts to a map object.
      *
      * @return true if the player reacted to the map object, false otherwise
      */
     public boolean reactToMapObject(){
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastChangeStateTime < CHANGE_STATE_COOLDOWN) {
-            return false;
-        }
-        lastChangeStateTime = currentTime;
-        return input.isUseItem();
-    }/**
+        if (input.isUseItem()){
+            input.setUseItem(false);
+            return true;
+        } else return false;
+    }
+    /**
      * Drops the currently picked item.
      */
     public void dropPickedItem(){
        inventory.getPickedItem().setWorldCoordX(this.worldCoordX);
        inventory.getPickedItem().setWorldCoordY(this.worldCoordY);
-       gamePanel.getItemManager().items.ifPresent(items -> items.add(inventory.getPickedItem()));
+       gamePanel.getItemManager().getItems().ifPresent(items -> items.add(inventory.getPickedItem()));
        inventory.setPickedItem(null);
        inventory.removeItem(inventory.getPickedItem());
     }
@@ -235,11 +235,12 @@ public class Player extends Character {
     public void dropItem(Item item){
         item.setWorldCoordX(this.worldCoordX);
         item.setWorldCoordY(this.worldCoordY);
-        gamePanel.getItemManager().items.ifPresent(items -> items.add(item));
+        gamePanel.getItemManager().getItems().ifPresent(items -> items.add(item));
         if (inventory.getPickedItem() == item){
             inventory.setPickedItem(null);
         }
         item.hitbox.update();
         inventory.removeItem(item);
     }
+
 }

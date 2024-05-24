@@ -24,6 +24,7 @@ public class InputHandler implements EventHandler<KeyEvent> {
     @Setter
     @Getter
     boolean inventory = false;
+    @Setter
     boolean useItem = false;
     boolean dropItem = false;
     @Getter

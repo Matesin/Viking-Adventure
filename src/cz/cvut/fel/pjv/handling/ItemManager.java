@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -29,7 +28,8 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
  */
 @Slf4j
 public class ItemManager {
-    public Optional<List<Item>> items;
+    @Getter
+    private Optional<List<Item>> items;
     private final Camera camera;
     private final GamePanel gamePanel;
     private final Player player;
@@ -55,17 +55,17 @@ public class ItemManager {
      * @return true if the item is on the screen, false otherwise
      */
     public boolean isOnScreen(Item item){
-        int cameraX = camera.getCameraX();
-        int cameraY = camera.getCameraY();
-        int itemX = item.getWorldCoordX();
-        int itemY = item.getWorldCoordY();
+        double cameraX = camera.getCameraX();
+        double cameraY = camera.getCameraY();
+        double itemX = item.getWorldCoordX();
+        double itemY = item.getWorldCoordY();
         return itemX >= cameraX - TILE_SIZE && itemX <= cameraX + SCREEN_WIDTH + TILE_SIZE &&
                 itemY >= cameraY - TILE_SIZE && itemY <= cameraY + SCREEN_HEIGHT + TILE_SIZE;
 
     }
 
     /**
-     * Renders items on the screen.
+     * Renders items if they are on the screen and shows a pickup prompt if the player is close to an item.
      *
      * @param gc the graphics context
      */
@@ -75,22 +75,30 @@ public class ItemManager {
             while (iterator.hasNext()) {
                 Item item = iterator.next();
                 if (isOnScreen(item)) {
-                    item.render(gc, this.gamePanel);
-                    if(player.hitbox.intersects(item.hitbox)){
-                        gc.setFill(Color.BLACK);
-                        Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 15);
-                        gc.setFont(statsFont);
-                        if(!player.getInventory().isFull()){
-                            gc.fillText("Press 'E' to pick up this " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
-                        } else {
-                            gc.fillText("Inventory is full!", SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
-                        }
-                        if(player.pickUpItem(item)){
-                            iterator.remove();
-                        }
-                    }
+                    renderOnScreenItem(gc, iterator, item);
                 }
             }
+        }
+    }
+
+    private void renderOnScreenItem(GraphicsContext gc, Iterator<Item> iterator, Item item) {
+        item.render(gc, this.gamePanel);
+        if(player.hitbox.intersects(item.hitbox)){
+            renderPickupPrompt(gc, item);
+            if(player.pickUpItem(item)){
+                iterator.remove();
+            }
+        }
+    }
+
+    private void renderPickupPrompt(GraphicsContext gc, Item item) {
+        gc.setFill(Color.BLACK);
+        Font statsFont = Font.font("Segoe Script", FontWeight.BOLD, 15);
+        gc.setFont(statsFont);
+        if(!player.getInventory().isFull()){
+            gc.fillText("Press 'E' to pick up this " + item.getName(), SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
+        } else {
+            gc.fillText("Inventory is full!", SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y);
         }
     }
 

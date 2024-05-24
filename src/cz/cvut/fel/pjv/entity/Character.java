@@ -42,17 +42,19 @@ public abstract class Character {
     @Setter
     int hp; // will differ by character type
     @Getter
-    int worldCoordX;
+    @Setter
+    double worldCoordX;
     @Getter
-    int worldCoordY;
+    @Setter
+    double worldCoordY;
     @Getter
     @Setter
     @JsonIgnore
-    private int screenCoordX;
+    private double screenCoordX;
     @Getter
     @Setter
     @JsonIgnore
-    private int screenCoordY;
+    private double screenCoordY;
     @Getter
     String direction = "down";
     @Getter

@@ -46,10 +46,10 @@ public class EntityManager {
      * @return true if the entity is on the screen, false otherwise
      */
     public boolean isOnScreen(Character entity){
-        int cameraX = camera.getCameraX();
-        int cameraY = camera.getCameraY();
-        int entityX = entity.getWorldCoordX();
-        int entityY = entity.getWorldCoordY();
+        double cameraX = camera.getCameraX();
+        double cameraY = camera.getCameraY();
+        double entityX = entity.getWorldCoordX();
+        double entityY = entity.getWorldCoordY();
         return entityX >= cameraX - TILE_SIZE && entityX <= cameraX + SCREEN_WIDTH + TILE_SIZE &&
                 entityY >= cameraY - TILE_SIZE && entityY <= cameraY + SCREEN_HEIGHT + TILE_SIZE;
     }

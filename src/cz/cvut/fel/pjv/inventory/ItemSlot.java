@@ -22,7 +22,6 @@ public class ItemSlot extends Pane{
     @Getter
     @Setter
     private Item item;
-    private Image itemImage;
     private final double slotSize;
     @Getter
     private Rectangle base;
@@ -42,13 +41,7 @@ public class ItemSlot extends Pane{
         this.item = item;
         initBase();
         if (item != null){
-            this.itemImage = item.getInventoryImage();
             initImage();
-        }
-        if (itemImage == null) {
-            log.debug("No item present, no image loaded");
-        } else {
-            log.debug("Item present, image {} loaded", itemImage);
         }
     }
 
@@ -66,14 +59,20 @@ public class ItemSlot extends Pane{
     }
 
 
-    private void initImage() {
-        Image image = itemImage;
+    public void initImage() {
+        if (this.item == null) {
+            inventorySlot.getChildren().remove(1);
+            log.debug("No item present, no image loaded");
+            return;
+        }
+        Image image = this.item.getInventoryImage();
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(slotSize);
         imageView.setFitHeight(slotSize);
         imageView.setLayoutX(this.root.getLayoutX());
         imageView.setLayoutY(this.root.getLayoutY());
         inventorySlot.getChildren().add(imageView);
+        log.info("Image {} loaded", this.item.getName());
     }
 
     public void setOnAction(Runnable action){

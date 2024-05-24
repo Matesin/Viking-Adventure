@@ -24,6 +24,10 @@ import java.util.List;
 import static cz.cvut.fel.pjv.gameloop.Constants.Crafting.*;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.SCREEN_HEIGHT;
 import static cz.cvut.fel.pjv.gameloop.Constants.Screen.SCREEN_WIDTH;
+/**
+ * The CraftingGUI class is responsible for creating the crafting GUI and storing its values.
+ * It manages the crafting slots, craftable items, and the result slot.
+ */
 @Slf4j
 public class CraftingGUI extends Pane {
     private final Pane root = new Pane();
@@ -31,12 +35,17 @@ public class CraftingGUI extends Pane {
     private Scene previousScene;
     private final Inventory inventory;
     private List<Pair<Item, Runnable>> itemSlots;
-    private Pair<Item, Runnable> resultPair;
     private List<Item> craftableItems;
-    private final Pane resultSlot = new Pane();
+    private ItemSlot resultSlot;
     private final Stage mainStage;
 
-
+    /**
+     * Constructor for the CraftingGUI class.
+     * Initializes the crafting GUI and sets up the necessary values.
+     *
+     * @param mainStage The main stage of the application.
+     * @param gamePanel The game panel.
+     */
     public CraftingGUI(Stage mainStage, GamePanel gamePanel) {
         /*
          * This class is responsible for creating the crafting GUI and storing its values.
@@ -52,10 +61,14 @@ public class CraftingGUI extends Pane {
                     setPreviousScene();
                 }
             });
+            this.resultSlot = new ItemSlot(null, CRAFTING_SLOT_SIZE, root);
+            initResultSlot();
             mainStage.setScene(inventoryScene);
         }
     }
-
+    /**
+     * Sets the background for the crafting GUI.
+     */
     private void setBackground() {
         WritableImage snapshot = new WritableImage(SCREEN_WIDTH, SCREEN_HEIGHT);
         previousScene.getRoot().snapshot(null, snapshot);
@@ -67,59 +80,131 @@ public class CraftingGUI extends Pane {
         Image blurredImage = imageView.snapshot(null, null);
         BackgroundImage background = new BackgroundImage(blurredImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         this.root.setBackground(new Background(background));
-}
+    }
+    /**
+     * Initializes the crafting slots.
+     */
     private void initCraftingSlots(){
         this.itemSlots = new ArrayList<>();
         for (Item item : craftableItems){
-            itemSlots.add(new Pair<>(item, () -> {
-                log.debug("clicked on item {}", item.getName());
-                int neededItems = item.getCraftingMaterials().size();
-                int foundItems = 0;
-                for (Item inventory_item : inventory.getItems()){
-                    if(inventory_item != null && item.getCraftingMaterials().contains(item.getClass().getSimpleName())) foundItems++;
-                }
-                log.debug("needed items: {}", neededItems);
-                log.debug("found items: {}", foundItems);
-                if(foundItems == neededItems){
-                    //TODO: remove items from iventory first when the result item is clicked
-                    for (Item inventory_item : inventory.getItems()){
-                        if (inventory_item == item) inventory.removeItem(inventory_item);
-                    }
-                    gamePanel.getInGameInventoryBar().update();
-                    Item result = Item.createItem(item.getClass().getSimpleName(), item.getName(), item.getDescription(), item.getPictureID());
-                    log.debug("crafted item: {}", result.getClass().getSimpleName());
-                    updateResultSlot(result);
-                }
-            }));
+            itemSlots.add(new Pair<>(item, () -> handleCraftingSlotClick(item)));
         }
-    }
-    private void initResultSlot(Item item){
-        ItemSlot resultItemSlot = new ItemSlot(item, CRAFTING_SLOT_SIZE, resultSlot);
-        log.debug("result item slot created with item: {}", item == null ? "null" : item.getName());
-        resultSlot.setLayoutX(RESULT_SLOT_X);
-        resultSlot.setLayoutY(RESULT_SLOT_Y);
-        resultPair = new Pair<>(item, () -> {
-            if (resultPair.getKey() != null){
-                inventory.addItem(resultPair.getKey());
-            }
-        });
-        resultItemSlot.setOnAction(resultPair.getValue());
-        log.debug("result slot pane has {} children", resultSlot.getChildren().size());
-        this.resultSlot.getChildren().add(resultItemSlot.getInventorySlot());
-        log.debug("result slot added to the result slot pane");
-        log.debug("result slot pane has {} children", resultSlot.getChildren().size());
-    }
-    private void updateResultSlot(Item item){
-        log.debug("updating result slot");
-        if (!resultSlot.getChildren().isEmpty()) {
-            resultSlot.getChildren().remove(0);
-        }
-        initResultSlot(item);
-        this.mainStage.sizeToScene();
-        log.debug("result slot updated with item: {}", item.getName());
-        log.debug("position of the result slot: x: {}, y: {}", resultSlot.getLayoutX(), resultSlot.getLayoutY());
     }
 
+    private void handleCraftingSlotClick(Item item) {
+        log.debug("clicked on item {}", item.getName());
+        int neededItems = item.getCraftingMaterials().size();
+        int foundItems = countFoundItems(item);
+        log.debug("needed items: {}", neededItems);
+        log.debug("found items: {}", foundItems);
+        if(foundItems == neededItems){
+            Item result = Item.createItem(item.getClass().getSimpleName(), item.getName(), item.getDescription(), item.getPictureID());
+            log.debug("crafted item: {}", result.getClass().getSimpleName());
+            updateResultSlot(result);
+            log.debug("result slot updated");
+        }
+    }
+
+    private int countFoundItems(Item item) {
+        int foundItems = 0;
+        for (String neededItem : item.getCraftingMaterials()){
+            foundItems += countInventoryItems(neededItem);
+        }
+        return foundItems;
+    }
+
+    private int countInventoryItems(String neededItem) {
+        int count = 0;
+        for (int i = 0; i < inventory.getCapacity(); i++){
+            if (inventory.getItems()[i] != null && inventory.getItems()[i].getClass().getSimpleName().equals(neededItem)){
+                count++;
+                break;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Initializes the result slot.
+     */
+    private void initResultSlot(){
+        this.root.getChildren().add(resultSlot.getInventorySlot());
+        log.debug("result slot initialized");
+        this.root.getChildren().add(resultSlot);
+        resultSlot.getInventorySlot().setLayoutX(RESULT_SLOT_X);
+        resultSlot.getInventorySlot().setLayoutY(RESULT_SLOT_Y);
+    }
+
+    /**
+     * Updates the result slot with the given item.
+     *
+     * @param item The item to update the result slot with.
+     */
+    private void updateResultSlot(Item item){
+        removeResultSlotFromRoot();
+        setResultSlotItem(item);
+        setResultSlotOnMouseClicked(item);
+        addResultSlotToRoot();
+        logResultSlotUpdate(item);
+    }
+
+    private void removeResultSlotFromRoot() {
+        this.root.getChildren().remove(resultSlot.getInventorySlot());
+    }
+
+    private void setResultSlotItem(Item item) {
+        resultSlot.setItem(item);
+        resultSlot.initImage();
+    }
+
+    private void setResultSlotOnMouseClicked(Item item) {
+        resultSlot.getInventorySlot().setOnMouseClicked(event -> {
+            inventory.addItem(item);
+            if (item.getCraftingMaterials() != null) {
+                handleCraftingMaterials(item);
+            }
+            updateResultSlot(null);
+            gamePanel.getInGameInventoryBar().update();
+        });
+    }
+
+    private void handleCraftingMaterials(Item item) {
+        for (int i = 0; i < item.getCraftingMaterials().size(); i++) {
+            handleInventoryItems(item, i);
+        }
+    }
+
+    private void handleInventoryItems(Item item, int i) {
+        for (int j = 0; j < inventory.getCapacity(); j++) {
+            if (inventory.getItems()[j] != null && inventory.getItems()[j].getClass().getSimpleName().equals(item.getCraftingMaterials().get(i))) {
+                handlePickedItem(j);
+                inventory.removeItem(inventory.getItems()[j]);
+                break;
+            }
+        }
+    }
+
+    private void handlePickedItem(int j) {
+        if(inventory.getPickedItem().equals(inventory.getItems()[j])){
+            inventory.setPickedItem(null);
+        }
+    }
+
+    private void addResultSlotToRoot() {
+        this.root.getChildren().add(resultSlot.getInventorySlot());
+    }
+
+    private void logResultSlotUpdate(Item item) {
+        if (item != null){
+            log.debug("result slot updated with item {}", item.getName());
+        } else {
+            log.debug("result slot updated with null");
+        }
+    }
+
+    /**
+     * Initializes the list of craftable items.
+     */
     private void initCraftableItems(){
         this.craftableItems = new ArrayList<>();
         craftableItems.add(new Bucket("Bucket", "Use this bucket to extinguish fire", "bucket.png"));
@@ -128,6 +213,9 @@ public class CraftingGUI extends Pane {
         craftableItems.add(new MeleeWeapon("Axeus", "Normal axe", "axe.png", 2));
     }
 
+    /**
+     * Initializes the crafting grid.
+     */
     private void initCraftingGrid(){
         GridPane craftingGrid;
         craftingGrid = new GridPane();
@@ -143,17 +231,24 @@ public class CraftingGUI extends Pane {
         this.root.getChildren().add(craftingGrid);
     }
 
+    /**
+     * Sets the previous scene.
+     */
     private void setPreviousScene(){
         mainStage.setScene(previousScene);
         gamePanel.getInputHandler().setCrafting(false);
     }
+
+    /**
+     * Creates the content for the crafting GUI.
+     *
+     * @return The root pane containing the crafting GUI content.
+     */
     private Parent createContent(){
         setBackground();
         initCraftableItems();
         initCraftingSlots();
         initCraftingGrid();
-        initResultSlot(null);
-        this.root.getChildren().add(resultSlot);
         return this.root;
     }
 }

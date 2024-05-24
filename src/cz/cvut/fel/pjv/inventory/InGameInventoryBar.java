@@ -59,7 +59,7 @@ public class InGameInventoryBar {
      * Updates the inventory bar.
      */
     public void update(){
-        inventoryBar.getChildren().remove(1);
+        inventoryBar.getChildren().clear();
         initSlots();
     }
 

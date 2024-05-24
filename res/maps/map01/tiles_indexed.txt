@@ -1,5 +1,5 @@
 ice 0 false false
-frozen_water 1 true true
+frozen_water 1 false false
 path_horizontal 2 false false
 path_vertical 3 false false
 sea_ice_bottom 4 false false

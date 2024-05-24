@@ -44,27 +44,27 @@ public abstract class MapObject {
             return this.idlePictureID;
     }
     @JsonGetter("x")
-    public int getX() {
+    public double getX() {
         return this.worldCoordX / TILE_SIZE;
     }
     @JsonGetter("y")
-    public int getY() {
+    public double getY() {
         return this.worldCoordY / TILE_SIZE;
     }
     String itemName;
     String idlePictureID;
     @Getter
     @Setter
-    int worldCoordX;
+    double worldCoordX;
     @Getter
     @Setter
-    int worldCoordY;
+    double worldCoordY;
     @JsonIgnore
     @Getter
-    int screenCoordX;
+    double screenCoordX;
     @JsonIgnore
     @Getter
-    int screenCoordY;
+    double screenCoordY;
     @JsonIgnore
     Image idleImage;
     @Setter

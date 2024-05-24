@@ -24,7 +24,7 @@ public class Bucket extends Item {
         super(pictureID);
         this.name = name;
         this.description = description;
-        this.craftingMaterials = List.of(/*new IronOre(), new Wood()*/);
+        this.craftingMaterials = List.of(IRON_ORE, WOOD);
     }
     public Bucket() {
         super();

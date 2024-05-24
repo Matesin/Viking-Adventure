@@ -53,10 +53,10 @@ public class MapManager {
     public void renderMap(GraphicsContext gc) {
         int worldCol = 0;
         int worldRow = 0;
-        int worldX;
-        int worldY;
-        int screenX;
-        int screenY;
+        double worldX;
+        double worldY;
+        double screenX;
+        double screenY;
         while (worldRow < mapHeight && worldCol < mapWidth){
             int tileID = map.getMap()[worldCol][worldRow];
             worldX = worldCol * TILE_SIZE;

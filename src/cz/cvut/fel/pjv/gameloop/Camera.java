@@ -13,9 +13,9 @@ public class Camera {
     private final Player player;
     private final GameMap gameMap;
     @Getter
-    private int cameraX;
+    private double cameraX;
     @Getter
-    private int cameraY;
+    private double cameraY;
 
     /**
      * Constructor for Camera with specified game panel.

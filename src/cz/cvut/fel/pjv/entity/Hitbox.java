@@ -14,17 +14,17 @@ import cz.cvut.fel.pjv.map_object.MapObject;
 @Slf4j
 public class Hitbox {
     @Getter
-    private int width;
+    private double width;
     @Getter
-    private int height;
+    private double height;
     @Getter
-    private int coordX;
+    private double coordX;
     @Getter
-    private int coordY;
+    private double coordY;
     private final Rectangle hitArea;
     private boolean offset = false;
-    private int xOffset;
-    private int yOffset;
+    private double xOffset;
+    private double yOffset;
     private Item item;
     private Character entity;
     private MapObject mapObject;
@@ -36,8 +36,8 @@ public class Hitbox {
      */
     public Hitbox(Character entity) {
         this.entity = entity;
-        this.width = (int) this.entity.currentSprite.getWidth();
-        this.height = (int) this.entity.currentSprite.getHeight();
+        this.width = this.entity.currentSprite.getWidth();
+        this.height = this.entity.currentSprite.getHeight();
         this.coordX = this.entity.worldCoordX;
         this.coordY = this.entity.worldCoordY;
         this.hitArea = new Rectangle(width, height, coordX, coordY);
@@ -51,7 +51,7 @@ public class Hitbox {
      * @param xOffset the x-coordinate offset of the hitbox
      * @param yOffset the y-coordinate offset of the hitbox
      */
-    public Hitbox(Character entity, int width, int height, int xOffset, int yOffset) {
+    public Hitbox(Character entity, double width, double height, double xOffset, double yOffset) {
         this.width = width;
         this.height = height;
         this.entity = entity;
@@ -75,7 +75,7 @@ public class Hitbox {
      * @param xOffset the x-coordinate offset of the hitbox
      * @param yOffset the y-coordinate offset of the hitbox
      */
-    public Hitbox(Item item, int width, int height, int xOffset, int yOffset) {
+    public Hitbox(Item item, double width, double height, double xOffset, double yOffset) {
         this.width = width;
         this.height = height;
         this.item = item;
@@ -97,7 +97,7 @@ public class Hitbox {
      * @param width the width of the hitbox
      * @param height the height of the hitbox
      */
-    public Hitbox(MapObject mapObject, int width, int height) {
+    public Hitbox(MapObject mapObject, double width, double height) {
         this.mapObject = mapObject;
         this.width = width;
         this.height = height;
@@ -117,7 +117,7 @@ public class Hitbox {
      * @param width the width of the hitbox
      * @param height the height of the hitbox
      */
-    public Hitbox(ActiveMapObject activeMapObject, int width, int height) {
+    public Hitbox(ActiveMapObject activeMapObject, double width, double height) {
         this.activeMapObject = activeMapObject;
         this.width = width;
         this.height = height;
@@ -139,7 +139,7 @@ public class Hitbox {
      * @param xOffset the x-coordinate offset of the hitbox
      * @param yOffset the y-coordinate offset of the hitbox
      */
-    public Hitbox(ActiveMapObject activeMapObject, int width, int height, int xOffset, int yOffset) {
+    public Hitbox(ActiveMapObject activeMapObject, double width, double height, double xOffset, double yOffset) {
         this.activeMapObject = activeMapObject;
         this.width = width;
         this.height = height;
@@ -187,9 +187,20 @@ public class Hitbox {
      */
     public void display(GraphicsContext gc){
         //display the hitbox
+        double displayX;
+        double displayY;
 
-        int displayX = entity != null ? entity.getScreenCoordX() : item != null ? item.getScreenCoordX() : mapObject.getScreenCoordX();
-        int displayY = entity != null ? entity.getScreenCoordY() : item != null ? item.getScreenCoordY() : mapObject.getScreenCoordY();
+        if (entity != null) {
+            displayX = entity.getScreenCoordX();
+            displayY = entity.getScreenCoordY();
+        } else if (item != null) {
+            displayX = item.getScreenCoordX();
+            displayY = item.getScreenCoordY();
+        } else {
+            displayX = mapObject.getScreenCoordX();
+            displayY = mapObject.getScreenCoordY();
+        }
+
         if (offset) {
             displayX += this.xOffset;
             displayY += this.yOffset;

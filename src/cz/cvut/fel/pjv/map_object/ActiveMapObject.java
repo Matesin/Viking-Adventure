@@ -49,32 +49,25 @@ public abstract class ActiveMapObject extends MapObject{
         super(worldCoordX, worldCoordY, idlePictureID);
         if (activationItemName != null){
             this.activationItem = createActivationItem(activationItemName);
-            log.debug("{} activation item: {}", this.getClass().getSimpleName(), activationItem);
         }
         this.activePictureID = activePictureID;
         this.activeImage = loadImage(activePictureID);
     }
     public void changeState(Item usedItem){
         // Change the state of the object
-        if (usedItem != null){
-            log.debug("Used item: {}", usedItem.getClass().getSimpleName());
-        }
-        if (activationItem != null){
-            log.debug("Activation item: {}", activationItem);
-        }
-
         if (activationItem == null) {
             reactToActivation();
         } else {
             if (usedItem != null && usedItem.getClass().getSimpleName().equals(activationItem)){
                 reactToActivation();
+                log.debug("Activation successful");
             }
         }
-        log.debug("Activation unsuccessful");
+        log.debug("Activation unsuccessful, activation item should be {}", activationItem);
     }
     protected void reactToActivation(){
         activated = !activated;
-        log.debug("Object {}", (activated ? "activated" : "deactivated"));
+        log.info("Object {}", (activated ? "activated" : "deactivated"));
         this.currentImage = activated ? activeImage : idleImage;
     }
     public void dealDamage(Character entity){
