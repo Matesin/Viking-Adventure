@@ -35,7 +35,7 @@ import static javafx.scene.paint.Color.WHITE;
  * It manages the crafting slots, craftable items, and the result slot.
  */
 @Slf4j
-public class CraftingGUI extends Pane {
+public class CraftingGUI extends Pane{
     private final Pane root = new Pane();
     private final GamePanel gamePanel;
     private Scene previousScene;

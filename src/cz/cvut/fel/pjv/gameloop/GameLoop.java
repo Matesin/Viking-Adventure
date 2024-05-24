@@ -20,7 +20,6 @@ public class GameLoop extends AnimationTimer {
     GamePanel gamePanel;
     GraphicsContext gc;
     InGameMenu inGameMenu;
-    Thread inventoryThread;
     InventoryGUI inventory;
     CraftingGUI crafting;
     /**
@@ -35,7 +34,6 @@ public class GameLoop extends AnimationTimer {
     }
 
     // GAME LOOP
-    //TODO implement multithreading
     /**
      * Private constructor to prevent instantiation.
      */
