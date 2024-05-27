@@ -166,8 +166,6 @@ public class GamePanel extends Pane {
     public void render(GraphicsContext gc) {
         refreshScreen(gc);
         this.mapManager.renderMap(gc);
-        this.player.hitbox.display(gc);
-        this.player.reactionRange.display(gc);
         this.itemManager.renderItems(gc);
         this.entityManager.renderEntities(gc);
         this.mapObjectManager.renderMapObjects(gc);

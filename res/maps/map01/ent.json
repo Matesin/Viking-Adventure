@@ -9,5 +9,10 @@
     "type": "warden",
     "x": 15,
     "y": 25
+  },
+  {
+    "type" : "task_villager",
+    "x" : 9,
+    "y" : 7
   }
 ]

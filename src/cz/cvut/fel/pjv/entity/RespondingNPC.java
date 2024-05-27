@@ -1,11 +1,14 @@
 package cz.cvut.fel.pjv.entity;
 
-/**
- * Abstract class representing a responding non-player character (NPC) in the game.
- * This class extends the NPC class and can be extended by specific types of responding NPCs.
- */
-public abstract class RespondingNPC extends NPC{
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import cz.cvut.fel.pjv.inventory.Inventory;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.*;
+
+@Slf4j
+public abstract class RespondingNPC extends NPC{
         /**
          * Constructor for RespondingNPC with specified world coordinates.
          *
@@ -16,10 +19,5 @@ public abstract class RespondingNPC extends NPC{
                 super(worldCoordX, worldCoordY);
         }
 
-        /**
-         * Handles the NPC's response to the player's actions.
-         */
-        public void respondToPlayer(){
-                // NPC will respond to the player's actions
-        }
+
 }

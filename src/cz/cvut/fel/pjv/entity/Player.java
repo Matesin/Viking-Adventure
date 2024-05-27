@@ -137,6 +137,8 @@ public class Player extends Character {
             lastUpdate = now;
         }
         gc.drawImage(currentSprite, getScreenCoordX(), getScreenCoordY());
+//        this.hitbox.display(gc);
+//        this.reactionRange.display(gc);
     }
 
     private Image setSpriteToIdle(){

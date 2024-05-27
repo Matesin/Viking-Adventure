@@ -232,7 +232,7 @@ public abstract class Character {
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
             gc.drawImage(this.currentSprite, screenCoordX, screenCoordY);
-            hitbox.display(gc);
+//            hitbox.display(gc);
         }
     }
     /**

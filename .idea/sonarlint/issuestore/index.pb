@@ -44,16 +44,10 @@ Q.idea/sonarlint/securityhotspotstore/f/5/f54eb3589a1617b84e4fae26ce078ac750b440
 Q.idea/sonarlint/securityhotspotstore/f/0/f0848af11684392fcab5744ea6ff1f1899c3f5b7,4/9/49dabad3b46e01ca4aa377343e0309e902b770a5
 Å
 Q.idea/sonarlint/securityhotspotstore/3/d/3d87d1172af91c565b276b1a58d84a16100886d6,1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c
-S
-#test/handling/EntitySetterTest.java,6/e/6ed5c22ebbf01f819052a1e819263843e20328db
-X
-(test/handling/JsonEntityHandlerTest.java,4/7/47d53c432b4e9b4dc54edc34e4efdcd5edd3e0b8
 Å
 Q.idea/sonarlint/securityhotspotstore/1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c,f/c/fcf044cadc2f2ec3032f071d80f6bf9b6e4e1b26
 w
 G.idea/sonarlint/issuestore/1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c,4/7/477c59e7511276908e709c1e726c09bb957c72d6
-Q
-!test/handling/ItemSetterTest.java,0/a/0a0f5aefc4c284bd42441f3a7623611859d74310
 Å
 Q.idea/sonarlint/securityhotspotstore/4/7/47d53c432b4e9b4dc54edc34e4efdcd5edd3e0b8,1/9/19d4f007ea07b3f462f1b9098f43fbdc1c5db1b9
 Å
@@ -116,8 +110,6 @@ f
 6src/cz/cvut/fel/pjv/gameloop/CalculationFunctions.java,c/5/c5618646ad0e65143e69cfd613ff2d0389439dca
 X
 (src/cz/cvut/fel/pjv/gameloop/Camera.java,5/8/58d55fa80528062c0f3cc1ae8961877996633b87
-b
-2src/cz/cvut/fel/pjv/gameloop/UtilityFunctions.java,3/1/31f9088186680b5b96017e78e39e489d147fc81d
 [
 +src/cz/cvut/fel/pjv/gameloop/Constants.java,6/f/6f99686d4416f9705850480639579659d2063c86
 T
@@ -144,8 +136,6 @@ R
 "src/cz/cvut/fel/pjv/menu/Menu.java,7/9/79611ab4b9d9186b7d782b72b19938c711eaf1ce
 X
 (src/cz/cvut/fel/pjv/menu/MenuButton.java,9/b/9bb95012488186da226b55e378d1580a24293adc
-Y
-)src/cz/cvut/fel/pjv/menu/MapSelector.java,2/b/2b8152f12b3a2c9c6a0bdb8bb22f1e44d234e001
 V
 &src/cz/cvut/fel/pjv/menu/GameMenu.java,d/7/d73d49debef110a64d068133275096a5953f77ec
 X
@@ -206,8 +196,6 @@ Y
 )src/cz/cvut/fel/pjv/entity/HealthBar.java,f/2/f2712d1e17e4b476adea1ba9b8879c5007b51c67
 [
 +src/cz/cvut/fel/pjv/inventory/ItemInfo.java,f/a/fa6d26d06e86fbcbc398a4ac90b9a9d350c1d3e0
-_
-/src/cz/cvut/fel/pjv/crafting/CraftingLogic.java,8/3/83d77395e28b08bd36f80fad4750ec2ac56b58d6
 ]
 -src/cz/cvut/fel/pjv/crafting/CraftingGUI.java,c/d/cdead5888af7454e7f928e1ccc832a742a06bc2a
 c
@@ -244,3 +232,9 @@ h
 8test/cz/cvut/fel/pjv/handling/JsonEntityHandlerTest.java,c/7/c766ca0e7d0a74664d7c073bf83e61cbf682da36
 a
 1test/cz/cvut/fel/pjv/handling/ItemSetterTest.java,4/9/49c25525e1f1b04a50c000fb94e5191860e54d87
+X
+(src/cz/cvut/fel/pjv/entity/Dialogue.java,5/7/57afa3d66b01966d998cdb936782464658e61c89
+[
++src/cz/cvut/fel/pjv/dialogues/Dialogue.java,3/9/39e3e4b1a9d6cf9506f92b02d4b38c1758213f02
+e
+5src/cz/cvut/fel/pjv/handling/JsonDialogueHandler.java,b/a/bab78631f4fde30d75944f0947a3174876a8bdd7

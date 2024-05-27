@@ -3,6 +3,8 @@ package cz.cvut.fel.pjv.handling;
 import cz.cvut.fel.pjv.entity.Player;
 import cz.cvut.fel.pjv.gameloop.Camera;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
+import cz.cvut.fel.pjv.item.Item;
+import cz.cvut.fel.pjv.map_object.Chest;
 import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +58,13 @@ public class MapObjectManager {
                         player.reactToMapObject() ){
                         log.debug("Player reacted to {}", activeMapObject);
                         activeMapObject.changeState(player.getInventory().getPickedItem());
+                        if(activeMapObject instanceof Chest chest && chest.isDroppingItem()){
+                            Item droppedItem = chest.dropItem();
+                            if (droppedItem != null) {
+                                gamePanel.getItemManager().getItems().ifPresent(items -> items.add(droppedItem));
+                                log.info("Item {} dropped by {}", droppedItem.getClass(), chest.getClass().getSimpleName());
+                            }
+                        }
                     } else if (player.hitbox.intersects(activeMapObject.hitbox) &&
                                 activeMapObject.isDealingDamage()) {
                         log.debug("Player hit by {}", activeMapObject.getClass().getSimpleName());

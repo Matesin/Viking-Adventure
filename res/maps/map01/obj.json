@@ -7,7 +7,6 @@
     "y": 30,
     "picture": "large_sword1.png"
   },
-
   {
     "type": "melee_weapon",
     "name": "Swordus minimus",
@@ -18,7 +17,6 @@
     "y": 10,
     "picture": "small_sword.png"
   },
-
   {
     "type": "melee_weapon",
     "name": "Axeus vikingus",
@@ -27,7 +25,6 @@
     "y": 300,
     "picture": "large_axe.png"
   },
-
   {
     "type": "melee_weapon",
     "name": "Hammerus basicus",
@@ -37,44 +34,6 @@
     "x": 6,
     "y": 7,
     "picture": "hammer.png"
-  },
-  {
-    "type": "melee_weapon",
-    "name": "Swordus minimus",
-    "description": "A basic sword",
-    "damage": 15,
-    "range": 1,
-    "x": 20,
-    "y": 10,
-    "picture": "small_sword.png"
-  },
-  {
-    "type": "melee_weapon",
-    "name": "Swordus minimus",
-    "description": "A basic sword",
-    "damage": 15,
-    "range": 1,
-    "x": 20,
-    "y": 10,
-    "picture": "small_sword.png"
-  },
-  {
-    "type": "melee_weapon",
-    "name": "Swordus minimus",
-    "description": "A basic sword",
-    "damage": 15,
-    "range": 1,
-    "x": 20,
-    "y": 10,
-    "picture": "small_sword.png"
-  },
-  {
-    "type": "bucket",
-    "name": "Bucketos oss",
-    "description": "Can be used to extinguish fires",
-    "x": 15,
-    "y": 20,
-    "picture": "bucket.png"
   },
   {
     "type": "wood",
