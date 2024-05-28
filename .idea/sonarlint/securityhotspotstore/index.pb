@@ -48,12 +48,6 @@ Q.idea/sonarlint/securityhotspotstore/3/d/3d87d1172af91c565b276b1a58d84a16100886
 Q.idea/sonarlint/securityhotspotstore/1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c,f/c/fcf044cadc2f2ec3032f071d80f6bf9b6e4e1b26
 w
 G.idea/sonarlint/issuestore/1/e/1ee9a7890f1746eea964b1008bc5fb00525c0c0c,4/7/477c59e7511276908e709c1e726c09bb957c72d6
-Å
-Q.idea/sonarlint/securityhotspotstore/4/7/47d53c432b4e9b4dc54edc34e4efdcd5edd3e0b8,1/9/19d4f007ea07b3f462f1b9098f43fbdc1c5db1b9
-Å
-Q.idea/sonarlint/securityhotspotstore/6/e/6ed5c22ebbf01f819052a1e819263843e20328db,d/3/d375f1d3195740c9a0bc42c0cf9d590a7da36ec9
-w
-G.idea/sonarlint/issuestore/4/7/47d53c432b4e9b4dc54edc34e4efdcd5edd3e0b8,3/1/310c4abc26af31ea72016f02ebd1e304361a708e
 w
 G.idea/sonarlint/issuestore/4/7/477c59e7511276908e709c1e726c09bb957c72d6,3/0/30950e04c70e59c995f61c1bf357dded4b125b17
 Å
@@ -62,12 +56,6 @@ Q.idea/sonarlint/securityhotspotstore/f/c/fcf044cadc2f2ec3032f071d80f6bf9b6e4e1b
 Q.idea/sonarlint/securityhotspotstore/4/7/477c59e7511276908e709c1e726c09bb957c72d6,e/0/e084d6ee524d9d94e6601bb2799860ee3490feb1
 w
 G.idea/sonarlint/issuestore/f/c/fcf044cadc2f2ec3032f071d80f6bf9b6e4e1b26,1/6/16d2286f1051f7263b1b1bd065fb5d3b3be13aa2
-w
-G.idea/sonarlint/issuestore/0/a/0a0f5aefc4c284bd42441f3a7623611859d74310,3/6/36b650d3001da1774c5be35d7c1a459230905978
-Å
-Q.idea/sonarlint/securityhotspotstore/0/a/0a0f5aefc4c284bd42441f3a7623611859d74310,7/b/7bc40999ccef2d944a8beabd7c2ac7e94274f259
-w
-G.idea/sonarlint/issuestore/6/e/6ed5c22ebbf01f819052a1e819263843e20328db,7/8/78fa3a78ebd24109decf5eca1046a27fb7531c26
 7
 pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 S
@@ -232,9 +220,3 @@ h
 8test/cz/cvut/fel/pjv/handling/JsonEntityHandlerTest.java,c/7/c766ca0e7d0a74664d7c073bf83e61cbf682da36
 a
 1test/cz/cvut/fel/pjv/handling/ItemSetterTest.java,4/9/49c25525e1f1b04a50c000fb94e5191860e54d87
-X
-(src/cz/cvut/fel/pjv/entity/Dialogue.java,5/7/57afa3d66b01966d998cdb936782464658e61c89
-[
-+src/cz/cvut/fel/pjv/dialogues/Dialogue.java,3/9/39e3e4b1a9d6cf9506f92b02d4b38c1758213f02
-e
-5src/cz/cvut/fel/pjv/handling/JsonDialogueHandler.java,b/a/bab78631f4fde30d75944f0947a3174876a8bdd7

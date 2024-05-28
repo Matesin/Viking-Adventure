@@ -1,50 +1,32 @@
 [
   {
-    "type": "melee_weapon",
-    "name": "Swordus maximus",
-    "description": "Huuge sword",
-    "x": 10,
-    "y": 30,
-    "picture": "large_sword1.png"
-  },
-  {
-    "type": "melee_weapon",
-    "name": "Swordus minimus",
-    "description": "A basic sword",
-    "damage": 15,
-    "range": 1,
-    "x": 20,
-    "y": 10,
-    "picture": "small_sword.png"
-  },
-  {
-    "type": "melee_weapon",
-    "name": "Axeus vikingus",
-    "description": "A large axe",
-    "x": 300,
-    "y": 300,
-    "picture": "large_axe.png"
-  },
-  {
-    "type": "melee_weapon",
-    "name": "Hammerus basicus",
-    "description": "A basic hammer",
-    "damage": 10,
-    "range": 3,
-    "x": 6,
-    "y": 7,
-    "picture": "hammer.png"
+    "type": "wood",
+    "x": 35,
+    "y": 15,
+    "picture": "wood.png"
   },
   {
     "type": "wood",
-    "x": 15,
-    "y": 15,
+    "x": 25,
+    "y": 30,
     "picture": "wood.png"
   },
   {
     "type": "iron_ore",
     "x": 15,
-    "y": 18,
+    "y": 30,
+    "picture": "iron_ore.png"
+  },
+  {
+    "type": "iron_ore",
+    "x": 28,
+    "y": 16,
+    "picture": "iron_ore.png"
+  },
+  {
+    "type": "iron_ore",
+    "x": 35,
+    "y": 8,
     "picture": "iron_ore.png"
   }
 ]

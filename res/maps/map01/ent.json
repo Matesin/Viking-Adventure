@@ -13,6 +13,28 @@
   {
     "type" : "task_villager",
     "x" : 9,
-    "y" : 7
+    "y" : 7,
+    "dialogues": [
+      ["Hello hardest geezer!", "I might need your help.", "My sword is locked in that chest over there.", "Could you get it for me? I can't move"],
+      ["Thank you for your help!", "Here is your reward."],
+      ["Yo lad, you've already helped me.", "I don't have any more tasks for you"]
+    ],
+    "interactable_items": [
+      {
+        "type": "melee_weapon",
+        "name": "Swordus minimus",
+        "picture": "small_sword.png"
+      }
+    ],
+    "reward_items": [
+      {
+        "type": "level_key",
+        "name": "Keyoff levelon",
+        "description": "This is a reward item",
+        "level": 1,
+        "key_id": 123,
+        "picture": "key1.png"
+      }
+    ]
   }
 ]

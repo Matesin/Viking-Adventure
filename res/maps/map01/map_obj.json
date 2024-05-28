@@ -1,75 +1,615 @@
 [
   {
     "type": "bush",
-    "x": 10,
-    "y": 10,
+    "x": 44,
+    "y": 40,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
-    "x": 11,
-    "y": 10,
+    "x": 39,
+    "y": 5,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
-    "x": 12,
-    "y": 10,
+    "x": 20,
+    "y": 43,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 44,
+    "y": 35,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 44,
+    "y": 29,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 42,
+    "y": 6,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 27,
+    "y": 5,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 47,
+    "y": 19,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 39,
+    "y": 38,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 29,
+    "y": 14,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
     "x": 13,
-    "y": 10,
+    "y": 48,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
-    "x": 14,
-    "y": 10,
+    "x": 20,
+    "y": 44,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
-    "x": 15,
-    "y": 10,
+    "x": 40,
+    "y": 6,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 7,
+    "y": 12,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 26,
+    "y": 27,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
     "x": 16,
-    "y": 10,
+    "y": 39,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
-    "x": 17,
-    "y": 10,
+    "x": 37,
+    "y": 23,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 42,
+    "y": 6,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 42,
+    "y": 46,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 16,
+    "y": 29,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 42,
+    "y": 36,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 26,
+    "y": 29,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 21,
+    "y": 28,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 10,
+    "y": 50,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 36,
+    "y": 43,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 41,
+    "y": 27,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 14,
+    "y": 18,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 12,
+    "y": 22,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 40,
+    "y": 28,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 25,
+    "y": 41,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 35,
+    "y": 19,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 41,
+    "y": 9,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 23,
+    "y": 23,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 47,
+    "y": 22,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 22,
+    "y": 18,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 36,
+    "y": 25,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 49,
+    "y": 32,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 38,
+    "y": 49,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 31,
+    "y": 33,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 48,
+    "y": 42,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 28,
+    "y": 20,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 35,
+    "y": 28,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 50,
+    "y": 49,
     "idle_picture": "snowy_bush.png"
   },
   {
     "type": "bush",
     "x": 18,
-    "y": 10,
+    "y": 49,
     "idle_picture": "snowy_bush.png"
   },
   {
-    "type": "chest",
-    "x": 17,
-    "y": 2,
-    "idle_picture": "chestIdle.png",
-    "active_picture": "chestActive.png",
-    "items": [
-      {
-        "type": "melee_weapon",
-        "name": "Swordus minimus",
-        "description": "A basic sword",
-        "damage": 15,
-        "range": 1,
-        "picture": "small_sword.png"
-      }
-    ]
+    "type": "bush",
+    "x": 29,
+    "y": 38,
+    "idle_picture": "snowy_bush.png"
   },
+  {
+    "type": "bush",
+    "x": 37,
+    "y": 49,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 7,
+    "y": 39,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 43,
+    "y": 9,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 36,
+    "y": 19,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 5,
+    "y": 14,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 11,
+    "y": 25,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 47,
+    "y": 42,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 8,
+    "y": 13,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 35,
+    "y": 50,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 17,
+    "y": 35,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 15,
+    "y": 7,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 29,
+    "y": 15,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 46,
+    "y": 39,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 42,
+    "y": 12,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 41,
+    "y": 50,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 10,
+    "y": 42,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 50,
+    "y": 23,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 47,
+    "y": 23,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 27,
+    "y": 14,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 20,
+    "y": 43,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 5,
+    "y": 24,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 17,
+    "y": 41,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 29,
+    "y": 43,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 18,
+    "y": 22,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 31,
+    "y": 38,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 48,
+    "y": 34,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 35,
+    "y": 16,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 42,
+    "y": 39,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 15,
+    "y": 49,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 40,
+    "y": 44,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 35,
+    "y": 49,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 27,
+    "y": 40,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 14,
+    "y": 12,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 29,
+    "y": 5,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 12,
+    "y": 43,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 33,
+    "y": 48,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 13,
+    "y": 43,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 34,
+    "y": 38,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 32,
+    "y": 25,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 11,
+    "y": 21,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 36,
+    "y": 18,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 40,
+    "y": 7,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 22,
+    "y": 47,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 8,
+    "y": 27,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 21,
+    "y": 27,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 10,
+    "y": 19,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 47,
+    "y": 27,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 23,
+    "y": 46,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 11,
+    "y": 46,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 43,
+    "y": 7,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 23,
+    "y": 29,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 39,
+    "y": 8,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 20,
+    "y": 36,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+    "type": "bush",
+    "x": 24,
+    "y": 8,
+    "idle_picture": "snowy_bush.png"
+  },
+  {
+  "type": "chest",
+  "x": 17,
+  "y": 2,
+  "idle_picture": "chestIdle.png",
+  "active_picture": "chestActive.png",
+  "items": [
+    {
+      "type": "melee_weapon",
+      "name": "Swordus minimus",
+      "description": "A basic sword",
+      "damage": 15,
+      "range": 1,
+      "picture": "small_sword.png"
+    }
+  ]
+},
   {
     "type" : "fire",
     "x" : 19,

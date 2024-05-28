@@ -55,7 +55,7 @@ public class MapObjectManager {
                 mapObject.render(gc, this.gamePanel);
                 if(mapObject instanceof ActiveMapObject activeMapObject){
                     if (player.reactionRange.intersects(activeMapObject.hitbox) &&
-                        player.reactToMapObject() ){
+                        player.react() ){
                         log.debug("Player reacted to {}", activeMapObject);
                         activeMapObject.changeState(player.getInventory().getPickedItem());
                         if(activeMapObject instanceof Chest chest && chest.isDroppingItem()){

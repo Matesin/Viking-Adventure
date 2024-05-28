@@ -141,4 +141,11 @@ public class Constants {
         public static final int RESULT_TEXT_SLEEP = 3000;
         public static final int RESULT_TEXT_SIZE = 35;
     }
+    public static class Dialogues {
+        private Dialogues() {
+            log.error(CONSTANT_CREATION, "Utility Dialogues class created");
+        }
+        public static final int DIALOGUE_TEXT_SIZE = 20;
+        public static final int DIALOGUE_TEXT_SLEEP = 4000;
+    }
 }

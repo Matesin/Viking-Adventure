@@ -21,11 +21,11 @@ public class LevelKey extends Item {
                     @JsonProperty("key_id") int id,
                     @JsonProperty("x") int worldCoordX,
                     @JsonProperty("y") int worldCoordY,
-                    @JsonProperty("picture") String pictureID) throws FileNotFoundException {
+                    @JsonProperty("picture") String pictureID) {
         super(worldCoordX, worldCoordY, pictureID);
         this.name = name;
         this.level = level;
         this.id = id;
-        loadImage(level + "_key_" + this.id);
+        loadImage(pictureID);
     }
 }

@@ -2,6 +2,7 @@ package cz.cvut.fel.pjv.handling;
 
 import cz.cvut.fel.pjv.entity.Character;
 import cz.cvut.fel.pjv.entity.Player;
+import cz.cvut.fel.pjv.entity.TaskVillager;
 import cz.cvut.fel.pjv.gameloop.Camera;
 import cz.cvut.fel.pjv.gameloop.GamePanel;
 import javafx.scene.canvas.GraphicsContext;
@@ -27,6 +28,8 @@ public class EntityManager {
     Optional<List<Character>> entities;
     private final Camera camera;
     private final GamePanel gamePanel;
+    private Player player;
+
     /**
      * Constructor for EntityManager with specified game panel.
      *
@@ -38,6 +41,7 @@ public class EntityManager {
         EntitySetter entitySetter = new EntitySetter(gamePanel.getMapIDString(), gamePanel.isLoadSaved());
         this.entities = entitySetter.setEntities();
         this.camera = gamePanel.getCamera();
+        this.player = gamePanel.player;
     }
     /**
      * Checks if an entity is on the screen.
@@ -64,6 +68,12 @@ public class EntityManager {
             for (Character entity : entities.get()) {
                 if (isOnScreen(entity)) {
                     entity.render(gc, this.gamePanel);
+                    if (player.reactionRange.intersects(entity.hitbox) &&
+                        player.react() &&
+                        entity instanceof TaskVillager taskVillager){
+                         taskVillager.respondToPlayer(this.gamePanel);
+                         log.debug("Player reacted to {}", taskVillager);
+                        }
                 }
             }
         }

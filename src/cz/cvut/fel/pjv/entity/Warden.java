@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
  * This class extends the TaskAuthority class and represents a specific type of task authority NPC.
  */
 @Slf4j
-public class Warden extends TaskAuthority{
+public class Warden extends Enemy{
     /**
      * Constructor for Warden with specified world coordinates.
      *

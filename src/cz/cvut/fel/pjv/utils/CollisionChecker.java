@@ -42,7 +42,6 @@ public class CollisionChecker {
         int entityRightCol = (int) entityRightX / TILE_SIZE;
         int entityTopRow = (int) entityTopY / TILE_SIZE;
         int entityBottomRow = (int) entityBottomY / TILE_SIZE;
-
         switch (entity.getDirection()){
             case DIR_UP:
                 entityTopRow = (int) (entityTopY - entity.getSpeed()) / TILE_SIZE;

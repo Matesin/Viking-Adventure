@@ -12,7 +12,7 @@ sea_ice_top_right 10 false false
 sea_water_left 11 true true
 sea_water_right 12 true true
 snow 13 false false
-snow_gravel 14 false false
+snow_gravel 25 false false
 tile_central 15 false false
 water 16 true true
 water_bottom 17 true true
@@ -23,4 +23,4 @@ water_right 21 true true
 water_top 22 true true
 water_top_left 23 true true
 water_top_right 24 true true
-snow 25 false false
+snow 14 false false

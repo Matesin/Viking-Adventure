@@ -120,6 +120,7 @@ public class Player extends Character {
         }
         lastCoordX = worldCoordX;
         lastCoordY = worldCoordY;
+        log.debug("Player position: x = {}, y = {}", worldCoordX / TILE_SIZE, worldCoordY / TILE_SIZE);
     }
     /**
      * Renders the player on the screen.
@@ -213,7 +214,7 @@ public class Player extends Character {
      *
      * @return true if the player reacted to the map object, false otherwise
      */
-    public boolean reactToMapObject(){
+    public boolean react(){
         if (input.isUseItem()){
             input.setUseItem(false);
             return true;

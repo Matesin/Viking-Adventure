@@ -95,6 +95,7 @@ public abstract class Item {
     List<String> craftingMaterials;
     static final String IRON_ORE = "IronOre";
     static final String WOOD = "Wood";
+    static final String BUCKET = "Bucket";
     /**
      * Constructor for Item with specified world coordinates and image name.
      *
@@ -222,7 +223,7 @@ public abstract class Item {
      */
     public static Item createItem(String type, String name, String description, String imageName) {
         return switch (type) {
-            case "Bucket" -> new Bucket(name, description, imageName);
+            case BUCKET -> new Bucket(name, description, imageName);
             case IRON_ORE -> new IronOre(imageName);
             case WOOD -> new Wood(imageName);
             default -> throw new IllegalArgumentException("Invalid item type: " + type);

@@ -98,6 +98,11 @@ public class CraftingGUI extends Pane{
             itemSlots.add(new Pair<>(item, () -> handleCraftingSlotClick(item)));
         }
     }
+
+    /**
+     * Initializes the crafting arrow.
+     */
+
     private void initArrow(){
         //assuming the arrow is located in this file every time
         ImageView arrow = new ImageView(new Image("gui/crafting_arrow.png"));
@@ -108,6 +113,12 @@ public class CraftingGUI extends Pane{
         arrow.setOpacity(0.75);
         this.root.getChildren().add(arrow);
     }
+
+    /**
+     * Handles the crafting slot click.
+     *
+     * @param item The item to handle the crafting slot click for.
+     */
 
     private void handleCraftingSlotClick(Item item) {
         log.debug("clicked on item {}", item.getName());
@@ -143,6 +154,13 @@ public class CraftingGUI extends Pane{
         }
     }
 
+    /**
+     * Counts the found items.
+     *
+     * @param item The item to count the found items for.
+     * @return The count of the found items.
+     */
+
     private int countFoundItems(Item item) {
         int foundItems = 0;
         for (String neededItem : item.getCraftingMaterials()){
@@ -150,6 +168,13 @@ public class CraftingGUI extends Pane{
         }
         return foundItems;
     }
+
+    /**
+     * Counts the inventory items.
+     *
+     * @param neededItem The item to count.
+     * @return The count of the inventory items.
+     */
 
     private int countInventoryItems(String neededItem) {
         int count = 0;
@@ -186,14 +211,30 @@ public class CraftingGUI extends Pane{
         logResultSlotUpdate(item);
     }
 
+    /**
+     * Removes the result slot from the root.
+     */
+
     private void removeResultSlotFromRoot() {
         this.root.getChildren().remove(resultSlot.getInventorySlot());
     }
+
+    /**
+     * Sets the item of the result slot.
+     *
+     * @param item The item to set the result slot with.
+     */
 
     private void setResultSlotItem(Item item) {
         resultSlot.setItem(item);
         resultSlot.initImage();
     }
+
+    /**
+     * Sets the on mouse clicked event for the result slot.
+     *
+     * @param item The item to set the on mouse clicked event for.
+     */
 
     private void setResultSlotOnMouseClicked(Item item) {
         resultSlot.getInventorySlot().setOnMouseClicked(event -> {
@@ -206,6 +247,12 @@ public class CraftingGUI extends Pane{
             gamePanel.getInGameInventoryBar().update();
         });
     }
+
+    /**
+     * Displays the removed items.
+     *
+     * @param item The item to display the removed items for.
+     */
 
     private void displayRemovedItems(Item item) {
         Text text = createText("Removed items:", CRAFTING_ARROW_X, CRAFTING_GRID_Y - CRAFTING_SLOT_PADDING);
@@ -222,6 +269,15 @@ public class CraftingGUI extends Pane{
         removeTextAfterDelay(removedFromInvText);
     }
 
+    /**
+     * Creates a text with the given content, x, and y.
+     *
+     * @param content The content of the text.
+     * @param x The x coordinate of the text.
+     * @param y The y coordinate of the text.
+     * @return The created text.
+     */
+
     private Text createText(String content, double x, double y) {
         Text text = new Text(content);
         text.setLayoutX(x);
@@ -233,6 +289,11 @@ public class CraftingGUI extends Pane{
         return text;
     }
 
+    /**
+     * Removes the text after a delay.
+     *
+     * @param text The text to remove.
+     */
     private void removeTextAfterDelay(Text text) {
         new Thread(() -> {
             try {
@@ -246,12 +307,24 @@ public class CraftingGUI extends Pane{
         }).start();
     }
 
+    /**
+     * Handles the crafting materials.
+     *
+     * @param item The item to craft.
+     */
+
     private void handleCraftingMaterials(Item item) {
         for (int i = 0; i < item.getCraftingMaterials().size(); i++) {
             handleInventoryItems(item, i);
         }
     }
 
+    /**
+     * Handles the inventory items.
+     *
+     * @param item The item to craft.
+     * @param i The index of the item in the crafting materials list.
+     */
     private void handleInventoryItems(Item item, int i) {
         for (int j = 0; j < inventory.getCapacity(); j++) {
             if (inventory.getItems()[j] != null && inventory.getItems()[j].getClass().getSimpleName().equals(item.getCraftingMaterials().get(i))) {
@@ -262,16 +335,29 @@ public class CraftingGUI extends Pane{
         }
     }
 
+    /**
+     * Handles the picked item.
+     *
+     * @param j The index of the item in the inventory.
+     */
     private void handlePickedItem(int j) {
         if(inventory.getPickedItem() != null && inventory.getPickedItem().equals(inventory.getItems()[j])){
             inventory.setPickedItem(null);
         }
     }
 
+    /**
+     * Adds the result slot to the root.
+     */
     private void addResultSlotToRoot() {
         this.root.getChildren().add(resultSlot.getInventorySlot());
     }
 
+    /**
+     * Logs the result slot update.
+     *
+     * @param item The item to update the result slot with.
+     */
     private void logResultSlotUpdate(Item item) {
         if (item != null){
             log.debug("result slot updated with item {}", item.getName());
