@@ -120,7 +120,6 @@ public class Player extends Character {
         }
         lastCoordX = worldCoordX;
         lastCoordY = worldCoordY;
-        log.debug("Player position: x = {}, y = {}", worldCoordX / TILE_SIZE, worldCoordY / TILE_SIZE);
     }
     /**
      * Renders the player on the screen.

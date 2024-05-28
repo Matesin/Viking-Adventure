@@ -38,8 +38,9 @@ public class Fire extends ActiveMapObject{
                     @JsonProperty("idle_picture") String idlePictureID,
                     @JsonProperty("active_picture") String activePictureID,
                     @JsonProperty("extinguished_picture") String extinguishedPictureID,
-                    @JsonProperty("activation_item") String activationItemID) {
-        super(worldCoordX, worldCoordY, idlePictureID, activePictureID, activationItemID);
+                    @JsonProperty("activation_item") String activationItemID,
+                    @JsonProperty("current_image") String currentImage){
+        super(worldCoordX, worldCoordY, idlePictureID, activePictureID, activationItemID, currentImage);
         this.extinguishedPictureID = extinguishedPictureID;
         this.extinguishedImage = loadImage(extinguishedPictureID);
         this.hitbox = new Hitbox(this,  this.idleImage.getWidth() /2, (int) (this.idleImage.getHeight()/1.3), this.idleImage.getWidth()/4,this.idleImage.getHeight()/4);
@@ -55,6 +56,7 @@ public class Fire extends ActiveMapObject{
         log.info("Fire extinguished");
         this.hitbox = new Hitbox(this, 0,0,0,0);
         this.currentImage = extinguishedImage;
+        this.currentImageID = extinguishedPictureID;
     }
 
     @Override

@@ -1,9 +1,7 @@
 package cz.cvut.fel.pjv.inventory;
 
 import cz.cvut.fel.pjv.gameloop.GamePanel;
-import cz.cvut.fel.pjv.item.Bucket;
 import cz.cvut.fel.pjv.item.Item;
-import cz.cvut.fel.pjv.menu.Menu;
 import cz.cvut.fel.pjv.menu.MenuButton;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Parent;

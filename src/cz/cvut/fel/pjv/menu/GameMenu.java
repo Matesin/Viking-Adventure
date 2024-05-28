@@ -1,7 +1,5 @@
 package cz.cvut.fel.pjv.menu;
 
-import javafx.scene.Parent;
-
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 

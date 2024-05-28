@@ -174,6 +174,7 @@ public abstract class TaskAuthority extends RespondingNPC{
                 Thread.sleep(DIALOGUE_TEXT_SLEEP);
             } catch (InterruptedException e) {
                 log.info("Text removed before timeout", e);
+                Thread.currentThread().interrupt();
             }
             Platform.runLater(() -> root.getChildren().remove(text));
         });

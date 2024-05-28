@@ -25,23 +25,14 @@ public class Chest extends ActiveMapObject{
      * @param activePictureID picture ID of the chest when activated
      * @param activationItem item needed to activate the chest
      */
-//
-//    protected Chest(@JsonProperty("x")int worldCoordX,
-//                    @JsonProperty("y") int worldCoordY,
-//                    @JsonProperty("idle_picture") String idlePictureID,
-//                    @JsonProperty("active_picture") String activePictureID,
-//                    @JsonProperty("activation_item") String activationItem) {
-//        super(worldCoordX, worldCoordY, idlePictureID, activePictureID, activationItem);
-//        this.items = null;
-//    }
-
     protected Chest(@JsonProperty("x")int worldCoordX,
                     @JsonProperty("y") int worldCoordY,
                     @JsonProperty("idle_picture") String idlePictureID,
                     @JsonProperty("active_picture") String activePictureID,
                     @JsonProperty("activation_item") String activationItem,
-                    @JsonProperty("items") List<Item> items) {
-        super(worldCoordX, worldCoordY, idlePictureID, activePictureID, activationItem);
+                    @JsonProperty("items") List<Item> items,
+                    @JsonProperty("current_image") String currentImage){
+        super(worldCoordX, worldCoordY, idlePictureID, activePictureID, activationItem, currentImage);
         this.items = items;
         if (items != null) {
             for (Item item : items) {
@@ -55,6 +46,7 @@ public class Chest extends ActiveMapObject{
         activated = false;
         log.info("Chest opened");
         this.currentImage = activeImage;
+        this.currentImageID = activePictureID;
     }
 
     @Override

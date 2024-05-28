@@ -56,22 +56,6 @@ public class Menu extends Application implements GameMenu{
                     new GamePanel(scene, game, true);
                     stage.setScene(scene);
                 }),
-                new Pair<>("Settings", () -> {
-                    StackPane settings = new StackPane();
-                    Scene scene = new Scene(settings, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    Stage stage = (Stage) this.root.getScene().getWindow();
-                    new GameSettings();
-                    stage.setScene(scene);
-
-                    //***TEMPORARY
-                    Text text = new Text("Under Construction");
-                    text.setX(SCREEN_MIDDLE_X);
-                    text.setY(SCREEN_MIDDLE_Y);
-                    text.setFill(Color.BLACK);
-                    text.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-                    this.root.getChildren().add(text);
-                    //TEMPORARY***
-                }),
                 new Pair<>("Exit", () -> System.exit(0))
         );
     }

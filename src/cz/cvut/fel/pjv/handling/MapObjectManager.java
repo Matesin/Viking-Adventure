@@ -54,25 +54,27 @@ public class MapObjectManager {
             for (MapObject mapObject : mapObjects.get()) {
                 mapObject.render(gc, this.gamePanel);
                 if(mapObject instanceof ActiveMapObject activeMapObject){
-                    if (player.reactionRange.intersects(activeMapObject.hitbox) &&
-                        player.react() ){
-                        log.debug("Player reacted to {}", activeMapObject);
-                        activeMapObject.changeState(player.getInventory().getPickedItem());
-                        if(activeMapObject instanceof Chest chest && chest.isDroppingItem()){
-                            Item droppedItem = chest.dropItem();
-                            if (droppedItem != null) {
-                                gamePanel.getItemManager().getItems().ifPresent(items -> items.add(droppedItem));
-                                log.info("Item {} dropped by {}", droppedItem.getClass(), chest.getClass().getSimpleName());
-                            }
-                        }
-                    } else if (player.hitbox.intersects(activeMapObject.hitbox) &&
-                                activeMapObject.isDealingDamage()) {
-                        log.debug("Player hit by {}", activeMapObject.getClass().getSimpleName());
-                        activeMapObject.dealDamage(player);
-                    }
+                    handleActiveMapObject(activeMapObject);
                 }
-
             }
+        }
+    }
+    private void handleActiveMapObject(ActiveMapObject activeMapObject) {
+        if (player.reactionRange.intersects(activeMapObject.hitbox) &&
+                player.react() ){
+            log.debug("Player reacted to {}", activeMapObject);
+            activeMapObject.changeState(player.getInventory().getPickedItem());
+            if(activeMapObject instanceof Chest chest && chest.isDroppingItem()){
+                Item droppedItem = chest.dropItem();
+                if (droppedItem != null) {
+                    gamePanel.getItemManager().getItems().ifPresent(items -> items.add(droppedItem));
+                    log.info("Item {} dropped by {}", droppedItem.getClass(), chest.getClass().getSimpleName());
+                }
+            }
+        } else if (player.hitbox.intersects(activeMapObject.hitbox) &&
+                activeMapObject.isDealingDamage()) {
+            log.debug("Player hit by {}", activeMapObject.getClass().getSimpleName());
+            activeMapObject.dealDamage(player);
         }
     }
     public void saveItems(){

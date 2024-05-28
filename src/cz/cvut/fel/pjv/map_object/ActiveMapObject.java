@@ -45,8 +45,9 @@ public abstract class ActiveMapObject extends MapObject{
                               @JsonProperty("y") int worldCoordY,
                               @JsonProperty("idle_picture") String idlePictureID,
                               @JsonProperty("active_picture") String activePictureID,
-                              @JsonProperty("activation_item") String activationItemName) {
-        super(worldCoordX, worldCoordY, idlePictureID);
+                              @JsonProperty("activation_item") String activationItemName,
+                              @JsonProperty("current_image") String currentImage){
+        super(worldCoordX, worldCoordY, idlePictureID, currentImage);
         if (activationItemName != null){
             this.activationItem = createActivationItem(activationItemName);
         }
@@ -69,6 +70,7 @@ public abstract class ActiveMapObject extends MapObject{
         activated = !activated;
         log.info("Object {}", (activated ? "activated" : "deactivated"));
         this.currentImage = activated ? activeImage : idleImage;
+
     }
     public void dealDamage(Character entity){
         damageDealer.dealDamage(entity);

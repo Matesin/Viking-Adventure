@@ -1,11 +1,18 @@
 package cz.cvut.fel.pjv.gameloop;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Class containing static methods for various calculations.
  * Most of the methods are used for calculating distances and angles, but not yet implemented in the game.
 
  */
+@Slf4j
 public class CalculationFunctions {
+
+        private CalculationFunctions() {
+            log.error("This class should not be instantiated.");
+        }
         public static double distance(double x1, double y1, double x2, double y2){
             return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
         }
@@ -59,11 +66,4 @@ public class CalculationFunctions {
         public static double wrapAngle(double a, double min, double max, double offset){
             return wrap(a, min + offset, max + offset);
         }
-        public static double wrapAngleOffset(double a, double offset){
-            return wrap(a, -Math.PI, Math.PI, offset);
-        }
-
-    private static double wrap(double a, double v, double pi, double offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

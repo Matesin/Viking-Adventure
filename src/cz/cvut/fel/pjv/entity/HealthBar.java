@@ -1,14 +1,17 @@
 package cz.cvut.fel.pjv.entity;
 
 import javafx.scene.control.ProgressBar;
+import lombok.Getter;
 
-import javax.swing.text.html.parser.Entity;
-
+/**
+ * Class representing the health bar of a character.
+ */
 public class HealthBar {
     private int health;
-    private int maxHealth;
-    private Character entity;
-    public ProgressBar healthBar;
+    private final int maxHealth;
+    private final Character entity;
+    @Getter
+    private ProgressBar healthProgressBar;
 
     public HealthBar(Character entity, int maxHealth){
         this.health = entity.getHealth();
@@ -17,20 +20,20 @@ public class HealthBar {
     }
     public void update(){
         this.health = entity.getHealth();
-        healthBar.setProgress((double) health / maxHealth);
+        healthProgressBar.setProgress((double) health / maxHealth);
     }
     public void init(){
-        healthBar = new ProgressBar();
-        healthBar.setProgress((double) health / maxHealth);
+        healthProgressBar = new ProgressBar();
+        healthProgressBar.setProgress((double) health / maxHealth);
     }
     public void display(){
         if (entity instanceof Player){
-            healthBar.setLayoutX(10);
-            healthBar.setLayoutY(10);
+            healthProgressBar.setLayoutX(10);
+            healthProgressBar.setLayoutY(10);
         }
         else{
-            healthBar.setLayoutX(entity.getScreenCoordX());
-            healthBar.setLayoutY(entity.getScreenCoordY() - 10);
+            healthProgressBar.setLayoutX(entity.getScreenCoordX());
+            healthProgressBar.setLayoutY(entity.getScreenCoordY() - 10);
         }
     }
 }

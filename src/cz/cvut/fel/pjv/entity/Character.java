@@ -27,6 +27,7 @@ import static cz.cvut.fel.pjv.gameloop.Constants.GraphicsDefaults.*;
 
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TaskVillager.class, name = "task_villager"),
+        @JsonSubTypes.Type(value = TaskVillager.class, name = "taskvillager"),
         @JsonSubTypes.Type(value = Mob.class, name = "mob"),
         @JsonSubTypes.Type(value = Warden.class, name = "warden"),
 })
@@ -232,7 +233,6 @@ public abstract class Character {
                 screenCoordY >= - TILE_SIZE &&
                 screenCoordY <= SCREEN_HEIGHT) {
             gc.drawImage(this.currentSprite, screenCoordX, screenCoordY);
-//            hitbox.display(gc);
         }
     }
     /**

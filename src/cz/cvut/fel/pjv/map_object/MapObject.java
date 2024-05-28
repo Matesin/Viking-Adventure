@@ -28,9 +28,6 @@ import static cz.cvut.fel.pjv.gameloop.Constants.Tile.TILE_SIZE;
         @JsonSubTypes.Type(value = Fire.class, name = "fire"),
 })
 
-/**
- * Class representing a map object.
- */
 @Slf4j
 public abstract class MapObject {
     @JsonGetter("type")
@@ -51,13 +48,19 @@ public abstract class MapObject {
     public double getY() {
         return this.worldCoordY / TILE_SIZE;
     }
+    @JsonGetter("current_image")
+    public String getCurrentImageID() {
+        return currentImageID;
+    }
     String itemName;
     String idlePictureID;
     @Getter
     @Setter
+    @JsonIgnore
     double worldCoordX;
     @Getter
     @Setter
+    @JsonIgnore
     double worldCoordY;
     @JsonIgnore
     @Getter
@@ -71,6 +74,7 @@ public abstract class MapObject {
     Image currentImage;
     @JsonIgnore
     public Hitbox hitbox;
+    String currentImageID;
 
     /**
      * Constructor for a map object.
@@ -81,18 +85,20 @@ public abstract class MapObject {
     @JsonCreator
     protected MapObject(@JsonProperty("x") int worldCoordX,
                         @JsonProperty("y") int worldCoordY,
-                        @JsonProperty("idle_picture") String idlePictureID) {
+                        @JsonProperty("idle_picture") String idlePictureID,
+                        @JsonProperty("current_image") String currentImageID) {
         //default constructor - load the image of the respective item
         this.idlePictureID = idlePictureID;
         log.debug("Idle picture ID: {}", idlePictureID);
         log.info("Loading image for item: {}", this.getClass().getSimpleName());
-        idleImage = loadImage(idlePictureID);
+        idleImage = currentImageID == null ? loadImage(idlePictureID) : loadImage(currentImageID);
         log.info("Image loaded for item: {}", this.getClass().getSimpleName());
         //set the world coordinates of the item, do not place it in the top left corner of the tile
         this.worldCoordX = worldCoordX * TILE_SIZE;
         this.worldCoordY = worldCoordY * TILE_SIZE;
         this.hitbox = new Hitbox(this, (int) this.idleImage.getWidth(), (int) this.idleImage.getHeight());
         this.setCurrentImage(idleImage);
+        this.currentImageID = idlePictureID;
     }
 
     /**
